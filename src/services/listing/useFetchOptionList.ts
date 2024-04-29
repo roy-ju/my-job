@@ -1,15 +1,11 @@
 import { useMemo } from 'react';
+
 import useSWR from 'swr';
 
-interface GetOptionListItem {
-  id: number;
-  name: string;
-  created_time: string;
-}
-type GetOptionListResponse = GetOptionListItem[];
+import { OptionListResponse } from './types';
 
-export default function useAPI_GetOptionList() {
-  const { data, isLoading, mutate } = useSWR<GetOptionListResponse>('/listing/options');
+export default function useFetchOptionList() {
+  const { data, isLoading, mutate } = useSWR<OptionListResponse>('/listing/options');
 
   const list = useMemo(
     () =>

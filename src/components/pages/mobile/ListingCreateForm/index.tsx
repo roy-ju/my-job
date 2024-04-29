@@ -1,18 +1,27 @@
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { ListingCreateForm as ListingCreateFormTemplate } from '@/components/templates';
 import { useEffect, useRef, useState } from 'react';
-import useAPI_GetOptionList from '@/apis/listing/getOptionList';
-import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
-import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
-import { motion } from 'framer-motion';
-import { Loading, MobileContainer } from '@/components/atoms';
+
 import { useRouter } from 'next/router';
+
+import { motion } from 'framer-motion';
+
+import { Loading, MobileContainer } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
+
+import { ListingCreateForm as ListingCreateFormTemplate } from '@/components/templates';
+
+import useFetchOptionList from '@/services/listing/useFetchOptionList';
+
 import Routes from '@/router/routes';
+
+import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
+
 import useListingCreateForm from './useListingCreateForm';
 
 const ListingCreateForm = () => {
   const {
-    // isAddInterimButtonDisabled,
     isAddCollateralDisabled,
     isAddDebtSuccessionDisabled,
 
@@ -63,18 +72,6 @@ const ListingCreateForm = () => {
 
     moveInDateType,
     handleChangeMoveInDateType,
-
-    // contractAmount,
-    // handleChangeContractAmount,
-
-    // contractAmountNegotiable,
-    // handleChangeContractAmountNegotiable,
-
-    // remainingAmount,
-    // handleChangeRemainingAmount,
-
-    // interims,
-    // handleAddInterim,
 
     hasRentArea,
     handleChangeHasRentArea,
@@ -127,7 +124,7 @@ const ListingCreateForm = () => {
 
   const router = useRouter();
 
-  const { list: listingOptions } = useAPI_GetOptionList();
+  const { list: listingOptions } = useFetchOptionList();
 
   const [isCoachVisible, setIsCoachVisible] = useState(false);
   const hasBeenVisible = useRef(false);
@@ -159,7 +156,6 @@ const ListingCreateForm = () => {
   return (
     <MobileContainer>
       <ListingCreateFormTemplate
-        // isAddInterimButtonDisabled={isAddInterimButtonDisabled}
         isAddCollateralDisabled={isAddCollateralDisabled}
         isAddDebtSuccessionDisabled={isAddDebtSuccessionDisabled}
         nextButtonDisabled={nextButtonDisabled}
@@ -173,14 +169,6 @@ const ListingCreateForm = () => {
         onChangeMonthlyRentFee={handleChangeMonthlyRentFee}
         quickSale={quickSale}
         onChangeQuickSale={handleChangeQuickSale}
-        // contractAmount={contractAmount}
-        // contractAmountNegotiable={contractAmountNegotiable}
-        // remainingAmount={remainingAmount}
-        // interims={interims}
-        // onClickAddInterim={handleAddInterim}
-        // onChangeContractAmount={handleChangeContractAmount}
-        // onChangeContractAmountNegotiable={handleChangeContractAmountNegotiable}
-        // onChangeRemainingAmount={handleChangeRemainingAmount}
         hasDebtSuccession={hasDebtSuccession}
         onChangeHasDebtSuccession={handleChangeHasDebtSuccession}
         debtSuccessionDeposit={debtSuccessionDeposit}

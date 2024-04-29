@@ -1,10 +1,13 @@
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-import { Avatar, Button } from '@/components/atoms';
-import { Table } from '@/components/molecules';
 import { useState } from 'react';
 
+import { Avatar, Button } from '@/components/atoms';
+
+import { Table } from '@/components/molecules';
+
+import { ListingDetailResponse } from '@/services/listing/types';
+
 interface Props {
-  agent?: GetListingDetailResponse['agent_summary'];
+  agent?: ListingDetailResponse['agent_summary'];
 }
 
 export default function Agent({ agent }: Props) {

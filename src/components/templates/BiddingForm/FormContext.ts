@@ -1,8 +1,9 @@
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
 import { createContext } from 'react';
 
+import { ListingDetailResponse } from '@/services/listing/types';
+
 export interface IFormContext {
-  listing?: GetListingDetailResponse['listing'];
+  listing?: ListingDetailResponse['listing'];
 
   type?: number;
   onChangeType?: (value: number) => void;

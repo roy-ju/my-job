@@ -12,10 +12,10 @@ import { useRouter } from '@/hooks/utils';
 
 import useAPI_GetMyListingDetailPassed from '@/apis/my/getMyListingDetailPassed';
 
-import { getListingStatus } from '@/apis/listing/getListingStatus';
-
 import Routes from '@/router/routes';
+
 import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -44,7 +44,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleDirectPassedItem = async () => {
     if (!data?.listing_id) return;
 
-    const response = await getListingStatus(data.listing_id);
+    const response = await apiService.getListingStatus(data.listing_id);
 
     if (response?.can_access) {
       handleNavigateToListingDetail();

@@ -1,6 +1,4 @@
-import useSWR from 'swr';
-
-export interface GetBiddingInfoResponse {
+export interface BiddingInfoResponse {
   id: number;
   listing_id: number;
   user_id: number;
@@ -29,11 +27,7 @@ export interface GetBiddingInfoResponse {
   created_time: string;
 }
 
-export default function useAPI_GetBiddingInfo(id: number) {
-  const { data, isLoading, mutate } = useSWR<GetBiddingInfoResponse & ErrorResponse>([
-    '/bidding/info/get',
-    { bidding_id: id },
-  ]);
-
-  return { data, isLoading, mutate };
-}
+export type BiddingCreateResponse = {
+  can_receive_suggest: boolean;
+  bidding_id: number;
+};

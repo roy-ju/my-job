@@ -2,11 +2,11 @@ import { memo, useCallback, useEffect, useState } from 'react';
 
 import { addFavorite } from '@/apis/listing/addListingFavroite';
 
-import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
+
+import { ListingDetailResponse } from '@/services/listing/types';
 
 import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
-
-import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
 
 import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 
@@ -54,6 +54,8 @@ import { apiService } from '@/services';
 
 import kakaoShare from '@/utils/kakaoShare';
 
+import useFetchListingStatus from '@/services/listing/useFetchListingStatus';
+
 import useListingDetailRedirector from './useListingDetailRedirector';
 
 interface Props {
@@ -72,9 +74,9 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
   const nextRouter = useNextRouter();
 
-  const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
+  const { data: statusData, isLoading: isLoadingStatus } = useFetchListingStatus(listingID);
 
-  const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
+  const { data, mutate: mutateListing, isLoading } = useFetchListingDetail(statusData?.can_access ? listingID : 0);
 
   const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
 
@@ -394,7 +396,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     <Panel width={panelWidth}>
       <ListingDetail
         depth={depth}
-        listingDetail={data as GetListingDetailResponse}
+        listingDetail={data as ListingDetailResponse}
         qnaList={qnaData}
         isLoading={isLoading || isLoadingStatus}
         hasMoreQnas={hasMoreQnas}

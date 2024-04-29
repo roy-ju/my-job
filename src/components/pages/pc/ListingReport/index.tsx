@@ -1,10 +1,16 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import reportListing from '@/apis/listing/reportListing';
-import { Panel } from '@/components/atoms';
-import { ListingReport } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
 import { memo, useCallback, useState } from 'react';
+
 import { toast } from 'react-toastify';
+
+import { Panel } from '@/components/atoms';
+
+import { ListingReport } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
+
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -14,13 +20,13 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const listingID = Number(router.query.listingID) ?? 0;
-  const { data } = useAPI_GetListingDetail(listingID);
+  const { data } = useFetchListingDetail(listingID);
   const [isReporting, setIsReporting] = useState(false);
 
   const handleReport = useCallback(
     async (value: string) => {
       setIsReporting(true);
-      await reportListing({
+      await apiService.listingReportCreate({
         listing_id: listingID,
         message: value,
       });

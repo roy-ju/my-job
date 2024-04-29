@@ -28,7 +28,7 @@ import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
 
 import Routes from '@/router/routes';
 
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
+import { ListingDetailResponse } from '@/services/listing/types';
 
 import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
 
@@ -44,7 +44,7 @@ import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceCon
 
 export interface ListingDetailProps {
   depth?: number;
-  listingDetail?: GetListingDetailResponse | null;
+  listingDetail?: ListingDetailResponse | null;
   qnaList?: GetListingQnaListResponse['list'];
   hasMoreQnas?: boolean;
 

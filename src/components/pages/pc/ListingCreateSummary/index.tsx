@@ -4,7 +4,7 @@ import { useRouter as useNextRouter } from 'next/router';
 
 import { v4 } from 'uuid';
 
-import { Loading, Panel } from '@/components/atoms';
+import { Panel } from '@/components/atoms';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
@@ -18,13 +18,7 @@ import Routes from '@/router/routes';
 
 import ErrorCodes from '@/constants/error_codes';
 
-import getAgentList, { GetAgentListResponse } from '@/apis/listing/getAgentList';
-
-import updateDanjiPhoto from '@/apis/listing/updateDanjiPhoto';
-
-import uploadListingPhoto from '@/apis/listing/updateListingPhoto';
-
-import createListing from '@/apis/listing/createListing';
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -37,14 +31,13 @@ export default memo(({ depth, panelWidth }: Props) => {
   const nextRouter = useNextRouter();
 
   const userAddressID = Number(router.query.userAddressID) ?? 0;
-  const agentID = Number(router.query.agentID) ?? 0;
 
-  const [agent, setAgent] = useState<GetAgentListResponse['agent_list'][0] | null>(null);
   const [listingID, setListingID] = useState<number>();
 
-  const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
-  const [poppup, setPopup] = useState(false);
+
+  const [successPopup, setSuccessPopup] = useState(false);
+
   const [errorPopup, setErrorPopup] = useState(false);
 
   const params = useMemo(() => {
@@ -54,30 +47,15 @@ export default memo(({ depth, panelWidth }: Props) => {
     return null;
   }, [router.query.params]);
 
-  const fetchAgentList = useCallback(async () => {
-    if (!agentID || !userAddressID) return;
-
-    setIsLoading(true);
-
-    const res = await getAgentList({ user_address_id: userAddressID });
-    if (res && res.agent_list) {
-      const a = res.agent_list.filter((item) => item.id === agentID)[0];
-      setAgent(a ?? null);
-    }
-
-    setIsLoading(false);
-  }, [userAddressID, agentID]);
-
   const onClickCreate = useCallback(async () => {
     setIsCreating(true);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { listingPhotoUrls, danjiPhotoUrls, ...fields } = params;
 
-    const response = await createListing({
+    const response = await apiService.listingCreate({
       ...fields,
       user_address_id: userAddressID,
-      user_selected_agent_id: agentID,
     });
 
     if (response?.listing_id) {
@@ -85,11 +63,11 @@ export default memo(({ depth, panelWidth }: Props) => {
 
       try {
         listingPhotoUrls?.map(async (item: string) => {
-          getFileFromUrl(item, v4()).then((f) => uploadListingPhoto(response.listing_id, f));
+          getFileFromUrl(item, v4()).then((f) => apiService.uploadListingPhoto(response.listing_id, f));
         });
 
         danjiPhotoUrls?.map(async (item: string) => {
-          getFileFromUrl(item, v4()).then((f) => updateDanjiPhoto(response.listing_id, f));
+          getFileFromUrl(item, v4()).then((f) => apiService.uploadDanjiPhoto(response.listing_id, f));
         });
       } catch (e) {
         //
@@ -104,8 +82,8 @@ export default memo(({ depth, panelWidth }: Props) => {
       return;
     }
 
-    setPopup(true);
-  }, [params, userAddressID, agentID]);
+    setSuccessPopup(true);
+  }, [params, userAddressID]);
 
   const onClickUpdate = useCallback(() => {
     router.replace(Routes.ListingCreateForm, {
@@ -126,7 +104,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [router]);
 
   const handlePopup = useCallback(() => {
-    setPopup(false);
+    setSuccessPopup(false);
 
     if (listingID) {
       router.replace(Routes.ListingDetail, {
@@ -174,38 +152,21 @@ export default memo(({ depth, panelWidth }: Props) => {
   }, [nextRouter]);
 
   useEffect(() => {
-    fetchAgentList();
-  }, [fetchAgentList]);
-
-  useEffect(() => {
-    if (params === null || !userAddressID || !agentID) {
+    if (params === null || !userAddressID) {
       router.pop();
     }
-  }, [params, userAddressID, agentID, router]);
+  }, [params, userAddressID, router]);
 
   return (
     <Panel width={panelWidth}>
-      {isLoading || !agent ? (
-        <div tw="py-20">
-          <Loading />
-        </div>
-      ) : (
-        <ListingCreateSummary
-          agentOfficeName={agent.office_name}
-          agentProfileImageFullPath={agent.profile_image_full_path}
-          agentName={agent.name}
-          agentOfficePhone={agent.office_phone}
-          agentJibunAddress={agent.full_jibun_address}
-          agentDescription={agent.description}
-          agentRegistrationNumber={agent.registration_number}
-          listing={params}
-          onClickCreate={onClickCreate}
-          onClickUpdate={onClickUpdate}
-          isLoading={isCreating}
-        />
-      )}
+      <ListingCreateSummary
+        listing={params}
+        onClickCreate={onClickCreate}
+        onClickUpdate={onClickUpdate}
+        isLoading={isCreating}
+      />
 
-      {poppup && (
+      {successPopup && (
         <OverlayPresenter>
           <Popup>
             <Popup.ContentGroup>

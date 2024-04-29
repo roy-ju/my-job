@@ -1,16 +1,10 @@
 import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
+
 import { NavigationHeader } from '@/components/molecules';
-import { AgentCardItem, ListingDetailSection } from '@/components/organisms';
+
+import { ListingDetailSection } from '@/components/organisms';
 
 export interface ListingCreateSummaryProps {
-  agentOfficeName: string;
-  agentProfileImageFullPath: string;
-  agentName: string;
-  agentOfficePhone: string;
-  agentJibunAddress: string;
-  agentRegistrationNumber: string;
-  agentDescription: string;
-
   listing?: any;
 
   isLoading?: boolean;
@@ -19,14 +13,6 @@ export interface ListingCreateSummaryProps {
 }
 
 export default function ListingCreateSummary({
-  agentOfficeName,
-  agentProfileImageFullPath,
-  agentName,
-  agentOfficePhone,
-  agentJibunAddress,
-  agentDescription,
-  agentRegistrationNumber,
-
   onClickCreate,
   onClickUpdate,
   isLoading,
@@ -46,22 +32,6 @@ export default function ListingCreateSummary({
         <Separator />
         <div tw="py-10 px-5">
           <div tw="text-b1 font-bold mb-4">중개사 정보</div>
-          <div tw="rounded-xl bg-gray-100">
-            <AgentCardItem defaultExpanded>
-              <AgentCardItem.Profile
-                officeName={agentOfficeName}
-                profileImageFullPath={agentProfileImageFullPath}
-                name={agentName}
-              />
-              <AgentCardItem.Detail
-                officePhone={agentOfficePhone}
-                fullJibunAddress={agentJibunAddress}
-                registrationNumber={agentRegistrationNumber}
-                description={agentDescription}
-              />
-              <AgentCardItem.FoldButton />
-            </AgentCardItem>
-          </div>
         </div>
         <Separator />
         <div tw="px-5 pt-10">

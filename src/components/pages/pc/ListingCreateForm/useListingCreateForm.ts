@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { toast } from 'react-toastify';
 
+import makeListingCreateParams from '@/components/domains/listings/utils/makeListingCreateParams';
+
 import { CollateralType, DebtSuccessionType } from '@/components/templates/ListingCreateForm/FormContext';
 
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
@@ -17,8 +19,6 @@ import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 import { BuyOrRent } from '@/constants/enums';
 
 import Routes from '@/router/routes';
-
-import makeListingCreateParams from './makeListingCreateParams';
 
 type PopupType = 'none' | 'buyOrRentChagne' | 'back';
 
@@ -526,7 +526,7 @@ export default function useListingCreateForm(depth: number) {
 
     const encoded = JSON.stringify(params);
 
-    router.replace(Routes.ListingCreateChooseAgent, {
+    router.replace(Routes.ListingCreateSummary, {
       searchParams: {
         ...(router?.query?.danjiID ? { danjiID: router.query.danjiID as string } : {}),
         ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),

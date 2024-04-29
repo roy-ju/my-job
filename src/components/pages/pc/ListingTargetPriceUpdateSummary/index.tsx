@@ -1,11 +1,18 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import updateTargetPrice from '@/apis/listing/updateTargetPrice';
-import { Panel } from '@/components/atoms';
-import { ListingTargetPriceUpdateSummary } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { memo, useCallback, useState } from 'react';
+
 import { toast } from 'react-toastify';
+
+import { Panel } from '@/components/atoms';
+
+import { ListingTargetPriceUpdateSummary } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
+
+import { apiService } from '@/services';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 interface Props {
   depth: number;
@@ -20,14 +27,14 @@ export default memo(({ depth, panelWidth }: Props) => {
   const afterPrice = Number(router.query.price) ?? 0;
   const afterMonthlyRentFee = Number(router.query.monthlyRentFee) ?? 0;
 
-  const { data, mutate } = useAPI_GetListingDetail(listingID);
+  const { data, mutate } = useFetchListingDetail(listingID);
 
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleClickNext = useCallback(async () => {
     setIsUpdating(true);
 
-    await updateTargetPrice({
+    await apiService.listingSellerTargetPriceUpdate({
       listing_id: listingID,
       trade_or_deposit_price: afterPrice,
       monthly_rent_fee: afterMonthlyRentFee,

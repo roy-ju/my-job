@@ -24,11 +24,18 @@ import {
   DanjiSuggestRecommendEligibilityResponse,
 } from './danji/types';
 
-import { ListingEligibilityCheckResponse } from './listing/types';
+import {
+  AgentListResponse,
+  ListingCreateResponse,
+  ListingEligibilityCheckResponse,
+  ListingStatusResponse,
+  UploadDocumentResponse as UploadListingDocumentResponse,
+} from './listing/types';
 
 import { SuggestEligibilityCheckResponse } from './suggests/types';
 
 import { UploadDocumentResponse } from './chat/type';
+
 import {
   SubHomeGuideListResponse,
   SubHomeRealestatedocumentDetailResponse,
@@ -38,6 +45,7 @@ import {
   SubHomeVerifyAddressRequest,
   SubHomeVerifyAddressResponse,
 } from './sub-home/types';
+import { BiddingCreateResponse } from './bidding/types';
 
 export class NegocioApiService extends ApiService {
   /** 로그인  */
@@ -322,10 +330,91 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async getListingStatus(listingID: number): Promise<ListingStatusResponse | null> {
+    try {
+      const { data } = await this.instance.post('/listing/status', { listing_id: listingID });
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
   async addListingFavorite({ listing_id }: { listing_id: number }) {
     try {
       await this.instance.post('/listing/favorite/add', { listing_id });
       return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async listingSellerCancel(req: { listing_id: number; cancel_reason: string }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/listing/seller/cancel', req);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async listingSellerTargetPriceUpdate(req: {
+    listing_id: number;
+    trade_or_deposit_price: number;
+    monthly_rent_fee?: number;
+  }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/listing/seller/targetprice/update', req);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async createBidding(req: any) {
+    try {
+      const { data } = await this.instance.post('/bidding/create', { ...req });
+
+      return data as BiddingCreateResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateBidding(req: any) {
+    try {
+      if (req.accepting_target_price === true) {
+        req = {
+          ...req,
+          bidding_trade_or_deposit_price: 0,
+          bidding_monthly_rent_fee: 0,
+
+          can_have_more_contract_amount: false,
+          contract_amount: 0,
+          can_have_more_interim_amount: false,
+          interim_amount: 0,
+          can_have_earlier_remaining_amount_payment_time: null,
+          remaining_amount_payment_time: null,
+          remaining_amount_payment_time_type: null,
+          move_in_date: null,
+          move_in_date_type: null,
+
+          etcs: null,
+          description: null,
+        };
+      }
+
+      const { data } = await this.instance.post('/bidding/update', { ...req });
+
+      return data as ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async cancelBidding(listingID: number, biddingID: number) {
+    try {
+      const { data } = await this.instance.post('/bidding/cancel', { listing_id: listingID, bidding_id: biddingID });
+      return data as ErrorResponse;
     } catch (e) {
       return null;
     }
@@ -518,7 +607,59 @@ export class NegocioApiService extends ApiService {
     }
   }
 
-  async listingReportCreate(req: { chat_room_id: number; message: string }) {
+  async listingCreate(req: any) {
+    try {
+      const { data } = await this.instance.post('/listing/create', {
+        ...req,
+      });
+      return data as ListingCreateResponse & ErrorResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getListingAgentList({ user_address_id }: { user_address_id: number }) {
+    try {
+      const { data } = await this.instance.post('/listing/agent/list', {
+        user_address_id,
+      });
+      return data as AgentListResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async uploadListingPhoto(listingID: number, file: File): Promise<UploadListingDocumentResponse | null> {
+    const formData = new FormData();
+    formData.append('listing_id', `${listingID}`);
+    formData.append('files', file);
+    try {
+      return await this.instance.post('/listing/upload/photos', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async uploadDanjiPhoto(listingID: number, file: File): Promise<UploadListingDocumentResponse | null> {
+    const formData = new FormData();
+    formData.append('listing_id', `${listingID}`);
+    formData.append('files', file);
+    try {
+      return await this.instance.post('/listing/upload/photos/danji', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async listingReportCreate(req: { listing_id?: number; chat_room_id?: number; message: string }) {
     try {
       const { data } = await this.instance.post('/listing/report/create', {
         ...req,
