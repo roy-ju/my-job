@@ -164,6 +164,68 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async myListingAddressSelectOne(req: {
+    listing_id: number;
+    address: string;
+    realestate_unique_number: string;
+  }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/my/listing/address/selectone', req);
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
+  async myListingAgreementSendSms(req: {
+    listing_id: number;
+    name: string;
+    phone: string;
+  }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/my/listing/agreement/sendsms', req);
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
+  async myListingAddressUpdate(req: {
+    listing_id: number;
+    bubjungdong_code: string;
+    road_name_address: string;
+    jibun_address: string;
+    sido: string;
+    sigungu: string;
+    eubmyundong: string;
+    li: '';
+    building_name: string;
+    long: number;
+    lat: number;
+    dong?: string;
+    ho?: string;
+  }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/my/listing/address/update', req);
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
+  async myAgreementComplete(params: {
+    enc_data: string;
+    integrity_value: string;
+    kie: string;
+    loi: number;
+    token: string;
+    token_version_id: string;
+    type: number;
+  }): Promise<ErrorResponse | null> {
+    const { data } = await this.instance.post('/my/agreement/complete', params);
+    return data;
+  }
+
   async updateEmail(token: string, socialLoginType: number) {
     try {
       const { data } = await this.instance.post('/my/email/update', { token, social_login_type: socialLoginType });
@@ -335,6 +397,20 @@ export class NegocioApiService extends ApiService {
       const { data } = await this.instance.post('/listing/status', { listing_id: listingID });
       return data;
     } catch {
+      return null;
+    }
+  }
+
+  async viewListing(req: {
+    listing_id: number;
+    ip_address: string;
+    device: string;
+    browser: string;
+  }): Promise<ErrorResponse | null> {
+    try {
+      const { data } = await this.instance.post('/listing/view', req);
+      return data;
+    } catch (e) {
       return null;
     }
   }
@@ -781,6 +857,28 @@ export class NegocioApiService extends ApiService {
         code: req.code,
       });
       return data as SubHomeGuideListResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async createQna(req: { listing_id: number; message: string }) {
+    try {
+      const { data } = await this.instance.post('/qna/create', {
+        ...req,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteQna(req: { qna_id: number }) {
+    try {
+      const { data } = await this.instance.post('/qna/delete', {
+        ...req,
+      });
+      return data;
     } catch (e) {
       return null;
     }

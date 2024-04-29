@@ -1,14 +1,8 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 
-import { addFavorite } from '@/apis/listing/addListingFavroite';
-
 import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 import { ListingDetailResponse } from '@/services/listing/types';
-
-import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
-
-import { removeFavorite } from '@/apis/listing/removeListingFavorite';
 
 import { Loading, Panel } from '@/components/atoms';
 
@@ -21,8 +15,6 @@ import Routes from '@/router/routes';
 import { toast } from 'react-toastify';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
-
-import deleteListingQna from '@/apis/listing/deleteListingQna';
 
 import axios from '@/lib/axios';
 
@@ -40,11 +32,7 @@ import { SharePopup } from '@/components/organisms';
 
 import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
 
-import viewListing from '@/apis/listing/viewListing';
-
 import useAuth from '@/hooks/services/useAuth';
-
-import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
 
 import ErrorCodes from '@/constants/error_codes';
 
@@ -55,6 +43,10 @@ import { apiService } from '@/services';
 import kakaoShare from '@/utils/kakaoShare';
 
 import useFetchListingStatus from '@/services/listing/useFetchListingStatus';
+
+import useFetchQnaList from '@/services/qna/useFetchQnaList';
+
+import useFetchListingRealestateDocumentSummary from '@/services/listing/useFetchListingRealestateDocumentSummary';
 
 import useListingDetailRedirector from './useListingDetailRedirector';
 
@@ -78,7 +70,9 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
   const { data, mutate: mutateListing, isLoading } = useFetchListingDetail(statusData?.can_access ? listingID : 0);
 
-  const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
+  const { data: realestateDocumentData } = useFetchListingRealestateDocumentSummary(
+    statusData?.can_access ? listingID : 0,
+  );
 
   const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
 
@@ -91,7 +85,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
     hasNext: hasMoreQnas,
     increamentPageNumber: loadMoreQnas,
     mutate: mutateQnas,
-  } = useAPI_GetListingQnaList(statusData?.can_access ? listingID : 0);
+  } = useFetchQnaList(statusData?.can_access ? listingID : 0);
 
   const [popup, setPopup] = useState('none');
 
@@ -122,14 +116,14 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
     async function removeFavoriteOptimistic() {
       if (data?.listing?.id) {
-        await removeFavorite(data.listing.id);
+        await apiService.removeListingFavorite({ listing_id: data.listing.id });
         const { data: updatedData } = await axios.post('/listing/detail', { listing_id: listingID });
         return updatedData;
       }
     }
     async function addFavoriteOptimistic() {
       if (data?.listing?.id) {
-        await addFavorite(data.listing.id);
+        await apiService.addListingFavorite({ listing_id: data.listing.id });
         const { data: updatedData } = await axios.post('/listing/detail', { listing_id: listingID });
         return updatedData;
       }
@@ -156,7 +150,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
   const handleClickDeleteQna = useCallback(
     async (id: number) => {
-      await deleteListingQna({ qna_id: id });
+      await apiService.deleteQna({ qna_id: id });
       toast.success('문의가 삭제되었습니다.');
       await mutateQnas();
     },
@@ -336,7 +330,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
   useEffect(() => {
     if (statusData?.can_access === true) {
-      viewListing({
+      apiService.viewListing({
         listing_id: listingID,
         ip_address: ipAddress !== '::1' ? ipAddress ?? '' : '',
         device: '',

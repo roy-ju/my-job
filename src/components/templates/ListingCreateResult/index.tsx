@@ -1,13 +1,18 @@
-import { GetMyListingDetailResponse } from '@/apis/listing/getMyListingDetail';
 import { Loading, Separator } from '@/components/atoms';
+
 import { NavigationHeader } from '@/components/molecules';
+
 import { AgentCardItem, ListingCreateResultStatus, ListingDetailSection } from '@/components/organisms';
+
 import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
+
 import { ListingStatus } from '@/constants/enums';
+
+import { MyListingDetailResponse } from '@/services/my/types';
 
 export interface ListingCreateResultProps {
   isLoading: boolean;
-  data?: GetMyListingDetailResponse;
+  data?: MyListingDetailResponse;
   agents?: AgentCarouselItem[];
   onSelectAgent?: (index: number) => void;
   onClickBack?: () => void;

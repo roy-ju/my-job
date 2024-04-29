@@ -232,3 +232,34 @@ export interface ListingStatusResponse {
   visit_user_type: number;
   can_access: boolean;
 }
+
+interface OwnerList {
+  owner: string;
+  registration_number: string;
+  share: string;
+  address: string;
+  number: string;
+}
+
+interface DebtList1 {
+  number: string;
+  purpose: string;
+  application_info: string;
+  description: string;
+  owner: string;
+}
+
+interface DebtList2 {
+  number: string;
+  purpose: string;
+  application_info: string;
+  description: string;
+  owner: string;
+}
+
+export interface ListingRealestateDocumenSummarytResponse {
+  created_time: string | null;
+  owner_list: OwnerList[] | null;
+  debt_list1: DebtList1[] | null;
+  debt_list2: DebtList2[] | null;
+}
