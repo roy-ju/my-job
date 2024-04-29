@@ -6,9 +6,9 @@ import { Button, Moment } from '@/components/atoms';
 
 import useTooltip from '@/states/hooks/useTooltip';
 
-import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
-
 import QuestionIcon from '@/assets/icons/question.svg';
+
+import { ListingRealestateDocumenSummarytResponse } from '@/services/listing/types';
 
 const StyledTable = styled.table`
   width: 100%;
@@ -30,7 +30,7 @@ const StyledTable = styled.table`
 `;
 
 interface Props {
-  data?: GetRealestateDocumentResponse | null;
+  data?: ListingRealestateDocumenSummarytResponse | null;
 }
 
 const StrikeOut = memo(({ str }: { str: string }) => {

@@ -10,13 +10,13 @@ import { useCallback, useState } from 'react';
 
 import useNiceId, { NiceResponse } from '@/lib/nice/useNiceId';
 
-import completeAgreement from '@/apis/listing/completeAgreement';
-
-import useAPI_GetAgreementInfo from '@/apis/listing/getAgreementInfo';
+import useFetchAgreementInfo from '@/services/my/useFetchMyAgreementInfo';
 
 import { Loading } from '@/components/atoms';
 
 import Routes from '@/router/routes';
+
+import { apiService } from '@/services';
 
 export default function OwnerVerificationCi() {
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function OwnerVerificationCi() {
 
   const token = router.query.t as string;
 
-  const { mutate, isLoading: isLoadingAgreementInfo } = useAPI_GetAgreementInfo(loi, token);
+  const { mutate, isLoading: isLoadingAgreementInfo } = useFetchAgreementInfo(loi, token);
 
   const handleNiceResponse = useCallback(
     async (res: NiceResponse) => {
@@ -36,7 +36,7 @@ export default function OwnerVerificationCi() {
 
       setIsLoading(true);
 
-      await completeAgreement({
+      await apiService.myAgreementComplete({
         enc_data: res.encData,
         kie: res.kie,
         integrity_value: res.integrityValue,

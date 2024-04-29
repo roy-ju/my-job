@@ -1,16 +1,27 @@
-import useAPI_MyListingDetail from '@/apis/listing/getMyListingDetail';
-import { Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
-import { ListingCreateResult } from '@/components/templates';
-import { ListingStatus } from '@/constants/enums';
-import { useRouter } from '@/hooks/utils';
-import usePolling from '@/hooks/usePolling';
-import Routes from '@/router/routes';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { toast } from 'react-toastify';
+
 import { useRouter as useNextRouter } from 'next/router';
-import assignAgent from '@/apis/listing/assignAgent';
+
+import { toast } from 'react-toastify';
+
+import { Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { AgentCarouselItem } from '@/components/organisms/AgentCardCarousel';
+
+import { ListingCreateResult } from '@/components/templates';
+
+import { ListingStatus } from '@/constants/enums';
+
+import { useRouter } from '@/hooks/utils';
+
+import usePolling from '@/hooks/usePolling';
+
+import Routes from '@/router/routes';
+
+import useFetchMyListingDetail from '@/services/my/useFetchMyListingDetail';
 
 interface Props {
   depth: number;
@@ -23,7 +34,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { data, mutate: mutateMyListingDetail, isLoading } = useAPI_MyListingDetail(listingID);
+  const { data, mutate: mutateMyListingDetail, isLoading } = useFetchMyListingDetail(listingID);
 
   usePolling(mutateMyListingDetail, 5000, 5);
 
@@ -59,23 +70,6 @@ export default memo(({ depth, panelWidth }: Props) => {
     },
     [data],
   );
-
-  const handleSelectAgent = useCallback(async () => {
-    if (popupData.current) {
-      setIsSelectingAgent(true);
-      const res = await assignAgent({ listing_id: listingID, user_selected_agent_id: popupData.current?.id });
-
-      await mutateMyListingDetail();
-
-      if (res?.error_code) {
-        setPopup('agentSelectionFail');
-      } else {
-        setPopup('agentSelectionSuccess');
-      }
-
-      setIsSelectingAgent(false);
-    }
-  }, [listingID, mutateMyListingDetail]);
 
   const handleNavigateToChatRoom = useCallback(() => {
     if (data?.seller_agent_chat_room_id) {
@@ -140,7 +134,7 @@ export default memo(({ depth, panelWidth }: Props) => {
             </Popup.ContentGroup>
             <Popup.ButtonGroup>
               <Popup.CancelButton onClick={() => setPopup('none')}>다시 선택하기</Popup.CancelButton>
-              <Popup.ActionButton isLoading={isSelectingAgent} onClick={handleSelectAgent}>
+              <Popup.ActionButton isLoading={isSelectingAgent} onClick={() => {}}>
                 선택확정
               </Popup.ActionButton>
             </Popup.ButtonGroup>

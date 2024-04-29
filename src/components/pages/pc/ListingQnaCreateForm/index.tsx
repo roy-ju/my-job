@@ -1,12 +1,18 @@
-import createListingQna from '@/apis/listing/createListingQna';
-import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
+import { ChangeEventHandler, memo, useCallback, useState } from 'react';
+
+import { toast } from 'react-toastify';
+
 import { AuthRequired, Panel } from '@/components/atoms';
 
 import { ListingQnaCreateForm } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import { ChangeEventHandler, memo, useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
+
 import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { useRouter } from '@/hooks/utils';
+
+import { apiService } from '@/services';
+
+import useFetchQnaList from '@/services/qna/useFetchQnaList';
 
 interface Props {
   depth: number;
@@ -17,7 +23,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { mutate } = useAPI_GetListingQnaList(listingID);
+  const { mutate } = useFetchQnaList(listingID);
 
   const [isCreating, setIsCreating] = useState(false);
 
@@ -27,7 +33,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleCreateQna = useCallback(async () => {
     setIsCreating(true);
-    await createListingQna({
+    await apiService.createQna({
       listing_id: Number(router.query.listingID),
       message: value,
     });
