@@ -12,7 +12,7 @@ const Routes = {
   DanjiListings: 'danjiListings',
 
   /** 단지 상세 */
-  DanjiDetail: 'danji',
+  DanjiDetail: 'danjiDetail',
   /** 단지 사진 */
   DanjiPhotos: 'danjiPhotos',
   /** 평형별 실거래 내역 */
