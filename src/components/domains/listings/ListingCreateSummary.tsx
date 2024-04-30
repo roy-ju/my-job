@@ -1,18 +1,24 @@
 import dynamic from 'next/dynamic';
 
-import { Button, ButtonV2, Separator } from '@/components/atoms';
+import { Separator } from '@/components/atoms';
 
 import FlexContents from '@/components/atoms/FlexContents';
 
 import Container from '@/components/atoms/Container';
-
-import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
 
 import { NavigationHeader } from '@/components/molecules';
 
 import useListingCreateSummaryHandler from './create-summary/hooks/useListingCreateSummaryHandler';
 
 import ConditionsInfo from './create-summary/CondtionsInfo';
+
+import Guide from './create-summary/Guide';
+
+import { ConditionsWrraper } from './create-summary/widget/CreateSummaryWidget';
+
+import RevisionCta from './create-summary/RevisionCta';
+
+import CreateCta from './create-summary/CreateCta';
 
 const ErrorPopup = dynamic(() => import('./create-summary/popups/ErrorPopup'), { ssr: false });
 
@@ -22,9 +28,8 @@ export default function ListingCreateSummary() {
   const {
     params,
     isCreating,
-    handleClickCreate,
-    handleClickUpdate,
-
+    handleCreate,
+    handleUpdate,
     successPopup,
     errorPopup,
     handleConfirmSuccessPopup,
@@ -38,31 +43,18 @@ export default function ListingCreateSummary() {
           <NavigationHeader.Title>매물등록 신청 최종 확인</NavigationHeader.Title>
         </NavigationHeader>
         <FlexContents>
-          <div tw="pt-6 pb-10 px-5">
-            <div tw="text-h2 font-bold mb-1">매물등록 신청 준비가 끝났습니다.</div>
-            <div tw="text-info text-gray-700">아래 내용을 확인하시고, 매물등록 신청 버튼을 누르면 완료됩니다.</div>
-          </div>
-
+          <Guide />
           <Separator />
-          <div tw="px-5 pt-10">
+          <ConditionsWrraper>
             <ConditionsInfo
               listing={params}
               debtSuccessions={params?.debt_successions}
               collaterals={params?.collaterals}
             />
-          </div>
-          <div tw="py-10 flex items-center justify-center">
-            <Button variant="ghost" size="none" tw="underline text-info" onClick={handleClickUpdate}>
-              입력정보 수정/중개사 재선택
-            </Button>
-          </div>
+          </ConditionsWrraper>
+          <RevisionCta handleUpdate={handleUpdate} />
         </FlexContents>
-
-        <PersistentBottomBarV2>
-          <ButtonV2 isLoading={isCreating} size="bigger" tw="w-full" onClick={handleClickCreate}>
-            매물등록 신청
-          </ButtonV2>
-        </PersistentBottomBarV2>
+        <CreateCta isLoading={isCreating} handleCreate={handleCreate} />
       </Container>
       {successPopup && <SuccessPopup handleConfirm={handleConfirmSuccessPopup} />}
       {errorPopup && <ErrorPopup handleConfirm={handleConfirmErrorPopup} />}

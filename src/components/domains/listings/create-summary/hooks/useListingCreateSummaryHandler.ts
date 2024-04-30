@@ -36,7 +36,7 @@ export default function useListingCreateSummaryHandler() {
     return null;
   }, [router.query.params]);
 
-  const handleClickCreate = useCallback(async () => {
+  const handleCreate = useCallback(async () => {
     setIsCreating(true);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,7 +74,7 @@ export default function useListingCreateSummaryHandler() {
     setSuccessPopup(true);
   }, [params, userAddressID]);
 
-  const handleClickUpdate = useCallback(() => {
+  const handleUpdate = useCallback(() => {
     const query = {
       params: router.query.params as string,
       ...(router.query.origin
@@ -83,11 +83,6 @@ export default function useListingCreateSummaryHandler() {
           }
         : {}),
       ...(router?.query?.userAddressID ? { userAddressID: router.query.userAddressID as string } : {}),
-      // ...(router.query.danjiID
-      //   ? {
-      //       danjiID: router.query.danjiID as string,
-      //     }
-      //   : {}),
       isBack: 'true',
     };
 
@@ -206,8 +201,8 @@ export default function useListingCreateSummaryHandler() {
   return {
     params,
     isCreating,
-    handleClickCreate,
-    handleClickUpdate,
+    handleCreate,
+    handleUpdate,
 
     successPopup,
     handleConfirmSuccessPopup,

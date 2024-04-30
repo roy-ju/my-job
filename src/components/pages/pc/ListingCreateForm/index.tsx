@@ -1,10 +1,10 @@
 import { memo, useEffect, useRef, useState } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { motion } from 'framer-motion';
 
 import { Panel } from '@/components/atoms';
-
-import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { Forms } from '@/components/templates/ListingCreateForm/FormRenderer';
 
@@ -17,6 +17,15 @@ import CoachScrollUp from '@/assets/icons/coach_scroll_up.svg';
 import { useRouter } from '@/hooks/utils';
 
 import useListingCreateForm from './useListingCreateForm';
+
+const BackPopup = dynamic(() => import('@/components/domains/listings/create-form/popups/BackPopup'), { ssr: false });
+
+const BuyOrRentChangePopup = dynamic(
+  () => import('@/components/domains/listings/create-form/popups/BuyOrRentChangePopup'),
+  { ssr: false },
+);
+
+const ErrorPopup = dynamic(() => import('@/components/domains/listings/create-form/popups/ErrorPopup'), { ssr: false });
 
 interface Props {
   depth: number;
@@ -250,50 +259,13 @@ export default memo(({ depth, panelWidth }: Props) => {
         </motion.div>
       )}
 
-      {popup === 'back' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-12">
-              <Popup.SmallTitle>
-                정말 뒤로 돌아가시겠습니까?
-                <br />
-                입력하신 정보가 저장되지 않습니다.
-              </Popup.SmallTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleClickBack}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
+      {popup === 'back' && <BackPopup handleCancel={closePopup} handleConfirm={handleClickBack} />}
 
       {popup === 'buyOrRentChagne' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-12">
-              <Popup.SmallTitle>입력하신 값들이 초기화 됩니다.</Popup.SmallTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={closePopup}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleConfirmChangeBuyOrRent}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+        <BuyOrRentChangePopup handleConfirm={handleConfirmChangeBuyOrRent} handleCancel={closePopup} />
       )}
 
-      {errPopup !== '' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-12">
-              <Popup.SmallTitle>{errPopup}</Popup.SmallTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={closeErrPopup}>닫기</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
+      {errPopup !== '' && <ErrorPopup message={errPopup} handleConfirm={closeErrPopup} />}
     </Panel>
   );
 });

@@ -1,7 +1,11 @@
-import { Button, PersistentBottomBar, Separator } from '@/components/atoms';
-import { NavigationHeader } from '@/components/molecules';
 import { useMemo } from 'react';
+
+import { ButtonV2, PersistentBottomBar, Separator } from '@/components/atoms';
+
+import { NavigationHeader } from '@/components/molecules';
+
 import FormContext, { IFormContext } from './FormContext';
+
 import FormRenderer from './FormRenderer';
 
 export interface ListingCreateFormProps extends IFormContext {
@@ -14,7 +18,6 @@ export interface ListingCreateFormProps extends IFormContext {
 }
 
 export default function ListingCreateForm({
-  // isAddInterimButtonDisabled,
   isAddCollateralDisabled,
   isAddDebtSuccessionDisabled,
 
@@ -34,18 +37,6 @@ export default function ListingCreateForm({
 
   quickSale,
   onChangeQuickSale,
-
-  // contractAmount,
-  // onChangeContractAmount,
-
-  // contractAmountNegotiable,
-  // onChangeContractAmountNegotiable,
-
-  // remainingAmount,
-  // onChangeRemainingAmount,
-
-  // interims,
-  // onClickAddInterim,
 
   hasDebtSuccession,
   onChangeHasDebtSuccession,
@@ -122,7 +113,6 @@ export default function ListingCreateForm({
 }: ListingCreateFormProps) {
   const context = useMemo(
     () => ({
-      // isAddInterimButtonDisabled,
       isAddCollateralDisabled,
       isAddDebtSuccessionDisabled,
 
@@ -142,18 +132,6 @@ export default function ListingCreateForm({
 
       quickSale,
       onChangeQuickSale,
-
-      // contractAmount,
-      // onChangeContractAmount,
-
-      // contractAmountNegotiable,
-      // onChangeContractAmountNegotiable,
-
-      // remainingAmount,
-      // onChangeRemainingAmount,
-
-      // interims,
-      // onClickAddInterim,
 
       hasDebtSuccession,
       onChangeHasDebtSuccession,
@@ -310,9 +288,9 @@ export default function ListingCreateForm({
         </div>
         <PersistentBottomBar>
           <div>
-            <Button onClick={onClickNext} tw="w-full" size="bigger" disabled={nextButtonDisabled}>
+            <ButtonV2 onClick={onClickNext} tw="w-full" size="bigger" disabled={nextButtonDisabled}>
               다음
-            </Button>
+            </ButtonV2>
             {forms && forms.length > 1 && (
               <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
             )}
