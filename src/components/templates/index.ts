@@ -15,7 +15,6 @@ export { default as TransactionReview } from './TransactionReview';
 export { default as RealPriceDetail } from './RealPriceDetail';
 export { default as RealTradeDetail } from './RealTradeDetail';
 export { default as ListingCreateForm } from './ListingCreateForm';
-export { default as ListingCreateResult } from './ListingCreateResult';
 export { default as OwnerVerification } from './OwnerVerification';
 export { default as OwnerVerificationComplete } from './OwnerVerificationComplete';
 export { default as ListingDetail } from './ListingDetail';

@@ -211,7 +211,7 @@ const ListingCreateSummary = dynamic(() => import('@/components/pages/ListingCre
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingCreateResult'), {
+const ListingCreateResult = dynamic(() => import('@/components/pages/ListingCreateResult/ListingCreateResultPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
