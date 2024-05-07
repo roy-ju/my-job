@@ -21,7 +21,6 @@ export { default as ListingDetail } from './ListingDetail';
 export { default as BiddingForm } from './BiddingForm';
 export { default as BiddingSummary } from './BiddingSummary';
 export { default as BiddingSuccess } from './BiddingSuccess';
-export { default as ListingDetailPassed } from './ListingDetailPassed';
 export { default as ListingDetailHistory } from './ListingDetailHistory';
 export { default as SuggestListingForm } from './SuggestListingForm';
 export { default as SuggestRecommendedList } from './SuggestRecommendedList';

@@ -32,7 +32,6 @@ export { default as ListingSummaryCard } from './ListingSummaryCard';
 export { default as PhotoHero } from './PhotoHero';
 export { default as ListingDetailSection } from './ListingDetailSection';
 
-export { default as ListingDetailPassedItem } from './ListingDetailPassedItem';
 export { default as SharePopup } from './SharePopup';
 export { default as LawSearchForm } from './LawSearchForm';
 export { default as LawSerachFormPc } from './LawSerachFormPc';

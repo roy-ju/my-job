@@ -1,11 +1,17 @@
-import React from 'react';
-import { Button, Moment, Numeral } from '@/components/atoms';
-import { NavigationHeader, Table } from '@/components/molecules';
-import { ListingDetailPassedItem } from '@/components/organisms';
 import tw, { styled } from 'twin.macro';
+
+import { Button, Moment, Numeral } from '@/components/atoms';
+
+import { NavigationHeader, Table } from '@/components/molecules';
+
+import ListingDetailPassedItem from '@/components/organisms/listing/ListingDetailPassedItem';
+
 import { BiddingStatus } from '@/constants/enums';
+
 import StatusCard from './StatusCard';
+
 import SuggestionCard from './SuggestionCard';
+
 import PriceCard from './PriceCard';
 
 interface listItemType {

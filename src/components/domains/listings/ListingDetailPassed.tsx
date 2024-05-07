@@ -1,143 +1,112 @@
-import React, { useCallback, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import { useRouter } from 'next/router';
 
-import useCheckPlatform from '@/hooks/useCheckPlatform';
+import Button from '@/components/atoms/Button';
+
+import Container from '@/components/atoms/Container';
+
+import FlexContents from '@/components/atoms/FlexContents';
+
+import SeperatorV2 from '@/components/atoms/SeperatorV2';
+
+import { NavigationHeader } from '@/components/molecules';
+
+import ListingDetailPassedItem from '@/components/organisms/listing/ListingDetailPassedItem';
 
 import useFetchMyListingDetailPassed from '@/services/my/useFetchMyListingPassDetail';
 
-import { apiService } from '@/services';
+import { ListingStatus } from '@/constants/enums';
 
-import Routes from '@/router/routes';
+import useDirectHandler from './detail-passed/hooks/useDirectHandler';
 
-import replaceFirstOccurrence from '@/utils/replaceFirstOccurrence';
+import { ButtonWrraper, ItemWrraper } from './detail-passed/widget/ListingDetailPassedWidget';
+
+import CurrentProgress from './detail-passed/CurrentProgress';
+
+import useConvertedData from './detail-passed/hooks/useConvertedData';
+
+import PassedAgentCard from './detail-passed/PassedAgentCard';
+
+const PastPopup = dynamic(() => import('./detail-passed/popups/PastPopup'), { ssr: false });
 
 export default function ListingDetailPassed() {
   const router = useRouter();
 
-  const { platform } = useCheckPlatform();
+  const { data } = useFetchMyListingDetailPassed(Number(router.query.listingID));
 
-  const { data, isLoading, mutate } = useFetchMyListingDetailPassed(Number(router.query.listingID));
+  const {
+    listingStatus,
+    thumbnailFullPath,
+    listingTitle,
+    roadNameAddress,
+    jeonyongArea,
+    floorDescription,
+    totalFloor,
+    direction,
+    sellerAgentChatRoomClosed,
+    contractCompletionDate,
+    contractTradeOrDepositPrice,
+    contractMonthlyRentFee,
+    statusText,
+    hasReview,
+  } = useConvertedData({ data });
 
-  const [openPastPopup, setOpenPastPopup] = useState(false);
+  const {
+    openPastPopup,
+    handleClosePastPopup,
+    handleNavigateToBack,
+    handleNavigateToChatRoom,
+    handleNavigateToTransactionReview,
+    handleDirectPassedItem,
+  } = useDirectHandler({ data });
 
-  const handleNavigateToListingDetail = useCallback(() => {
-    if (!data?.listing_id) return;
+  const renderButton = () => {
+    if (ListingStatus.Cancelled === listingStatus) return null;
 
-    if (platform === 'pc') {
-      const depth1 = router.query.depth1;
-      const depth2 = router.query.depth2;
-
-      const query = router.query;
-
-      delete query.depth1;
-      delete query.depth2;
-
-      if (depth1 && depth2) {
-        router.push({
-          pathname: `/${depth1}/${Routes.ListingDetail}`,
-          query: { ...query, listingID: `${data.listing_id}` },
-        });
-      } else if (depth1 && !depth2) {
-        router.push({ pathname: `/${Routes.ListingDetail}`, query: { ...query, listingID: `${data.listing_id}` } });
-      }
-    } else {
-      router.push(`/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${data?.listing_id}`);
-    }
-  }, [data?.listing_id, router, platform]);
-
-  const handleDirectPassedItem = async () => {
-    if (!data?.listing_id) return;
-
-    const response = await apiService.getListingStatus(data.listing_id);
-
-    if (response?.can_access) {
-      handleNavigateToListingDetail();
-    } else if (!response?.can_access) {
-      setOpenPastPopup(true);
-    }
+    return (
+      <>
+        <Button onClick={handleNavigateToChatRoom} tw="h-10 w-full" variant="outlined">
+          {sellerAgentChatRoomClosed ? '채팅 보기' : '중개사 채팅'}
+        </Button>
+        <Button onClick={handleNavigateToTransactionReview} tw="h-10 w-full" variant="primary">
+          {hasReview ? '거래후기 보기' : '거래후기 남기기'}
+        </Button>
+      </>
+    );
   };
 
-  const handleNavigateToChatRoom = useCallback(() => {
-    if (!data?.seller_agent_chat_room_id) return;
-
-    if (platform === 'pc') {
-      const depth1 = router.query.depth1;
-      const depth2 = router.query.depth2;
-
-      const query = router.query;
-
-      delete query.depth1;
-      delete query.depth2;
-
-      if (depth1 && depth2) {
-        router.push({
-          pathname: `/${depth1}/${Routes.ChatRoom}`,
-          query: { ...query, chatRoomID: `${data.seller_agent_chat_room_id}` },
-        });
-      } else if (depth1 && !depth2) {
-        router.push({
-          pathname: `/${Routes.ChatRoom}`,
-          query: { ...query, chatRoomID: `${data.seller_agent_chat_room_id}` },
-        });
-      }
-    } else {
-      router.push(`/${Routes.EntryMobile}/${Routes.ChatRoom}?chatRoomID=${data.seller_agent_chat_room_id}`);
-    }
-  }, [data?.seller_agent_chat_room_id, router, platform]);
-
-  const handleNavigateToTransactionReview = useCallback(() => {
-    if (!data?.listing_contract_id || !data?.listing_id) return;
-
-    if (platform === 'pc') {
-      const depth1 = router.query.depth1;
-      const depth2 = router.query.depth2;
-
-      const query = router.query;
-
-      delete query.depth1;
-      delete query.depth2;
-
-      if (depth1 && depth2) {
-        router.push({
-          pathname: `/${depth1}/${Routes.TransactionReview}`,
-          query: {
-            ...query,
-            listingContractID: `${data.listing_contract_id}`,
-            listingID: `${data.listing_id}`,
-            hasReview: `${data?.has_review}`,
-          },
-        });
-      } else if (depth1 && !depth2) {
-        router.push({
-          pathname: `/${Routes.TransactionReview}`,
-          query: {
-            ...query,
-            listingContractID: `${data.listing_contract_id}`,
-            listingID: `${data.listing_id}`,
-            hasReview: `${data?.has_review}`,
-          },
-        });
-      }
-    } else {
-      router.push(
-        `/${Routes.EntryMobile}/${Routes.TransactionReview}?listingContractID=${data.listing_contract_id}&listingID=${data.listing_id}&hasReview=${data?.has_review}`,
-      );
-    }
-  }, [data?.has_review, data?.listing_contract_id, data?.listing_id, platform, router]);
-
-  const handleNavigateToBack = useCallback(() => {
-    if (platform === 'pc') {
-      const path = replaceFirstOccurrence(router.asPath, Routes.ListingDetailPassed, Routes.MyRegisteredListingList);
-      router.replace(path);
-    } else {
-      router.back();
-    }
-  }, [platform, router]);
-
-  const handleClosePastPopup = useCallback(() => {
-    setOpenPastPopup(false);
-  }, []);
-
-  return <div>ListingDetailPassed</div>;
+  return (
+    <Container>
+      <NavigationHeader>
+        <NavigationHeader.BackButton onClick={handleNavigateToBack} />
+        <NavigationHeader.Title>지난거래 매물</NavigationHeader.Title>
+      </NavigationHeader>
+      <FlexContents tw="pt-7 pb-10">
+        <ItemWrraper>
+          <ListingDetailPassedItem
+            onClick={handleDirectPassedItem}
+            listingTitle={listingTitle}
+            address={roadNameAddress}
+            area={jeonyongArea}
+            floorDescription={floorDescription}
+            floor={totalFloor}
+            direction={direction}
+            listingImagePath={thumbnailFullPath}
+          />
+          <ButtonWrraper>{renderButton()}</ButtonWrraper>
+        </ItemWrraper>
+        <CurrentProgress
+          listingStatus={listingStatus}
+          statusText={statusText}
+          contractTradeOrDepositPrice={contractTradeOrDepositPrice}
+          contractMonthlyRentFee={contractMonthlyRentFee}
+          contractCompletionDate={contractCompletionDate}
+        />
+        {ListingStatus.ContractComplete === listingStatus && <SeperatorV2 />}
+        {ListingStatus.ContractComplete === listingStatus && <PassedAgentCard />}
+      </FlexContents>
+      {openPastPopup && <PastPopup handleConfirm={handleClosePastPopup} />}
+    </Container>
+  );
 }
