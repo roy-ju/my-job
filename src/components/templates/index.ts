@@ -1,4 +1,4 @@
-/** PC */
+/** PC 모바일 공통 (32개) */
 export { default as PageNotFound } from './PageNotFound';
 
 export { default as ChatRoomReport } from './ChatRoomReport';
@@ -41,11 +41,10 @@ export { default as LegalCounselingSearch } from './LegalCounselingSearch';
 export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 
-/** 모바일 */
+/** 모바일 전용 (11개) */
 export { default as MobSearchMap } from './MobSearchMap';
 export { default as MobLayoutMapContainer } from './MobMapLayout';
 export { default as MobMapStreetView } from './MobMapStreetView';
-export { default as MobChatMap } from './MobChatMap';
 
 export { default as MobFindAccount } from './MobFindAccount';
 
