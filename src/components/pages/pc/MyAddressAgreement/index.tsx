@@ -16,9 +16,8 @@ import ErrorCodes from '@/constants/error_codes';
 
 import { autoHyphenPhone } from '@/utils/autoHypenPhone';
 
-import addressAgreementPhone from '@/apis/my/addressAgreementPhone';
-
 import Routes from '@/router/routes';
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -79,7 +78,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickCTA = useCallback(async () => {
     if (!router?.query?.userAddressID) return;
 
-    const response = await addressAgreementPhone({
+    const response = await apiService.myAgreementPhone({
       name,
       phone,
       user_address_id: Number(router.query.userAddressID),

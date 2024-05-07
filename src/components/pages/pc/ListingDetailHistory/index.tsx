@@ -16,9 +16,9 @@ import Routes from '@/router/routes';
 
 import { BiddingStatus } from '@/constants/enums';
 
-import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
-
 import { apiService } from '@/services';
+
+import useFetchMyListingsParticipatedDetail from '@/services/my/useFetchMyListingsParticipatedDetail';
 
 interface Props {
   depth: number;
@@ -36,10 +36,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const [openPastPopup, setOpenPastPopup] = useState(false);
 
-  const { data } = useAPI_GetMyParticipatedListingDetail(
-    Number(router.query.listingID),
-    Number(router.query.biddingID),
-  );
+  const { data } = useFetchMyListingsParticipatedDetail(Number(router.query.listingID), Number(router.query.biddingID));
 
   const handleNavigateToChatRoom = () => {
     if (!data?.buyer_agent_chat_room_id) return;
