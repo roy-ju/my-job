@@ -883,6 +883,24 @@ export class NegocioApiService extends ApiService {
       return null;
     }
   }
+
+  async createTransactionReview(args: {
+    listingContractID: number;
+    ratingText: string;
+    recommendations: string;
+    freeFeedback: string;
+  }) {
+    try {
+      return await this.instance.post('/review/create', {
+        listing_contract_id: args.listingContractID,
+        rating_text: args.ratingText,
+        recommendations: args.recommendations,
+        free_feedback: args.freeFeedback,
+      });
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 export const apiService = new NegocioApiService();

@@ -1,17 +1,15 @@
-import useAuth from '@/hooks/services/useAuth';
 import { useMemo } from 'react';
+
 import useSWR from 'swr';
 
-interface GetTransactionReviewResponse {
-  listing_contract_id: number;
-  rating_text: string;
-  recommendations: string;
-  free_feedback: string;
-}
+import useAuth from '@/hooks/services/useAuth';
 
-export default function useAPI_GetTransactionReview(id: number, hasReview: boolean = false) {
+import { TransactionReviewResponse } from './types';
+
+export default function useFetchTransactionReview(id: number, hasReview: boolean = false) {
   const { user } = useAuth();
-  const { data, isLoading, mutate } = useSWR<GetTransactionReviewResponse>(
+
+  const { data, isLoading, mutate } = useSWR<TransactionReviewResponse>(
     user && hasReview ? ['/review/get', { listing_contract_id: id }] : null,
   );
 

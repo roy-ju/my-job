@@ -10,21 +10,18 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { ListingDetailHistory as ListingDetailHistoryTemplate } from '@/components/templates';
 
-import useAPI_GetMyParticipatedListingDetail from '@/apis/my/getMyParticipatedListingDetail';
-
 import Routes from '@/router/routes';
 
 import { BiddingStatus } from '@/constants/enums';
+
+import useFetchMyListingsParticipatedDetail from '@/services/my/useFetchMyListingsParticipatedDetail';
 
 import { apiService } from '@/services';
 
 export default memo(() => {
   const router = useRouter();
 
-  const { data } = useAPI_GetMyParticipatedListingDetail(
-    Number(router.query.listingID),
-    Number(router.query.biddingID),
-  );
+  const { data } = useFetchMyListingsParticipatedDetail(Number(router.query.listingID), Number(router.query.biddingID));
 
   const [open, setOpen] = useState(false);
 

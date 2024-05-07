@@ -14,9 +14,8 @@ import { autoHyphenPhone } from '@/utils/autoHypenPhone';
 
 import ErrorCodes from '@/constants/error_codes';
 
-import addressAgreementPhone from '@/apis/my/addressAgreementPhone';
-
 import Routes from '@/router/routes';
+import { apiService } from '@/services';
 
 type AddressData = {
   addressName?: string;
@@ -71,7 +70,7 @@ export default memo(() => {
   const handleClickCTA = useCallback(async () => {
     if (!router?.query?.userAddressID) return;
 
-    const response = await addressAgreementPhone({
+    const response = await apiService.myAgreementPhone({
       name,
       phone,
       user_address_id: Number(router.query.userAddressID),

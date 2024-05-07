@@ -1,13 +1,22 @@
-import { Panel } from '@/components/atoms';
 import { ChangeEvent, ChangeEventHandler, memo, useCallback, useEffect, useState } from 'react';
-import { TransactionReview as TransactionReviewTemplate } from '@/components/templates';
-import useAPI_GetTransactionReview from '@/apis/my/getTransactionReview';
-import { useRouter } from '@/hooks/utils';
-import useAPI_GetTransactionReviewInfo from '@/apis/my/getTransactionReviewInfo';
-import Routes from '@/router/routes';
-import createTransactionReview from '@/apis/my/createTransactionReview';
-import { toast } from 'react-toastify';
+
 import { mutate } from 'swr';
+
+import { toast } from 'react-toastify';
+
+import { useRouter } from '@/hooks/utils';
+
+import { Panel } from '@/components/atoms';
+
+import { TransactionReview as TransactionReviewTemplate } from '@/components/templates';
+
+import useFetchTransactionReview from '@/services/review/useFetchTransactionReview';
+
+import useFetchTransactionReviewParticipatorsInfo from '@/services/review/useFetchTransactionReviewParticipatorsInfo';
+
+import { apiService } from '@/services';
+
+import Routes from '@/router/routes';
 
 interface Props {
   depth: number;
@@ -16,10 +25,17 @@ interface Props {
 
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
-  const { data: info, mutate: mutateInfo } = useAPI_GetTransactionReviewInfo(Number(router.query.listingContractID));
-  const { data: reviewData } = useAPI_GetTransactionReview(Number(router.query.listingContractID), info?.hasReview);
+
+  const { data: info, mutate: mutateInfo } = useFetchTransactionReviewParticipatorsInfo(
+    Number(router.query.listingContractID),
+  );
+
+  const { data: reviewData } = useFetchTransactionReview(Number(router.query.listingContractID), info?.hasReview);
+
   const [ratingText, setRatingText] = useState('');
+
   const [recommendations, setRecommendations] = useState<string[]>([]);
+
   const [freeFeedback, setFreeFeedback] = useState('');
 
   useEffect(() => {
@@ -67,7 +83,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const handleSubmit = async () => {
     const stringTypeRecommendations = recommendations.join(',');
-    await createTransactionReview({
+    await apiService.createTransactionReview({
       listingContractID: Number(router.query.listingContractID),
       ratingText,
       recommendations: stringTypeRecommendations,

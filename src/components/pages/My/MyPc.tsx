@@ -14,11 +14,11 @@ import useAuth from '@/hooks/services/useAuth';
 
 import { useRouter } from '@/hooks/utils';
 
-import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
-
 import Routes from '@/router/routes';
 
 import My from '@/components/domains/my/My';
+
+import useFetchMyDashboardInfo from '@/services/my/useFetchMyDashboardInfo';
 
 interface Props {
   depth: number;
@@ -36,7 +36,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const { handleUpdateReturnUrl } = useReturnUrl();
 
-  const { data: dashboardData } = useAPI_GetDashboardInfo();
+  const { data: dashboardData } = useFetchMyDashboardInfo();
 
   const [tab, setTab] = useState<number>();
 
