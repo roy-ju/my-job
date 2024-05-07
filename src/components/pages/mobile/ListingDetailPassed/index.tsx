@@ -15,6 +15,7 @@ import { apiService } from '@/services';
 
 export default memo(() => {
   const router = useRouter();
+
   const { data } = useAPI_GetMyListingDetailPassed(Number(router.query.listingID));
 
   const [openPastPopup, setOpenPastPopup] = useState(false);

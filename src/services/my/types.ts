@@ -419,3 +419,23 @@ export interface MyAgreementInfoResponse {
   loi: number;
   status_text: '';
 }
+
+export interface MyListingDetailPassedResponse {
+  listing_id: number;
+  listing_status: number;
+  thumbnail_full_path: any;
+  listing_title: string;
+  road_name_address: string;
+  jeonyong_area: string;
+  floor_description: string;
+  total_floor: string;
+  direction: string;
+  seller_agent_chat_room_id: number;
+  seller_agent_chat_room_closed: boolean;
+  contract_completion_date: string;
+  contract_trade_or_deposit_price: number;
+  contract_monthly_rent_fee: number;
+  status_text: string;
+  has_review: boolean;
+  listing_contract_id: number;
+}
