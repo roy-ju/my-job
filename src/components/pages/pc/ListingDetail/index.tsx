@@ -180,7 +180,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
       return;
     }
 
-    nextRouter.push(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${id}`);
+    nextRouter.push(`/${Routes.ListingDetail}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
   }, [handleUpdateReturnUrl, listingID, nextRouter, openAuthPopup, router?.query?.listingID, user]);
 
   const handleNavigateToParticipateBidding = useCallback(() => {

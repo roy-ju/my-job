@@ -253,7 +253,7 @@ const UpdateBiddingSuccess = dynamic(() => import('@/components/pages/pc/UpdateB
   loading: FallbackComponent,
 });
 
-const ListingQnaCreateForm = dynamic(() => import('@/components/pages/pc/ListingQnaCreateForm'), {
+const ListingQnaCreateForm = dynamic(() => import('@/components/pages/ListingQnaCreate/ListingQnaCreatePc'), {
   ssr: false,
   loading: FallbackComponent,
 });
