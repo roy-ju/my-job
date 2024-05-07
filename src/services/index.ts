@@ -901,6 +901,19 @@ export class NegocioApiService extends ApiService {
       return null;
     }
   }
+
+  async devErrorLog(req: { source: string; route: string; message: string }) {
+    try {
+      const { data } = await this.instance.post('/dev/errorlog', {
+        source: req.source,
+        route: req.route,
+        message: req.message,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 export const apiService = new NegocioApiService();
