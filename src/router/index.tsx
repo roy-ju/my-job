@@ -111,7 +111,7 @@ const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingDetailPassed = dynamic(() => import('@/components/pages/pc/ListingDetailPassed'), {
+const ListingDetailPassed = dynamic(() => import('@/components/pages/ListingDetailPassed/ListingDetailPassedPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
