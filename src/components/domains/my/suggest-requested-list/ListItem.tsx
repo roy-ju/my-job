@@ -7,7 +7,9 @@ import { MySuggestListItem } from '@/services/my/types';
 import StatusLabel from '@/components/organisms/suggest/StatusLabel';
 
 import { DanjiOrRegionalType, SuggestStatus } from '@/constants/enums';
+
 import { replaceRegionNames } from '@/utils/replaceSigunguNames';
+
 import RealestateTypeLabel from './RealestateTypeLabel';
 
 import CreatedTime from './CreatedTime';
@@ -54,13 +56,13 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
       return 'success';
     }
 
-    // 추천 개수가 1개 이상일 경우에는 아무것도 표현하지않고 추천 카운트 영역을 표현한다.
-    if (item?.suggest_recommended_count && item.suggest_recommended_count > 0) {
-      return '';
-    }
-
     // 요청 중단인 경우
     if (item.status === SuggestStatus.Stopped) {
+      return 'stopped';
+    }
+
+    // 추천 개수가 1개 이상일 경우에는 아무것도 표현하지않고 추천 카운트 영역을 표현한다.
+    if (item?.suggest_recommended_count && item.suggest_recommended_count > 0) {
       return '';
     }
 
@@ -78,10 +80,14 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
   }, [item]);
 
   const newCount =
-    labelRenderType === 'success' || labelRenderType === 'interview' ? 0 : item.new_suggest_recommended_count;
+    labelRenderType === 'success' || labelRenderType === 'interview' || labelRenderType === 'stopped'
+      ? 0
+      : item.new_suggest_recommended_count;
 
   const allCount =
-    labelRenderType === 'success' || labelRenderType === 'interview' ? 0 : item.suggest_recommended_count;
+    labelRenderType === 'success' || labelRenderType === 'interview' || labelRenderType === 'stopped'
+      ? 0
+      : item.suggest_recommended_count;
 
   return (
     <div>
@@ -107,6 +113,12 @@ export default function ListItem({ item, handleClick }: ListItemProps) {
             </BuyOrRentPriceNegotiableWrraper>
             <Pyoung pyoung={item.pyoung_text} />
           </BasicInfo>
+
+          {labelRenderType === 'stopped' && (
+            <StatusLabelWrraper>
+              <StatusLabel render iconType="error" message="추천 요청이 중단된 상태입니다." />
+            </StatusLabelWrraper>
+          )}
 
           {labelRenderType === 'success' && (
             <StatusLabelWrraper>

@@ -1,5 +1,7 @@
 import { memo, useCallback, useState } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { useRouter as useNextRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
@@ -19,6 +21,10 @@ import { BiddingStatus } from '@/constants/enums';
 import { apiService } from '@/services';
 
 import useFetchMyListingsParticipatedDetail from '@/services/my/useFetchMyListingsParticipatedDetail';
+
+const ListingTradeDateOffPopup = dynamic(() => import('@/components/organisms/popups/ListingTradeDateOffPopup'), {
+  ssr: false,
+});
 
 interface Props {
   depth: number;
@@ -40,6 +46,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const handleNavigateToChatRoom = () => {
     if (!data?.buyer_agent_chat_room_id) return;
+
     chatRoomRouter.replace(Routes.ChatRoom, {
       searchParams: {
         chatRoomID: String(data?.buyer_agent_chat_room_id),
@@ -274,22 +281,7 @@ export default memo(({ depth, panelWidth }: Props) => {
         </OverlayPresenter>
       )}
 
-      {openPastPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-10">
-              <Popup.Title tw="[text-align: center]">
-                거래가 종료되어
-                <br />
-                매물 상세 정보를 확인할 수 없습니다.
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={handleClosePastPopup}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
+      {openPastPopup && <ListingTradeDateOffPopup handleConfirm={handleClosePastPopup} />}
     </Panel>
   );
 });

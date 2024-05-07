@@ -2,7 +2,7 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { CommonPopupProps } from '@/types/popups';
 
-export default function PastPopup({ handleConfirm }: CommonPopupProps) {
+export default function ListingTradeDateOffPopup({ handleConfirm }: CommonPopupProps) {
   return (
     <OverlayPresenter>
       <Popup>

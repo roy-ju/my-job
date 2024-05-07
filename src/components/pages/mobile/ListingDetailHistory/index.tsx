@@ -1,5 +1,7 @@
 import { memo, useCallback, useState } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
@@ -17,6 +19,10 @@ import { BiddingStatus } from '@/constants/enums';
 import useFetchMyListingsParticipatedDetail from '@/services/my/useFetchMyListingsParticipatedDetail';
 
 import { apiService } from '@/services';
+
+const ListingTradeDateOffPopup = dynamic(() => import('@/components/organisms/popups/ListingTradeDateOffPopup'), {
+  ssr: false,
+});
 
 export default memo(() => {
   const router = useRouter();
@@ -168,22 +174,7 @@ export default memo(() => {
         </OverlayPresenter>
       )}
 
-      {openPastPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-10">
-              <Popup.Title tw="[text-align: center]">
-                거래가 종료되어
-                <br />
-                매물 상세 정보를 확인할 수 없습니다.
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={handleClosePastPopup}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
+      {openPastPopup && <ListingTradeDateOffPopup handleConfirm={handleClosePastPopup} />}
     </MobileContainer>
   );
 });
