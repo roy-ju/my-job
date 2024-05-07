@@ -36,11 +36,6 @@ export { default as ListingReport } from './ListingReport';
 export { default as ReportListing } from './ReportListing';
 export { default as PhotoGallery } from './PhotoGallery';
 
-export { default as ListingTargetPriceUpdate } from './ListingTargetPriceUpdate';
-export { default as ListingTargetPriceUpdateSummary } from './ListingTargetPriceUpdateSummary';
-
-export { default as TransactionReview } from './TransactionReview';
-
 export { default as LegalCounseling } from './LegalCounseling';
 export { default as LegalCounselingSearch } from './LegalCounselingSearch';
 export { default as LegalCounselingDetail } from './LegalCounselingDetail';

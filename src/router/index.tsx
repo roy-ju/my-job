@@ -185,10 +185,13 @@ const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomRepor
   loading: FallbackComponent,
 });
 
-const TransactionReview = dynamic(() => import('@/components/pages/pc/TransactionReview'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+const TransactionReview = dynamic(
+  () => import('@/components/pages/ListingTransactionReview/ListingTransactionReviewPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
 const FAQ = dynamic(() => import('@/components/pages/Faq/FaqPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -219,14 +222,20 @@ const ListingPhotoGallery = dynamic(() => import('@/components/pages/pc/ListingP
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingTargetPriceUpdate = dynamic(() => import('@/components/pages/pc/ListingTargetPriceUpdate'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages/pc/ListingTargetPriceUpdateSummary'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+const ListingTargetPriceUpdate = dynamic(
+  () => import('@/components/pages/ListingTargetPriceUpdate/ListingTargetPriceUpdatePc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
+const ListingTargetPriceUpdateSummary = dynamic(
+  () => import('@/components/pages/ListingTargetPriceUpdateSummary/ListingTargetPriceUpdateSummaryPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
 
 const BiddingForm = dynamic(() => import('@/components/pages/pc/BiddingForm'), {
   ssr: false,
