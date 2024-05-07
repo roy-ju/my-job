@@ -1,9 +1,14 @@
-import { Button, Moment, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
-import { NavigationHeader, Table } from '@/components/molecules';
-import { ListingSummaryCard } from '@/components/organisms';
-import { BuyOrRent } from '@/constants/enums';
 import { useMemo } from 'react';
+
 import tw, { styled } from 'twin.macro';
+
+import { Button, Moment, Numeral, PersistentBottomBar, Separator } from '@/components/atoms';
+
+import { NavigationHeader, Table } from '@/components/molecules';
+
+import ListingSummaryCard from '@/components/organisms/listing/ListingSummaryCard';
+
+import { BuyOrRent } from '@/constants/enums';
 
 interface Props {
   isCreatingBidding?: boolean;
