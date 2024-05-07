@@ -1,5 +1,7 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 import { ListingDetailResponse } from '@/services/listing/types';
@@ -49,6 +51,12 @@ import useFetchQnaList from '@/services/qna/useFetchQnaList';
 import useFetchListingRealestateDocumentSummary from '@/services/listing/useFetchListingRealestateDocumentSummary';
 
 import useListingDetailRedirector from './useListingDetailRedirector';
+
+const InvalidPagePopup = dynamic(() => import('@/components/organisms/popups/InvalidPagePopup'), { ssr: false });
+
+const ListingTradeDateOffPopup = dynamic(() => import('@/components/organisms/popups/ListingTradeDateOffPopup'), {
+  ssr: false,
+});
 
 interface Props {
   depth: number;
@@ -364,25 +372,10 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
   }
 
   if (!statusData?.can_access && !redirectable) {
-    return (
-      <OverlayPresenter>
-        <Popup>
-          <Popup.ContentGroup tw="py-10">
-            {statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST ? (
-              <Popup.Title tw="[text-align: center]">유효하지 않은 페이지 입니다.</Popup.Title>
-            ) : (
-              <Popup.Title tw="[text-align: center]">
-                거래가 종료되어
-                <br />
-                매물 상세 정보를 확인할 수 없습니다.
-              </Popup.Title>
-            )}
-          </Popup.ContentGroup>
-          <Popup.ButtonGroup>
-            <Popup.ActionButton onClick={() => router.pop({ persistParams: false })}>확인</Popup.ActionButton>
-          </Popup.ButtonGroup>
-        </Popup>
-      </OverlayPresenter>
+    return statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST ? (
+      <InvalidPagePopup handleConfirm={() => router.pop({ persistParams: false })} />
+    ) : (
+      <ListingTradeDateOffPopup handleConfirm={() => router.pop({ persistParams: false })} />
     );
   }
 

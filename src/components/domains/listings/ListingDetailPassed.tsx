@@ -28,7 +28,9 @@ import useConvertedData from './detail-passed/hooks/useConvertedData';
 
 import PassedAgentCard from './detail-passed/PassedAgentCard';
 
-const PastPopup = dynamic(() => import('./detail-passed/popups/PastPopup'), { ssr: false });
+const ListingTradeDateOffPopup = dynamic(() => import('@/components/organisms/popups/ListingTradeDateOffPopup'), {
+  ssr: false,
+});
 
 export default function ListingDetailPassed() {
   const router = useRouter();
@@ -106,7 +108,8 @@ export default function ListingDetailPassed() {
         {ListingStatus.ContractComplete === listingStatus && <SeperatorV2 />}
         {ListingStatus.ContractComplete === listingStatus && <PassedAgentCard />}
       </FlexContents>
-      {openPastPopup && <PastPopup handleConfirm={handleClosePastPopup} />}
+
+      {openPastPopup && <ListingTradeDateOffPopup handleConfirm={handleClosePastPopup} />}
     </Container>
   );
 }

@@ -239,6 +239,7 @@ export default function ListingDetailHistory({
             <div tw="border-t border-gray-300 absolute left-0 right-0 mt-7" />
           </div>
         )}
+
         <div tw="py-7 px-5">
           <div tw="text-b1 mb-4 font-bold">거래참여 상세 이력</div>
           <StyledTable>

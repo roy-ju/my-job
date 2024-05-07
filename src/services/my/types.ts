@@ -468,7 +468,7 @@ export interface MyParticipatedListingListResponse {
   list: MyParticipatedListingListItem[];
 }
 
-interface List {
+export interface MyParticipatedListingHistoryList {
   description: string;
   created_time: string;
   bidding_trade_or_deposit_price: number;
@@ -496,7 +496,7 @@ export interface MyParticipatedListingDetailResponse {
   has_review: boolean;
   interim_amount: number;
   jeonyong_area: string;
-  list: List[];
+  list: MyParticipatedListingHistoryList[];
   listing_contract_id: number;
   listing_id: number;
   listing_status: number;
