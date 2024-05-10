@@ -38,6 +38,7 @@ export default function ListingDetailPassed() {
   const { data } = useFetchMyListingDetailPassed(Number(router.query.listingID));
 
   const {
+    agentInfo,
     listingStatus,
     thumbnailFullPath,
     listingTitle,
@@ -105,14 +106,14 @@ export default function ListingDetailPassed() {
           contractMonthlyRentFee={contractMonthlyRentFee}
           contractCompletionDate={contractCompletionDate}
         />
-        {ListingStatus.ContractComplete === listingStatus && <SeperatorV2 />}
-        {ListingStatus.ContractComplete === listingStatus && (
+        {ListingStatus.ContractComplete === listingStatus && agentInfo && <SeperatorV2 />}
+        {ListingStatus.ContractComplete === listingStatus && agentInfo && (
           <PassedAgentCard
-            agentName="공인중개사 김네고"
-            agentOfficeName="네고네고시오시오 공인중개사무소"
-            agentOfficeAddress="경기도 성남시 분당구 백현동 645-12"
-            agentOfficePhone="02-2222-2222"
-            agentRegistrationNumber="12345-8219-71734"
+            agentName={data?.agent_info?.agent_name ?? ''}
+            agentOfficeName={data?.agent_info?.agent_office_name ?? ''}
+            agentOfficeAddress={data?.agent_info?.agent_jibun_address ?? ''}
+            agentOfficePhone={data?.agent_info?.agent_office_phone ?? ''}
+            agentRegistrationNumber={data?.agent_info?.agent_registration_number ?? ''}
             handleNavigateToChatRoom={handleNavigateToChatRoom}
           />
         )}
