@@ -11,7 +11,7 @@ export default function CreateCta({ isLoading, handleCreate }: CreateCtaProps) {
   return (
     <PersistentBottomBarV2>
       <ButtonV2 isLoading={isLoading} size="bigger" tw="w-full" onClick={handleCreate}>
-        매물등록 신청
+        매물등록 신청 완료
       </ButtonV2>
     </PersistentBottomBarV2>
   );

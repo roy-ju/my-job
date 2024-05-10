@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
 
-import { ButtonV2, PersistentBottomBar, Separator } from '@/components/atoms';
+import { ButtonV2, Separator } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
+import PersistentBottomBarV2 from '@/components/atoms/PersistentBottomBarV2';
+import ScrollUp from '@/components/domains/suggest/form/ui/ScrollUp';
 import FormContext, { IFormContext } from './FormContext';
 
 import FormRenderer from './FormRenderer';
@@ -286,16 +288,12 @@ export default function ListingCreateForm({
             </div>
           ))}
         </div>
-        <PersistentBottomBar>
-          <div>
-            <ButtonV2 onClick={onClickNext} tw="w-full" size="bigger" disabled={nextButtonDisabled}>
-              다음
-            </ButtonV2>
-            {forms && forms.length > 1 && (
-              <p tw="text-info [line-height: 16px] [text-align: center] mt-[7px]">수정을 원하시면 위로 스크롤하세요.</p>
-            )}
-          </div>
-        </PersistentBottomBar>
+        <PersistentBottomBarV2>
+          <ScrollUp isRender={!!(forms && forms.length > 1)} />
+          <ButtonV2 onClick={onClickNext} tw="w-full" size="bigger" disabled={nextButtonDisabled}>
+            다음
+          </ButtonV2>
+        </PersistentBottomBarV2>
       </FormContext.Provider>
     </div>
   );

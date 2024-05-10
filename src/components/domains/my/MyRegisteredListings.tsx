@@ -31,7 +31,9 @@ import RegisterdListingsHeader from './registered-listings/RegisterdListingsHead
 import VerificationAddressPopup from './registered-listings/popups/VerificationAddressPopup';
 
 import NeedMoreVerificationAddressPopup from './registered-listings/popups/NeedMoreVerificationAddressPopup';
+
 import RegisteredListingsTab from './registered-listings/RegisteredListingsTab';
+
 import RegisteredListingsList from './registered-listings/RegisteredListingsList';
 
 export default function MyRegisteredListings() {
@@ -334,7 +336,7 @@ export default function MyRegisteredListings() {
     <>
       <Container>
         <RegisterdListingsHeader
-          hasRegisteringListing={false}
+          hasRegisteringListing={!!(tab === 1 && myRegisteringListingCount)}
           tabStatus={tab}
           isDeleteActive={isDeleteActive}
           isPopupActive={isPopupActive}
