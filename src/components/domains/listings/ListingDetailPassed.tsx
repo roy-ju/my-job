@@ -106,7 +106,16 @@ export default function ListingDetailPassed() {
           contractCompletionDate={contractCompletionDate}
         />
         {ListingStatus.ContractComplete === listingStatus && <SeperatorV2 />}
-        {ListingStatus.ContractComplete === listingStatus && <PassedAgentCard />}
+        {ListingStatus.ContractComplete === listingStatus && (
+          <PassedAgentCard
+            agentName="공인중개사 김네고"
+            agentOfficeName="네고네고시오시오 공인중개사무소"
+            agentOfficeAddress="경기도 성남시 분당구 백현동 645-12"
+            agentOfficePhone="02-2222-2222"
+            agentRegistrationNumber="12345-8219-71734"
+            handleNavigateToChatRoom={handleNavigateToChatRoom}
+          />
+        )}
       </FlexContents>
 
       {openPastPopup && <ListingTradeDateOffPopup handleConfirm={handleClosePastPopup} />}
