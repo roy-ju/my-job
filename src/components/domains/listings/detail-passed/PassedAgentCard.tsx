@@ -85,7 +85,13 @@ export default function PassedAgentCard({
       </CardWrraper>
 
       <PassedAgentCardButtonWrraper onClick={handleOpen}>
-        <TextButton variant="underline" size="small" color="gray1000" title="접어두기" tw="leading-4 mx-auto" />
+        <TextButton
+          variant="underline"
+          size="small"
+          color="gray1000"
+          title={open ? '접어두기' : '자세히 보기'}
+          tw="leading-4 mx-auto"
+        />
       </PassedAgentCardButtonWrraper>
     </PassedAgentCardWrraper>
   );

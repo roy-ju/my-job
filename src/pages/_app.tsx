@@ -44,6 +44,8 @@ import * as gtag from '@/lib/gtag';
 
 import '../styles/globalFont.css';
 
+// import Paths from '@/constants/paths';
+
 const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
 
 const TooltipProvider = dynamic(() => import('@/providers/TooltipProvider'), { ssr: false });
@@ -95,6 +97,28 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
+
+  // useEffect(() => {
+  //   if (window) {
+  //     const userAgent = window.navigator.userAgent.toLowerCase();
+
+  //     if (userAgent.match(/kakaotalk/i)) {
+  //       const appUrl = 'negocioapp://';
+
+  //       const redirectToMarket = () => {
+  //         window.location.href = Paths.APP_STORE;
+  //       };
+
+  //       window.location.href = appUrl;
+
+  //       setTimeout(() => {
+  //         if (document.visibilityState === 'visible') {
+  //           redirectToMarket();
+  //         }
+  //       }, 2000);
+  //     }
+  //   }
+  // }, []);
 
   return (
     <>

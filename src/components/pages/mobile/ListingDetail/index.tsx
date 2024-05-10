@@ -369,6 +369,18 @@ export default memo(() => {
     });
   }, [data]);
 
+  const handleClickBackIfInvalidAccess = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}`);
+      }
+    }
+  }, [router]);
+
   useEffect(
     () => () => {
       // 페이지가 언마운트 됐을때 초기화
@@ -392,10 +404,6 @@ export default memo(() => {
     }
   }, [listingID, statusData]);
 
-  if (data?.error_code) {
-    return <MobileContainer>{data?.error_code}</MobileContainer>;
-  }
-
   if (isLoading || isLoadingStatus || (!statusData?.can_access && redirectable)) {
     return (
       <MobileContainer>
@@ -408,9 +416,9 @@ export default memo(() => {
 
   if (!statusData?.can_access && !redirectable) {
     return statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST ? (
-      <InvalidPagePopup handleConfirm={() => router.back()} />
+      <InvalidPagePopup handleConfirm={handleClickBackIfInvalidAccess} />
     ) : (
-      <ListingTradeDateOffPopup handleConfirm={() => router.back()} />
+      <ListingTradeDateOffPopup handleConfirm={handleClickBackIfInvalidAccess} />
     );
   }
 

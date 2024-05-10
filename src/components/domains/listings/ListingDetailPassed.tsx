@@ -109,7 +109,7 @@ export default function ListingDetailPassed() {
         {ListingStatus.ContractComplete === listingStatus && agentInfo && <SeperatorV2 />}
         {ListingStatus.ContractComplete === listingStatus && agentInfo && (
           <PassedAgentCard
-            agentName={data?.agent_info?.agent_name ?? ''}
+            agentName={data?.agent_info?.agent_name ? `공인중개사 ${data.agent_info?.agent_name}` : ''}
             agentOfficeName={data?.agent_info?.agent_office_name ?? ''}
             agentOfficeAddress={data?.agent_info?.agent_jibun_address ?? ''}
             agentOfficePhone={data?.agent_info?.agent_office_phone ?? ''}
