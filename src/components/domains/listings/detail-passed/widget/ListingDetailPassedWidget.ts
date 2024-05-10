@@ -9,7 +9,7 @@ export const ButtonWrraper = styled.div`
 `;
 
 export const CurrentProgressWrraper = styled.div`
-  ${tw`px-5 py-6 mb-10 bg-gray-100 mt-7 text-gray-1000`}
+  ${tw`px-5 py-6 bg-gray-100 mt-7 mb-7 text-gray-1000`}
 `;
 
 export const CurrentProgressTitle = styled.div`
