@@ -420,7 +420,17 @@ export interface MyAgreementInfoResponse {
   status_text: '';
 }
 
+export type AgentInfo = {
+  agent_name: string;
+  agent_jibun_address: string;
+  agent_address_detail: string;
+  agent_registration_number: string;
+  agent_office_name: string;
+  agent_office_phone: string;
+};
+
 export interface MyListingDetailPassedResponse {
+  agent_info: null | AgentInfo;
   listing_id: number;
   listing_status: number;
   thumbnail_full_path: any;

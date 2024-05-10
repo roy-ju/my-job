@@ -1,6 +1,8 @@
 import { MyListingDetailPassedResponse } from '@/services/my/types';
 
 export default function useConvertedData({ data }: { data?: MyListingDetailPassedResponse }) {
+  const agentInfo = data?.agent_info;
+
   const listingStatus = data?.listing_status ?? 0;
 
   const thumbnailFullPath = data?.thumbnail_full_path;
@@ -30,6 +32,7 @@ export default function useConvertedData({ data }: { data?: MyListingDetailPasse
   const hasReview = data?.has_review ?? false;
 
   return {
+    agentInfo,
     listingStatus,
     thumbnailFullPath,
     listingTitle,
