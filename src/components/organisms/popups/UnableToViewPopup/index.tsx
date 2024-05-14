@@ -10,10 +10,7 @@ import Routes from '@/router/routes';
 
 import { CommonPopupProps } from '@/types/popups';
 
-export default function InvalidAccessPopup({
-  message = '유효하지 않은 페이지입니다.',
-  handleConfirm,
-}: CommonPopupProps) {
+export default function UnableToViewPopup({ handleConfirm }: CommonPopupProps) {
   const { platform } = useCheckPlatform();
 
   const router = useRouter();
@@ -32,7 +29,7 @@ export default function InvalidAccessPopup({
     <OverlayPresenter>
       <Popup>
         <Popup.ContentGroup>
-          <Popup.Title tw="text-center">{message}</Popup.Title>
+          <Popup.SubTitle tw="text-center">페이지를 조회할 권한이 없습니다.</Popup.SubTitle>
         </Popup.ContentGroup>
         <Popup.ButtonGroup>
           <Popup.ActionButton onClick={handleConfirm || handleClickConfirm}>
