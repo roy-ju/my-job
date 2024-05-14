@@ -123,7 +123,7 @@ export default function SuggestDetail({ ipAddress }: SuggestDetailProps) {
     );
   }
 
-  if (!showInactivePopup) {
+  if (showInactivePopup) {
     return <InvalidAccessYourAccountPopup handleConfirm={inactivePopupCTA} />;
   }
 
