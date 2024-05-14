@@ -2,6 +2,8 @@ import { memo, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { AuthRequired } from '@/components/atoms';
+
 import Panel from '@/components/atoms/Panel';
 
 import InvalidAccess from '@/components/molecules/CommonPopups/InvalidAccess';
@@ -13,10 +15,11 @@ import { ListingStatus } from '@/constants/enums';
 import useFetchMyListingDetail from '@/services/my/useFetchMyListingDetail';
 
 interface Props {
+  depth: number;
   panelWidth?: string;
 }
 
-function ListingCreateResultPc({ panelWidth }: Props) {
+function ListingCreateResultPc({ depth, panelWidth }: Props) {
   const router = useRouter();
 
   const listingID = Number(router.query.listingID) ?? 0;
@@ -55,9 +58,11 @@ function ListingCreateResultPc({ panelWidth }: Props) {
   if (data?.error_code === 2002) return <InvalidAccess />;
 
   return (
-    <Panel width={panelWidth}>
-      <ListingCreateResult data={data} />
-    </Panel>
+    <AuthRequired depth={depth}>
+      <Panel width={panelWidth}>
+        <ListingCreateResult data={data} />
+      </Panel>
+    </AuthRequired>
   );
 }
 

@@ -4,15 +4,20 @@ import Panel from '@/components/atoms/Panel';
 
 import ListingDetailPassed from '@/components/domains/listings/ListingDetailPassed';
 
+import { AuthRequired } from '@/components/atoms';
+
 interface Props {
+  depth: number;
   panelWidth?: string;
 }
 
-function ListingDetailPassedPc({ panelWidth }: Props) {
+function ListingDetailPassedPc({ depth, panelWidth }: Props) {
   return (
-    <Panel width={panelWidth}>
-      <ListingDetailPassed />
-    </Panel>
+    <AuthRequired depth={depth}>
+      <Panel width={panelWidth}>
+        <ListingDetailPassed />
+      </Panel>
+    </AuthRequired>
   );
 }
 
