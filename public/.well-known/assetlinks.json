@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "kr.co.negocio.production",
+      "sha256_cert_fingerprints": [
+        "4F:03:20:30:B0:6D:E3:E7:69:49:9D:6D:5F:A5:11:97:13:13:1B:EA:89:04:3C:C5:93:BA:C8:2F:73:4A:44:A5"
+      ]
+    }
+  }
+]
