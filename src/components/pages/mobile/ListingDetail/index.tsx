@@ -62,7 +62,7 @@ const SuggestNotInterestedPopup = dynamic(() => import('../../ListingDetail/popu
   ssr: false,
 });
 
-const InvalidPagePopup = dynamic(() => import('@/components/organisms/popups/InvalidPagePopup'), { ssr: false });
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), { ssr: false });
 
 export default memo(() => {
   const router = useRouter();
@@ -158,7 +158,7 @@ export default memo(() => {
   }
 
   if (statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST) {
-    return <InvalidPagePopup handleConfirm={handleClickBackIfInvalidAccess} />;
+    return <InvalidAccessPopup handleConfirm={handleClickBackIfInvalidAccess} />;
   }
 
   return (
