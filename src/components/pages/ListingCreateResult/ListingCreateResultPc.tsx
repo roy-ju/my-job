@@ -2,17 +2,19 @@ import { memo, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import dynamic from 'next/dynamic';
+
 import { AuthRequired } from '@/components/atoms';
 
 import Panel from '@/components/atoms/Panel';
-
-import InvalidAccessPopup from '@/components/molecules/CommonPopups/InvalidAccess';
 
 import ListingCreateResult from '@/components/domains/listings/ListingCreateResult';
 
 import { ListingStatus } from '@/constants/enums';
 
 import useFetchMyListingDetail from '@/services/my/useFetchMyListingDetail';
+
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), { ssr: false });
 
 interface Props {
   depth: number;

@@ -27,7 +27,7 @@ import {
   NaverDanjiResponse,
 } from '@/services/danji/types';
 
-const InvalidAccessPopup = dynamic(() => import('@/components/molecules/CommonPopups/InvalidAccess'), {
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), {
   ssr: false,
 });
 
