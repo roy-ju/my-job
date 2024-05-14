@@ -1,5 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
+// import dynamic from 'next/dynamic';
+
 import { useRouter } from 'next/router';
 
 import Container from '@/components/atoms/Container';
@@ -19,6 +21,10 @@ import StatusMessage from './create-result/StatusMessage';
 import ConditionsInfo from './create-summary/CondtionsInfo';
 
 import { ConditionsWrraper } from './create-summary/widget/CreateSummaryWidget';
+
+// const UnableToViewPopup = dynamic(() => import('@/components/organisms/popups/UnableToViewPopup'), {
+//   ssr: false,
+// });
 
 type ListingCreateResultProps = {
   data?: MyListingDetailResponse & ErrorResponse;

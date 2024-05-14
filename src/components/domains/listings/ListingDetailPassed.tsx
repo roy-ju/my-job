@@ -32,6 +32,10 @@ const ListingTradeDateOffPopup = dynamic(() => import('@/components/organisms/po
   ssr: false,
 });
 
+// const UnableToViewPopup = dynamic(() => import('@/components/organisms/popups/UnableToViewPopup'), {
+//   ssr: false,
+// });
+
 export default function ListingDetailPassed() {
   const router = useRouter();
 
