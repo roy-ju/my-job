@@ -2,6 +2,10 @@ import dynamic from 'next/dynamic';
 
 import { useRouter } from 'next/router';
 
+import Loading from '@/components/atoms/Loading';
+
+import LoadingContainer from '@/components/atoms/LoadingContainer';
+
 import Button from '@/components/atoms/Button';
 
 import Container from '@/components/atoms/Container';
@@ -18,6 +22,8 @@ import useFetchMyListingDetailPassed from '@/services/my/useFetchMyListingPassDe
 
 import { ListingStatus } from '@/constants/enums';
 
+import ErrorCodes from '@/constants/error_codes';
+
 import useDirectHandler from './detail-passed/hooks/useDirectHandler';
 
 import { ButtonWrraper, ItemWrraper } from './detail-passed/widget/ListingDetailPassedWidget';
@@ -32,9 +38,9 @@ const ListingTradeDateOffPopup = dynamic(() => import('@/components/organisms/po
   ssr: false,
 });
 
-// const UnableToViewPopup = dynamic(() => import('@/components/organisms/popups/UnableToViewPopup'), {
-//   ssr: false,
-// });
+const UnableToViewPopup = dynamic(() => import('@/components/organisms/popups/UnableToViewPopup'), {
+  ssr: false,
+});
 
 export default function ListingDetailPassed() {
   const router = useRouter();
@@ -82,6 +88,22 @@ export default function ListingDetailPassed() {
       </>
     );
   };
+
+  if (!data) {
+    return (
+      <LoadingContainer>
+        <Loading />
+      </LoadingContainer>
+    );
+  }
+
+  if (data?.error_code === ErrorCodes.UNABLE_TO_VALIDATE_OWNER) {
+    return (
+      <Container>
+        <UnableToViewPopup />
+      </Container>
+    );
+  }
 
   return (
     <Container>

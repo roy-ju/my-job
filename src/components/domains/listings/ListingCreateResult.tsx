@@ -1,12 +1,18 @@
 import { useCallback, useMemo } from 'react';
 
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 
 import { useRouter } from 'next/router';
+
+import Loading from '@/components/atoms/Loading';
+
+import LoadingContainer from '@/components/atoms/LoadingContainer';
 
 import Container from '@/components/atoms/Container';
 
 import FlexContents from '@/components/atoms/FlexContents';
+
+import SeperatorV2 from '@/components/atoms/SeperatorV2';
 
 import { NavigationHeader } from '@/components/molecules';
 
@@ -14,7 +20,7 @@ import { MyListingDetailResponse } from '@/services/my/types';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
-import SeperatorV2 from '@/components/atoms/SeperatorV2';
+import ErrorCodes from '@/constants/error_codes';
 
 import StatusMessage from './create-result/StatusMessage';
 
@@ -22,9 +28,9 @@ import ConditionsInfo from './create-summary/CondtionsInfo';
 
 import { ConditionsWrraper } from './create-summary/widget/CreateSummaryWidget';
 
-// const UnableToViewPopup = dynamic(() => import('@/components/organisms/popups/UnableToViewPopup'), {
-//   ssr: false,
-// });
+const UnableToViewPopup = dynamic(() => import('@/components/organisms/popups/UnableToViewPopup'), {
+  ssr: false,
+});
 
 type ListingCreateResultProps = {
   data?: MyListingDetailResponse & ErrorResponse;
@@ -58,7 +64,21 @@ export default function ListingCreateResult({ data }: ListingCreateResultProps) 
     router.back();
   }, [platform, router]);
 
-  if (!data) return null;
+  if (!data) {
+    return (
+      <LoadingContainer>
+        <Loading />
+      </LoadingContainer>
+    );
+  }
+
+  if (data?.error_code === ErrorCodes.UNABLE_TO_VALIDATE_OWNER) {
+    return (
+      <Container>
+        <UnableToViewPopup />
+      </Container>
+    );
+  }
 
   return (
     <Container>
