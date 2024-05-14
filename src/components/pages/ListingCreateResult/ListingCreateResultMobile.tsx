@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import dynamic from 'next/dynamic';
+
 import { MobAuthRequired } from '@/components/atoms';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
-
-import InvalidAccessPopup from '@/components/molecules/CommonPopups/InvalidAccess';
 
 import ListingCreateResult from '@/components/domains/listings/ListingCreateResult';
 
@@ -15,6 +15,8 @@ import { ListingStatus } from '@/constants/enums';
 import useFetchMyListingDetail from '@/services/my/useFetchMyListingDetail';
 
 import Routes from '@/router/routes';
+
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), { ssr: false });
 
 export default function ListingCreateResultMobile() {
   const router = useRouter();

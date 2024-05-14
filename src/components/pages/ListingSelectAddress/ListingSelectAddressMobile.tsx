@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import MobAuthRequired from '@/components/atoms/MobAuthRequired';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
@@ -8,7 +10,7 @@ import SelectAddress from '@/components/domains/listings/SelectAddress';
 
 import ListingCreateGuideMobilePopup from '@/components/organisms/popups/ListingCreateGuideMobilePopup';
 
-import InvalidAccessPopup from '@/components/molecules/CommonPopups/InvalidAccess';
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), { ssr: false });
 
 export default function ListingSelectAddressMobile() {
   const {

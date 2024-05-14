@@ -20,7 +20,7 @@ const BuyOrRentChangePopup = dynamic(() => import('./BuyOrRentChangePopup'), { s
 
 const RealestateTypeChangePopup = dynamic(() => import('./RealestateTypeChangePopup'), { ssr: false });
 
-const InvalidAccessPopup = dynamic(() => import('@/components/molecules/CommonPopups/InvalidAccess'), { ssr: false });
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), { ssr: false });
 
 export default function Popups() {
   const {

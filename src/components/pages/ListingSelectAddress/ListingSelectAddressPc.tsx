@@ -1,5 +1,7 @@
 import { memo } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import Panel from '@/components/atoms/Panel';
 
 import AuthRequired from '@/components/atoms/AuthRequired';
@@ -12,7 +14,7 @@ import SelectAddress from '@/components/domains/listings/SelectAddress';
 
 import useSelectListingAddressHandler from '@/components/domains/listings/select-address/hooks/useSelectListingAddressHandler';
 
-import InvalidAccessPopup from '@/components/molecules/CommonPopups/InvalidAccess';
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), { ssr: false });
 
 interface Props {
   depth: number;
