@@ -8,7 +8,12 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import Routes from '@/router/routes';
 
-export default function InvalidAccessPopup() {
+import { CommonPopupProps } from '@/types/popups';
+
+export default function InvalidAccessPopup({
+  message = '유효하지 않은 페이지입니다.',
+  handleConfirm,
+}: CommonPopupProps) {
   const { platform } = useCheckPlatform();
 
   const router = useRouter();
@@ -27,10 +32,12 @@ export default function InvalidAccessPopup() {
     <OverlayPresenter>
       <Popup>
         <Popup.ContentGroup tw="py-10">
-          <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
+          <Popup.Title>{message}</Popup.Title>
         </Popup.ContentGroup>
         <Popup.ButtonGroup>
-          <Popup.ActionButton onClick={handleClickConfirm}>네고시오 홈으로 돌아가기</Popup.ActionButton>
+          <Popup.ActionButton onClick={handleConfirm || handleClickConfirm}>
+            네고시오 홈으로 돌아가기
+          </Popup.ActionButton>
         </Popup.ButtonGroup>
       </Popup>
     </OverlayPresenter>

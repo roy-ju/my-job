@@ -32,7 +32,9 @@ import {
   SecondInfo,
 } from './register-home-agreement/widget/RegisterHomeAgreementWidget';
 
-const InvalidAccessPopup = dynamic(() => import('./register-home-agreement/popups/InvalidAccessPopup'), { ssr: false });
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), {
+  ssr: false,
+});
 
 const SendCountReachedPopup = dynamic(() => import('./register-home-agreement/popups/SendCountReachedPopup'), {
   ssr: false,
@@ -128,7 +130,9 @@ export default function RegisterHomeAgreement() {
         <Ctas disabled={!name || !phone || !regPhone.test(phone)} handleClick={handleClickCTA} />
       </Container>
 
-      {popup === 'inactive' && <InvalidAccessPopup handleConfirm={handleRedirectHome} />}
+      {popup === 'inactive' && (
+        <InvalidAccessPopup message="유효하지 않은 접근입니다." handleConfirm={handleRedirectHome} />
+      )}
 
       {popup === 'confirm' && (
         <ConfirmPopup name={name} phone={phone} handleCancel={handleClosePopup} handleConfirm={handleClickCTA} />
