@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { MyListingDetailPassedResponse } from './types';
 
 export default function useFetchMyListingDetailPassed(listingId: number) {
-  const { data, isLoading, mutate } = useSWR<MyListingDetailPassedResponse>(
+  const { data, isLoading, mutate } = useSWR<MyListingDetailPassedResponse & ErrorResponse>(
     listingId ? [`/my/listing/past/detail`, { listing_id: listingId }] : null,
   );
 
