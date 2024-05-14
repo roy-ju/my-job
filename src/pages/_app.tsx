@@ -44,7 +44,7 @@ import * as gtag from '@/lib/gtag';
 
 import '../styles/globalFont.css';
 
-// import Paths from '@/constants/paths';
+import Paths from '@/constants/paths';
 
 const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
 
@@ -98,29 +98,29 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     };
   }, [router.events]);
 
-  // useEffect(() => {
-  //   if (window && platform === 'mobile') {
-  //     const userAgent = window.navigator.userAgent.toLowerCase();
+  useEffect(() => {
+    if (window && platform === 'mobile') {
+      const userAgent = window.navigator.userAgent.toLowerCase();
 
-  //     const { asPath } = router;
+      const { asPath } = router;
 
-  //     const appUrl = `negocioapp://${asPath}`;
+      const appUrl = `negocioapp://${asPath}`;
 
-  //     // if (userAgent.match(/kakaotalk/i)) {
-  //     if (/iphone|ipad/i.test(userAgent)) {
-  //       // iOS 디바이스인 경우
-  //       window.location.href = appUrl;
-  //     } else if (/android/i.test(userAgent)) {
-  //       // if (window.confirm('앱을 여시겠습니까?')) {
-  //       //   const intentUrl = `intent://${asPath}#Intent;scheme=negocioapp;package=kr.co.negocio.production;S.browser_fallback_url=${encodeURIComponent(
-  //       //     Paths.GOOGLE_PLAY_STORE,
-  //       //   )};end`;
-  //       //   window.location.href = intentUrl;
-  //       // }
-  //     }
-  //     // }
-  //   }
-  // }, [platform, router]);
+      // if (userAgent.match(/kakaotalk/i)) {
+      if (/iphone|ipad/i.test(userAgent)) {
+        // iOS 디바이스인 경우
+        window.location.href = appUrl;
+      } else if (/android/i.test(userAgent)) {
+        // if (window.confirm('앱을 여시겠습니까?')) {
+        //   const intentUrl = `intent://${asPath}#Intent;scheme=negocioapp;package=kr.co.negocio.production;S.browser_fallback_url=${encodeURIComponent(
+        //     Paths.GOOGLE_PLAY_STORE,
+        //   )};end`;
+        //   window.location.href = intentUrl;
+        // }
+      }
+      // }
+    }
+  }, [platform, router]);
 
   return (
     <>
