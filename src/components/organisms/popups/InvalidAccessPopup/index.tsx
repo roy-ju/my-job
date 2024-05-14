@@ -30,7 +30,7 @@ export default function InvalidAccessPopup() {
           <Popup.Title>유효하지 않은 페이지입니다.</Popup.Title>
         </Popup.ContentGroup>
         <Popup.ButtonGroup>
-          <Popup.ActionButton onClick={handleClickConfirm}>확인</Popup.ActionButton>
+          <Popup.ActionButton onClick={handleClickConfirm}>네고시오 홈으로 돌아가기</Popup.ActionButton>
         </Popup.ButtonGroup>
       </Popup>
     </OverlayPresenter>

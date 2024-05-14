@@ -104,14 +104,6 @@ export default function useSelectListingAddressHandler() {
     }
   }, [platform, router, selectedUserAddressID]);
 
-  const handleClickHome = useCallback(() => {
-    if (platform === 'pc') {
-      router.replace('/');
-    } else {
-      router.replace(`/${Routes.EntryMobile}`);
-    }
-  }, [platform, router]);
-
   const handleCloseGuidePopup = useCallback(() => {
     setShowGuidePopup(false);
   }, []);
@@ -181,7 +173,6 @@ export default function useSelectListingAddressHandler() {
     handleClickBack,
     handleCloseGuidePopup,
     handleClickAddMyAddress,
-    handleClickHome,
     handleNext,
     handleClickItem,
   };

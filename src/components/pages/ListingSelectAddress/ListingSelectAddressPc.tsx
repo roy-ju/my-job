@@ -4,13 +4,15 @@ import Panel from '@/components/atoms/Panel';
 
 import AuthRequired from '@/components/atoms/AuthRequired';
 
-import { OverlayPresenter, Popup } from '@/components/molecules';
+import { OverlayPresenter } from '@/components/molecules';
 
 import ListingCreateGuidePopup from '@/components/organisms/popups/ListingCreateGuidePopup';
 
 import SelectAddress from '@/components/domains/listings/SelectAddress';
 
 import useSelectListingAddressHandler from '@/components/domains/listings/select-address/hooks/useSelectListingAddressHandler';
+
+import InvalidAccessPopup from '@/components/molecules/CommonPopups/InvalidAccess';
 
 interface Props {
   depth: number;
@@ -26,7 +28,7 @@ function ListingSelectAddressPc({ depth, panelWidth }: Props) {
     selectedUserAddressID,
     handleCloseGuidePopup,
     handleClickAddMyAddress,
-    handleClickHome,
+
     handleNext,
     handleClickItem,
   } = useSelectListingAddressHandler();
@@ -56,18 +58,7 @@ function ListingSelectAddressPc({ depth, panelWidth }: Props) {
         )}
       </Panel>
 
-      {showInActivePopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-6">
-              <Popup.SubTitle tw="text-center">유효하지 않은 페이지입니다.</Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={handleClickHome}>네고시오 홈으로 돌아가기</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
+      {showInActivePopup && <InvalidAccessPopup />}
     </AuthRequired>
   );
 }

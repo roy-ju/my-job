@@ -6,7 +6,7 @@ import { AuthRequired } from '@/components/atoms';
 
 import Panel from '@/components/atoms/Panel';
 
-import InvalidAccess from '@/components/molecules/CommonPopups/InvalidAccess';
+import InvalidAccessPopup from '@/components/molecules/CommonPopups/InvalidAccess';
 
 import ListingCreateResult from '@/components/domains/listings/ListingCreateResult';
 
@@ -55,7 +55,7 @@ function ListingCreateResultPc({ depth, panelWidth }: Props) {
 
   if (isLoading || !listingID) return null;
 
-  if (data?.error_code === 2002) return <InvalidAccess />;
+  if (data?.error_code === 2002) return <InvalidAccessPopup />;
 
   return (
     <AuthRequired depth={depth}>
