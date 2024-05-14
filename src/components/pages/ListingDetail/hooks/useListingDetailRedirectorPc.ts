@@ -20,7 +20,10 @@ export default function useListingDetailRedirectorPc(listingID: number) {
   useIsomorphicLayoutEffect(() => {
     if (!statusData) return;
 
-    if (statusData.can_access) return;
+    if (statusData.can_access) {
+      setRedirectable(false);
+      return;
+    }
 
     const listingStatus = statusData?.status ?? ListingStatus.Active;
 

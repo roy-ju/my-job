@@ -44,7 +44,7 @@ import * as gtag from '@/lib/gtag';
 
 import '../styles/globalFont.css';
 
-import Paths from '@/constants/paths';
+// import Paths from '@/constants/paths';
 
 const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
 
