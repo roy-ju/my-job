@@ -6,7 +6,7 @@ import { MobAuthRequired } from '@/components/atoms';
 
 import MobileContainer from '@/components/atoms/MobileContainer';
 
-import InvalidAccess from '@/components/molecules/CommonPopups/InvalidAccess';
+import InvalidAccessPopup from '@/components/molecules/CommonPopups/InvalidAccess';
 
 import ListingCreateResult from '@/components/domains/listings/ListingCreateResult';
 
@@ -42,7 +42,7 @@ export default function ListingCreateResultMobile() {
 
   if (isLoading || !listingID) return null;
 
-  if (data?.error_code === 2002) return <InvalidAccess />;
+  if (data?.error_code === 2002) return <InvalidAccessPopup />;
 
   return (
     <MobAuthRequired>
