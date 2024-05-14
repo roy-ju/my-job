@@ -99,26 +99,28 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   }, [router.events]);
 
   // useEffect(() => {
-  //   if (window) {
+  //   if (window && platform === 'mobile') {
   //     const userAgent = window.navigator.userAgent.toLowerCase();
 
-  //     if (userAgent.match(/kakaotalk/i)) {
-  //       const appUrl = 'negocioapp://';
+  //     const { asPath } = router;
 
-  //       const redirectToMarket = () => {
-  //         window.location.href = Paths.APP_STORE;
-  //       };
+  //     const appUrl = `negocioapp://${asPath}`;
 
+  //     // if (userAgent.match(/kakaotalk/i)) {
+  //     if (/iphone|ipad/i.test(userAgent)) {
+  //       // iOS 디바이스인 경우
   //       window.location.href = appUrl;
-
-  //       setTimeout(() => {
-  //         if (document.visibilityState === 'visible') {
-  //           redirectToMarket();
-  //         }
-  //       }, 2000);
+  //     } else if (/android/i.test(userAgent)) {
+  //       // if (window.confirm('앱을 여시겠습니까?')) {
+  //       //   const intentUrl = `intent://${asPath}#Intent;scheme=negocioapp;package=kr.co.negocio.production;S.browser_fallback_url=${encodeURIComponent(
+  //       //     Paths.GOOGLE_PLAY_STORE,
+  //       //   )};end`;
+  //       //   window.location.href = intentUrl;
+  //       // }
   //     }
+  //     // }
   //   }
-  // }, []);
+  // }, [platform, router]);
 
   return (
     <>

@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { MobAuthRequired } from '@/components/atoms';
+
 import MobileContainer from '@/components/atoms/MobileContainer';
 
 import InvalidAccess from '@/components/molecules/CommonPopups/InvalidAccess';
@@ -43,8 +45,10 @@ export default function ListingCreateResultMobile() {
   if (data?.error_code === 2002) return <InvalidAccess />;
 
   return (
-    <MobileContainer>
-      <ListingCreateResult data={data} />
-    </MobileContainer>
+    <MobAuthRequired>
+      <MobileContainer>
+        <ListingCreateResult data={data} />
+      </MobileContainer>
+    </MobAuthRequired>
   );
 }

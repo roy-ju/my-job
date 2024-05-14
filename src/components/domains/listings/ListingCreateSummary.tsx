@@ -20,7 +20,9 @@ import RevisionCta from './create-summary/RevisionCta';
 
 import CreateCta from './create-summary/CreateCta';
 
-const ErrorPopup = dynamic(() => import('./create-summary/popups/ErrorPopup'), { ssr: false });
+const AlreadyCreatedListingPopup = dynamic(() => import('./create-summary/popups/AlreadyCreatedListingPopup'), {
+  ssr: false,
+});
 
 const SuccessPopup = dynamic(() => import('./create-summary/popups/SuccessPopup'), { ssr: false });
 
@@ -57,7 +59,7 @@ export default function ListingCreateSummary() {
         <CreateCta isLoading={isCreating} handleCreate={handleCreate} />
       </Container>
       {successPopup && <SuccessPopup handleConfirm={handleConfirmSuccessPopup} />}
-      {errorPopup && <ErrorPopup handleConfirm={handleConfirmErrorPopup} />}
+      {errorPopup && <AlreadyCreatedListingPopup handleConfirm={handleConfirmErrorPopup} />}
     </>
   );
 }
