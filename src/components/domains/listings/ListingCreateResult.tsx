@@ -22,6 +22,7 @@ import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 import ErrorCodes from '@/constants/error_codes';
 
+import Routes from '@/router/routes';
 import StatusMessage from './create-result/StatusMessage';
 
 import ConditionsInfo from './create-summary/CondtionsInfo';
@@ -60,8 +61,15 @@ export default function ListingCreateResult({ data }: ListingCreateResultProps) 
       }
       return;
     }
+    if (platform === 'mobile') {
+      const canGoBack = window?.history?.length > 1;
 
-    router.back();
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      }
+    }
   }, [platform, router]);
 
   if (!data) {
