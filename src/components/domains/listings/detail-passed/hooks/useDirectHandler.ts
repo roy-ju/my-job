@@ -129,7 +129,13 @@ export default function useDirectHandler({ data }: { data?: MyListingDetailPasse
       const path = replaceFirstOccurrence(router.asPath, Routes.ListingDetailPassed, Routes.MyRegisteredListingList);
       router.replace(path);
     } else {
-      router.back();
+      const canGoBack = window?.history?.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}/${Routes.My}`);
+      }
     }
   }, [platform, router]);
 
