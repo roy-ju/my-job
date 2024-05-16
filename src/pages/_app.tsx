@@ -43,6 +43,7 @@ import ErrorBoundary from '@/providers/ErrorBoundary';
 import * as gtag from '@/lib/gtag';
 
 import '../styles/globalFont.css';
+import useIsNativeApp from '@/hooks/useIsNativeApp';
 
 // import Paths from '@/constants/paths';
 
@@ -82,6 +83,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   const platform = usePlatform();
 
+  const isNaitive = useIsNativeApp();
+
   usePageLoading();
 
   useNativeAppEventListeners();
@@ -98,29 +101,26 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     };
   }, [router.events]);
 
-  // useEffect(() => {
-  //   if (window && platform === 'mobile') {
-  //     const userAgent = window.navigator.userAgent.toLowerCase();
+  useEffect(() => {
+    if (isNaitive) return;
+    if (window) {
+      const userAgent = window?.navigator?.userAgent?.toLowerCase() ?? '';
 
-  //     const { asPath } = router;
+      const isMobile = /mobile|tablet|ip(ad|hone)|android/i.test(userAgent);
+      const isKakaoTalk = /kakaotalk/i.test(userAgent);
 
-  //     const appUrl = `negocioapp://${asPath}`;
+      const { asPath } = router;
 
-  //     // if (userAgent.match(/kakaotalk/i)) {
-  //     if (/iphone|ipad/i.test(userAgent)) {
-  //       // iOS 디바이스인 경우
-  //       window.location.href = appUrl;
-  //     } else if (/android/i.test(userAgent)) {
-  //       // if (window.confirm('앱을 여시겠습니까?')) {
-  //       //   const intentUrl = `intent://${asPath}#Intent;scheme=negocioapp;package=kr.co.negocio.production;S.browser_fallback_url=${encodeURIComponent(
-  //       //     Paths.GOOGLE_PLAY_STORE,
-  //       //   )};end`;
-  //       //   window.location.href = intentUrl;
-  //       // }
-  //     }
-  //     // }
-  //   }
-  // }, [platform, router]);
+      if (isMobile && isKakaoTalk) {
+        if (/iphone|ipad/i.test(userAgent)) {
+          const appUrl = `negocioapp://${asPath}`;
+          window.location.href = appUrl;
+        } else if (/android/i.test(userAgent)) {
+          //
+        }
+      }
+    }
+  }, [router, isNaitive]);
 
   return (
     <>
