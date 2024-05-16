@@ -43,9 +43,8 @@ import ErrorBoundary from '@/providers/ErrorBoundary';
 import * as gtag from '@/lib/gtag';
 
 import '../styles/globalFont.css';
-import useIsNativeApp from '@/hooks/useIsNativeApp';
 
-// import Paths from '@/constants/paths';
+import useIsNativeApp from '@/hooks/useIsNativeApp';
 
 const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
 
@@ -103,6 +102,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
     if (isNaitive) return;
+
     if (window) {
       const userAgent = window?.navigator?.userAgent?.toLowerCase() ?? '';
 
