@@ -1,10 +1,16 @@
-import updateBidding from '@/apis/bidding/updateBidding';
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Loading, Panel } from '@/components/atoms';
-import { BiddingSummary } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { Loading, Panel } from '@/components/atoms';
+
+import { BiddingSummary } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
+
+import { apiService } from '@/services';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 interface Props {
   depth: number;
@@ -15,7 +21,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { data, isLoading } = useAPI_GetListingDetail(listingID);
+  const { data, isLoading } = useFetchListingDetail(listingID);
 
   const [isUpdatingBidding, setIsUpdatingBidding] = useState(false);
 
@@ -29,7 +35,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   const handleClickNext = useCallback(async () => {
     setIsUpdatingBidding(true);
 
-    await updateBidding({ ...params });
+    await apiService.updateBidding({ ...params });
 
     setIsUpdatingBidding(false);
 

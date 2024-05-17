@@ -1,8 +1,9 @@
-import { GetBiddingInfoResponse } from '@/apis/bidding/getBiddingInfo';
 import convertPriceInputToNumber from '@/utils/convertPriceInputToNumber';
 
+import { BiddingInfoResponse } from '@/services/bidding/types';
+
 interface Args {
-  biddingInfo: GetBiddingInfoResponse;
+  biddingInfo: BiddingInfoResponse;
 
   acceptingTargetPrice: boolean;
 

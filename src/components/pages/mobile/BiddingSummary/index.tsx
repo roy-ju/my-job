@@ -1,18 +1,24 @@
-import createBidding, { CreateBiddingResponse } from '@/apis/bidding/createBidding';
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Loading, MobileContainer } from '@/components/atoms';
-import { BiddingSummary } from '@/components/templates';
-import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { Loading, MobileContainer } from '@/components/atoms';
+
+import { BiddingSummary } from '@/components/templates';
+
+import Routes from '@/router/routes';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
+
+import { apiService } from '@/services';
+
+import { BiddingCreateResponse } from '@/services/bidding/types';
 
 export default memo(() => {
   const router = useRouter();
   const listingID = Number(router.query.listingID) ?? 0;
 
-  const { data, isLoading } = useAPI_GetListingDetail(listingID);
-
-  const { mutate: mutateListing } = useAPI_GetListingDetail(listingID);
+  const { data, isLoading, mutate: mutateListing } = useFetchListingDetail(listingID);
 
   const [isCreatingBidding, setIsCreatingBidding] = useState(false);
 
@@ -25,15 +31,15 @@ export default memo(() => {
 
   const handleClickNext = useCallback(async () => {
     setIsCreatingBidding(true);
-    let res: CreateBiddingResponse | null = null;
+    let res: BiddingCreateResponse | null = null;
 
     if (!params.accepting_target_price) {
-      res = await createBidding({
+      res = await apiService.createBidding({
         listing_id: listingID,
         ...params,
       });
     } else {
-      res = await createBidding({ listing_id: listingID, accepting_target_price: true });
+      res = await apiService.createBidding({ listing_id: listingID, accepting_target_price: true });
     }
 
     await mutateListing();

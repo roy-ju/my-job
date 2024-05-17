@@ -1,5 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { useRouter } from 'next/router';
 
 import tw, { styled } from 'twin.macro';
@@ -28,8 +30,6 @@ import useInactive from './detail/hooks/useInactive';
 
 import useHandleClickBack from './detail/hooks/useHandleClickBack';
 
-import InValidAccessPopup from './detail/popups/InValidAccessPopup';
-
 import useSuggestView from './detail/hooks/useSuggestView';
 
 import Pyoung from '../my/suggest-requested-list/Pyoung';
@@ -41,6 +41,13 @@ import AdditionalConditions from '../my/suggest-detail/AdditionalConditions';
 import Note from '../my/suggest-detail/Note';
 
 import SuggestDetailCta from './detail/SuggestDetailCta';
+
+const InvalidAccessYourAccountPopup = dynamic(
+  () => import('@/components/organisms/popups/InvalidAccessYourAccountPopup'),
+  {
+    ssr: false,
+  },
+);
 
 const Container = styled.div`
   ${tw`flex flex-col w-full h-full`}
@@ -117,7 +124,7 @@ export default function SuggestDetail({ ipAddress }: SuggestDetailProps) {
   }
 
   if (showInactivePopup) {
-    return <InValidAccessPopup handleConfirm={inactivePopupCTA} />;
+    return <InvalidAccessYourAccountPopup handleConfirm={inactivePopupCTA} />;
   }
 
   if (data?.error_code) return null;

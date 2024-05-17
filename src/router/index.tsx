@@ -111,11 +111,11 @@ const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingDetailPassed = dynamic(() => import('@/components/pages/pc/ListingDetailPassed'), {
+const ListingDetailPassed = dynamic(() => import('@/components/pages/ListingDetailPassed/ListingDetailPassedPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingDetailHistory = dynamic(() => import('@/components/pages/pc/ListingDetailHistory'), {
+const ListingDetailHistory = dynamic(() => import('@/components/pages/ListingDetailHistory/ListingDetailHistoryPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -185,10 +185,13 @@ const ChatRoomReport = dynamic(() => import('@/components/pages/pc/ChatRoomRepor
   loading: FallbackComponent,
 });
 
-const TransactionReview = dynamic(() => import('@/components/pages/pc/TransactionReview'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+const TransactionReview = dynamic(
+  () => import('@/components/pages/ListingTransactionReview/ListingTransactionReviewPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
 const FAQ = dynamic(() => import('@/components/pages/Faq/FaqPc'), {
   ssr: false,
   loading: FallbackComponent,
@@ -199,7 +202,7 @@ const WaitingCreateForm = dynamic(() => import('@/components/pages/WaitingCreate
   loading: FallbackComponent,
 });
 
-const ListingSelectAddress = dynamic(() => import('@/components/pages/pc/ListingSelectAddress'), {
+const ListingSelectAddress = dynamic(() => import('@/components/pages/ListingSelectAddress/ListingSelectAddressPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -207,15 +210,11 @@ const ListingCreateForm = dynamic(() => import('@/components/pages/pc/ListingCre
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingCreateChooseAgent = dynamic(() => import('@/components/pages/pc/ListingCreateChooseAgent'), {
+const ListingCreateSummary = dynamic(() => import('@/components/pages/ListingCreateSummary/ListingCreateSummaryPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingCreateSummary = dynamic(() => import('@/components/pages/pc/ListingCreateSummary'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const ListingCreateResult = dynamic(() => import('@/components/pages/pc/ListingCreateResult'), {
+const ListingCreateResult = dynamic(() => import('@/components/pages/ListingCreateResult/ListingCreateResultPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -223,14 +222,20 @@ const ListingPhotoGallery = dynamic(() => import('@/components/pages/pc/ListingP
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingTargetPriceUpdate = dynamic(() => import('@/components/pages/pc/ListingTargetPriceUpdate'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
-const ListingTargetPriceUpdateSummary = dynamic(() => import('@/components/pages/pc/ListingTargetPriceUpdateSummary'), {
-  ssr: false,
-  loading: FallbackComponent,
-});
+const ListingTargetPriceUpdate = dynamic(
+  () => import('@/components/pages/ListingTargetPriceUpdate/ListingTargetPriceUpdatePc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
+const ListingTargetPriceUpdateSummary = dynamic(
+  () => import('@/components/pages/ListingTargetPriceUpdateSummary/ListingTargetPriceUpdateSummaryPc'),
+  {
+    ssr: false,
+    loading: FallbackComponent,
+  },
+);
 
 const BiddingForm = dynamic(() => import('@/components/pages/pc/BiddingForm'), {
   ssr: false,
@@ -257,7 +262,7 @@ const UpdateBiddingSuccess = dynamic(() => import('@/components/pages/pc/UpdateB
   loading: FallbackComponent,
 });
 
-const ListingQnaCreateForm = dynamic(() => import('@/components/pages/pc/ListingQnaCreateForm'), {
+const ListingQnaCreateForm = dynamic(() => import('@/components/pages/ListingQnaCreate/ListingQnaCreatePc'), {
   ssr: false,
   loading: FallbackComponent,
 });
@@ -603,9 +608,6 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
     case Routes.ListingSelectAddress: {
       return <ListingSelectAddress {...props} />;
-    }
-    case Routes.ListingCreateChooseAgent: {
-      return <ListingCreateChooseAgent {...props} />;
     }
     case Routes.ListingCreateSummary: {
       return <ListingCreateSummary {...props} />;

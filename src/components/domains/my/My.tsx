@@ -2,9 +2,9 @@ import { NavigationHeader } from '@/components/molecules';
 
 import { Loading, Separator } from '@/components/atoms';
 
-import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
-
 import HeaderNotificationButton from '@/components/organisms/global/HeaderNotificationButton';
+
+import { DashboardInfoResponse } from '@/services/my/types';
 
 import UserSummary from './my/UserSummary';
 
@@ -21,7 +21,7 @@ interface MyProps {
   nickname?: string;
   profileImageUrl?: string;
   unreadNotificationCount?: number;
-  dashboardInfo?: GetDashboardInfoResponse | null;
+  dashboardInfo?: DashboardInfoResponse | null;
   tab?: number;
   hasAddress?: boolean;
   hasNotVerifiedAddress?: boolean;

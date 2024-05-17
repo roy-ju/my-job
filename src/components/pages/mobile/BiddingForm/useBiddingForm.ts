@@ -6,13 +6,13 @@ import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
 
 import convertNumberToPriceInput from '@/utils/convertNumberToPriceInput';
 
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-
 import { TimeTypeString } from '@/constants/strings';
 
 import { BuyOrRent } from '@/constants/enums';
 
 import Routes from '@/router/routes';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 import makeCreateBiddingParams from './makeCreateBiddingParams';
 
@@ -21,7 +21,7 @@ export default function useBiddingForm() {
 
   const listingID = Number(router.query.listingID);
 
-  const { data } = useAPI_GetListingDetail(listingID);
+  const { data } = useFetchListingDetail(listingID);
 
   const biddingParams = useMemo(() => {
     if (typeof router.query.params === 'string') {

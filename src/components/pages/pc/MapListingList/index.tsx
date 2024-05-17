@@ -18,9 +18,7 @@ import useAuth from '@/hooks/services/useAuth';
 
 import Routes from '@/router/routes';
 
-import { addFavorite } from '@/apis/listing/addListingFavroite';
-
-import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+import { apiService } from '@/services';
 
 import useMapListingList from './useMapListingList';
 
@@ -56,7 +54,7 @@ export default memo(({ depth, panelWidth }: Props) => {
   );
 
   const onToggleFav = useCallback(
-    (id: number, active: boolean) => {
+    async (id: number, active: boolean) => {
       if (isAuthLoading) return;
 
       if (!user) {
@@ -66,10 +64,10 @@ export default memo(({ depth, panelWidth }: Props) => {
       }
 
       if (active) {
-        addFavorite(id);
+        await apiService.addListingFavorite({ listing_id: id });
         toast.success('관심을 설정했습니다.');
       } else {
-        removeFavorite(id);
+        await apiService.removeListingFavorite({ listing_id: id });
         toast.success('관심을 해제했습니다.');
       }
     },

@@ -14,20 +14,20 @@ import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import useAuth from '@/hooks/services/useAuth';
 
-import useAPI_GetDashboardInfo from '@/apis/my/getDashboardInfo';
-
 import Routes from '@/router/routes';
 
 import My from '@/components/domains/my/My';
 
 import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
+import useFetchMyDashboardInfo from '@/services/my/useFetchMyDashboardInfo';
+
 export default function MyMobile() {
   const router = useRouter();
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
-  const { data: dashboardData } = useAPI_GetDashboardInfo();
+  const { data: dashboardData } = useFetchMyDashboardInfo();
 
   const { user, isLoading } = useAuth();
 

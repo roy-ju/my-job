@@ -14,11 +14,13 @@ import { TimeTypeString } from '@/constants/strings';
 
 import Routes from '@/router/routes';
 
-import useAPI_GetBiddingInfo, { GetBiddingInfoResponse } from '@/apis/bidding/getBiddingInfo';
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
+import { apiService } from '@/services';
 
-import cancelBidding from '@/apis/bidding/cancelBidding';
+import useFethcBiddingInfo from '@/services/bidding/useFetchBiddingInfo';
+
+import { BiddingInfoResponse } from '@/services/bidding/types';
 
 import makeUpdateBiddingParams from './makeUpdateBiddingParams';
 
@@ -29,8 +31,8 @@ export default function useUpdateBiddingForm(depth: number) {
   const listingID = Number(router.query.listingID) ?? 0;
   const biddingID = Number(router.query.biddingID) ?? 0;
 
-  const { data, isLoading: isLoadingListing } = useAPI_GetListingDetail(listingID);
-  const { data: biddingData } = useAPI_GetBiddingInfo(biddingID);
+  const { data, isLoading: isLoadingListing } = useFetchListingDetail(listingID);
+  const { data: biddingData } = useFethcBiddingInfo(biddingID);
   const [isLoadingBidding, setIsLoadingBidding] = useState(true);
 
   const biddingParams = useMemo(() => {
@@ -119,7 +121,7 @@ export default function useUpdateBiddingForm(depth: number) {
       moveInDateType,
       etcs,
       description,
-      biddingInfo: biddingData as GetBiddingInfoResponse,
+      biddingInfo: biddingData as BiddingInfoResponse,
     });
     router.replace(Routes.UpdateBiddingSummary, {
       searchParams: {
@@ -134,7 +136,7 @@ export default function useUpdateBiddingForm(depth: number) {
 
   const handleCancelBidding = useCallback(async () => {
     if (listingID && biddingID) {
-      await cancelBidding(listingID, biddingID);
+      await apiService.cancelBidding(listingID, biddingID);
     }
 
     if (nextRouter.query.back) {
