@@ -30,6 +30,8 @@ import kakaoShare from '@/utils/kakaoShare';
 
 import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
+import Routes from '@/router/routes';
+
 const OverlayPresenter = dynamic(() => import('@/components/molecules/OverlayPresenter'), { ssr: false });
 
 const SharePopup = dynamic(() => import('@/components/organisms/SharePopup'), { ssr: false });
@@ -44,7 +46,15 @@ function Header({ danji, isHeaderActive }: { danji: DanjiDetailResponse; isHeade
   const router = useRouter();
 
   const handleClickBack = () => {
-    router.back();
+    if (typeof window !== 'undefined') {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(`/${Routes.EntryMobile}`);
+      }
+    }
   };
 
   const [popup, setPopup] = useState(false);

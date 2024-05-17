@@ -6,6 +6,7 @@ export type PopupStateType =
   | 'impossibleRecommendation';
 
 export interface CommonPopupProps {
+  message?: string;
   handleCancel?: (...args: any) => void;
   handleConfirm?: (...args: any) => void;
 }

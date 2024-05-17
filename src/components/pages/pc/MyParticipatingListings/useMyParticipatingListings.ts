@@ -1,6 +1,6 @@
-import useAPI_GetMyParticipatedListingList from '@/apis/my/getMyParticipatedListingList';
-
 import { MyFavoriteListingListUiItem } from '@/components/domains/my/favorite-list/types';
+
+import useFetchMyListingsParticipated from '@/services/my/useFetchMyListingsParticipated';
 
 interface IBiddingStatusItem {
   count?: number;
@@ -24,7 +24,7 @@ export default function useMyParticipatingListings() {
     past: { count: 0, data: [], incrementalPageNumber: () => {}, mutate: () => {}, isLoading: true },
   };
 
-  const biddingSubmittedData = useAPI_GetMyParticipatedListingList(1);
+  const biddingSubmittedData = useFetchMyListingsParticipated(1);
 
   biddingStatus.submitted = {
     count: biddingSubmittedData.count,
@@ -34,7 +34,7 @@ export default function useMyParticipatingListings() {
     isLoading: biddingSubmittedData.isLoading,
   };
 
-  const biddingAcceptedData = useAPI_GetMyParticipatedListingList(2);
+  const biddingAcceptedData = useFetchMyListingsParticipated(2);
 
   biddingStatus.accepted = {
     count: biddingAcceptedData.count,
@@ -44,7 +44,7 @@ export default function useMyParticipatingListings() {
     isLoading: biddingAcceptedData.isLoading,
   };
 
-  const biddingPreContractCompletedData = useAPI_GetMyParticipatedListingList(3);
+  const biddingPreContractCompletedData = useFetchMyListingsParticipated(3);
 
   biddingStatus.preContractCompleted = {
     count: biddingPreContractCompletedData.count,
@@ -54,7 +54,7 @@ export default function useMyParticipatingListings() {
     isLoading: biddingPreContractCompletedData.isLoading,
   };
 
-  const biddingPastData = useAPI_GetMyParticipatedListingList(4);
+  const biddingPastData = useFetchMyListingsParticipated(4);
 
   biddingStatus.past = {
     count: biddingPastData.count,

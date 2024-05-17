@@ -1,13 +1,17 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { MobileContainer } from '@/components/atoms';
-import { PhotoGallery } from '@/components/templates';
-import { useRouter } from 'next/router';
 import { memo, useMemo } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { MobileContainer } from '@/components/atoms';
+
+import { PhotoGallery } from '@/components/templates';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 export default memo(() => {
   const router = useRouter();
   const listingID = Number(router.query.listingID) ?? 0;
-  const { data } = useAPI_GetListingDetail(listingID);
+  const { data } = useFetchListingDetail(listingID);
 
   const paths = useMemo(
     () => [

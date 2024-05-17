@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import ListingTargetPriceUpdateSummary from '@/components/pages/mobile/ListingTargetPriceUpdateSummary';
+import ListingTargetPriceUpdateSummary from '@/components/pages/ListingTargetPriceUpdateSummary/ListingTargetPriceUpdateSummaryMobile';
 
 const Page: NextPageWithLayout = () => <ListingTargetPriceUpdateSummary />;
 

@@ -30,8 +30,6 @@ import useInactive from './suggest-detail/hooks/useInactive';
 
 import useHandleClickBack from './suggest-detail/hooks/useHandleClickBack';
 
-import InValidAccessPopup from './suggest-detail/popups/InValidAccessPopup';
-
 import Summary from './suggest-detail/Summary';
 
 import ListHeader from './suggest-detail/ListHeader';
@@ -43,6 +41,13 @@ import NotyetInterview from './suggest-detail/NotyetInterview';
 import SuggestStopped from './suggest-detail/SuggestStopped';
 
 import useMySuggestDetailHeaderHandler from './suggest-detail/hooks/useMySuggestDetailHeaderHandler';
+
+const InvalidAccessYourAccountPopup = dynamic(
+  () => import('@/components/organisms/popups/InvalidAccessYourAccountPopup'),
+  {
+    ssr: false,
+  },
+);
 
 const BottomSheetOverlayPresenter = dynamic(() => import('@/components/molecules/BottomSheetOverlayPresenter'), {
   ssr: false,
@@ -201,7 +206,7 @@ export default function MySuggestDetail() {
   }
 
   if (showInactivePopup) {
-    return <InValidAccessPopup handleConfirm={inactivePopupCTA} />;
+    return <InvalidAccessYourAccountPopup handleConfirm={inactivePopupCTA} />;
   }
 
   if (suggestDetailData?.error_code) return null;

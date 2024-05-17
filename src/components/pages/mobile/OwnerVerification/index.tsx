@@ -8,11 +8,11 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { OwnerVerification as Template, OwnerVerificationComplete as CompleteTemplate } from '@/components/templates';
 
-import useAPI_GetAgreementInfo from '@/apis/listing/getAgreementInfo';
-
 import Routes from '@/router/routes';
 
 import ErrorCodes from '@/constants/error_codes';
+
+import useFetchAgreementInfo from '@/services/my/useFetchMyAgreementInfo';
 
 export default function OwnerVerification() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function OwnerVerification() {
 
   const token = router.query.t as string;
 
-  const { data, isLoading } = useAPI_GetAgreementInfo(loi, token);
+  const { data, isLoading } = useFetchAgreementInfo(loi, token);
 
   const handleVerify = useCallback(() => {
     router.push(`/${Routes.EntryMobile}/ov/ci?t=${router.query.t}&loi=${router.query.loi}`);

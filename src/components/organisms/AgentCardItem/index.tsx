@@ -1,8 +1,13 @@
 import { ReactNode, useState, Children, isValidElement, cloneElement } from 'react';
-import { Separator } from '@/components/atoms';
+
 import tw from 'twin.macro';
+
+import { Separator } from '@/components/atoms';
+
 import AgentCardItemProfile from './Profile';
+
 import AgentCardItemDetail from './Detail';
+
 import AgentCardItemFoldButton from './Button';
 
 export interface AgentCardItemProps {
@@ -11,7 +16,9 @@ export interface AgentCardItemProps {
 }
 
 const AgentCardItemProfileType = (<AgentCardItemProfile profileImageFullPath="" />).type;
+
 const AgentCardItemDetailType = (<AgentCardItemDetail />).type;
+
 const AgentCardItemFoldButtonType = (<AgentCardItemFoldButton />).type;
 
 const getChildComponent = (children: ReactNode, componentType: string) => {
@@ -23,7 +30,9 @@ function AgentCardItem({ children, defaultExpanded = false }: AgentCardItemProps
   const [expanded, setIsExpanded] = useState(defaultExpanded);
 
   const profileContents = getChildComponent(children, AgentCardItemProfileType);
+
   const detailContents = getChildComponent(children, AgentCardItemDetailType);
+
   const foldButton =
     isValidElement(getChildComponent(children, AgentCardItemFoldButtonType)?.[0]) &&
     cloneElement(getChildComponent(children, AgentCardItemFoldButtonType)?.[0] as any, {
