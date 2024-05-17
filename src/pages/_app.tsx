@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { ReactNode, useEffect } from 'react';
 
 import Head from 'next/head';
@@ -45,6 +46,8 @@ import * as gtag from '@/lib/gtag';
 import '../styles/globalFont.css';
 
 import useIsNativeApp from '@/hooks/useIsNativeApp';
+
+// import Paths from '@/constants/paths';
 
 const OverlayContainer = dynamic(() => import('@/components/molecules/FullScreenDialog'), { ssr: false });
 
@@ -116,7 +119,14 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           const appUrl = `negocioapp://${asPath}`;
           window.location.href = appUrl;
         } else if (/android/i.test(userAgent)) {
-          //
+          // if (window.confirm('앱을 여시겠습니까?')) {
+          //   const siteUrl = `test.negocio.kr${router.asPath}`;
+          //   const packageName = `kr.co.negocio.development`;
+          //   const intentUrl = `intent://${siteUrl}#Intent;scheme=negocioapp;package=${packageName};S.browser_fallback_url=${encodeURIComponent(
+          //     Paths.GOOGLE_PLAY_STORE,
+          //   )};end`;
+          //   window.location.href = intentUrl;
+          // }
         }
       }
     }

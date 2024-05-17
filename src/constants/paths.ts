@@ -24,7 +24,7 @@ const Paths = {
   YOUTUBE: 'https://youtu.be/DRaGUpMo_bo',
 
   INSTAGRAM: 'https://www.instagram.com/negocio.app',
-  NAVER_BLOG: 'https://blog.naver.com/negocio21',
+  NAVER_BLOG: 'https://blog.naver.com/negocio_official',
   KAKAO_CHANEL: 'http://pf.kakao.com/_QRxats',
   FACEBOOK: 'https://www.facebook.com/profile.php?id=100089238053016',
 
