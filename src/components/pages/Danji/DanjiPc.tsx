@@ -15,7 +15,7 @@ import DanjiDetailPc from '@/components/domains/danji/DanjiDetailPc';
 
 import Panel from '@/components/atoms/Panel';
 
-const InvalidAccess = dynamic(() => import('@/components/molecules/CommonPopups/InvalidAccess'), {
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), {
   ssr: false,
 });
 
@@ -39,7 +39,7 @@ const DanjiPc = ({
   const { data } = useFetchDanjiDetail({ prefetchedData });
 
   if (data && data?.error_code) {
-    return <InvalidAccess />;
+    return <InvalidAccessPopup />;
   }
 
   return (

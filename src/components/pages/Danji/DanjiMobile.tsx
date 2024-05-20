@@ -21,7 +21,7 @@ import {
 
 import DanjiDetailMobile from '@/components/domains/danji/DanjiDetailMobile';
 
-const InvalidAccess = dynamic(() => import('@/components/molecules/CommonPopups/InvalidAccess'), {
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), {
   ssr: false,
 });
 
@@ -82,7 +82,7 @@ const DanjiMobile = ({
   );
 
   if (data?.error_code) {
-    return <InvalidAccess />;
+    return <InvalidAccessPopup />;
   }
 
   return (
