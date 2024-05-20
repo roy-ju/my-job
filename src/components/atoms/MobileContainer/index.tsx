@@ -5,6 +5,7 @@ import tw, { styled } from 'twin.macro';
 export interface MobileContainerProps {
   children?: ReactNode;
   bottomNav?: JSX.Element | null;
+  maxWidth?: string | number;
 }
 
 const Container = styled.div`
@@ -19,9 +20,9 @@ const BottomNavWrraper = styled.div`
   ${tw`w-full mx-auto bg-white`}
 `;
 
-export default function MobileContainer({ children, bottomNav }: MobileContainerProps) {
+export default function MobileContainer({ children, bottomNav, maxWidth }: MobileContainerProps) {
   return (
-    <Container>
+    <Container style={{ maxWidth }}>
       <ChildrenWrraper>{children}</ChildrenWrraper>
       {bottomNav && <BottomNavWrraper>{bottomNav}</BottomNavWrraper>}
     </Container>

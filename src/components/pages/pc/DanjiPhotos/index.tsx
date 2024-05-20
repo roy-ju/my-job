@@ -1,9 +1,14 @@
-import { useAPI_GetDanjiPhotos } from '@/apis/danji/danjiPhotos';
-import { Panel } from '@/components/atoms';
-import { DanjiPhotos as DanjiPhotosTemplate } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
 import React from 'react';
-import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
+
+import { Panel } from '@/components/atoms';
+
+import { useAPI_GetDanjiPhotos } from '@/apis/danji/danjiPhotos';
+
+import { DanjiPhotos as DanjiPhotosTemplate } from '@/components/templates';
+
+import useDanjiDetailPc from '@/components/domains/danji/hooks/useDanjiDetailPc';
+
+import { useRouter } from '@/hooks/utils';
 
 interface Props {
   depth: number;
@@ -13,7 +18,7 @@ interface Props {
 export default function DanjiPhotos({ depth, panelWidth }: Props) {
   const router = useRouter(depth);
 
-  const { danji } = useDanjiDetail(depth);
+  const { danji } = useDanjiDetailPc(depth);
 
   const onClickBack = () => {
     router.popLast();

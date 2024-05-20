@@ -24,6 +24,8 @@ import ErrorCodes from '@/constants/error_codes';
 
 import { ListingDetailResponse } from '@/services/listing/types';
 
+import useDanjiDetailMobile from '@/components/domains/danji/hooks/useDanjiDetailMobile';
+
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import useMobileDanjiMap from '@/states/hooks/useMobileDanjiMap';
@@ -35,8 +37,6 @@ import useFetchListingStatus from '@/services/listing/useFetchListingStatus';
 import useFetchQnaList from '@/services/qna/useFetchQnaList';
 
 import useFetchListingRealestateDocumentSummary from '@/services/listing/useFetchListingRealestateDocumentSummary';
-
-import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
 
 import useListingDetailRedirectorMobile from '../../ListingDetail/hooks/useListingDetailRedirectorMobile';
 
@@ -92,7 +92,7 @@ export default memo(() => {
 
   const { mapType, makeGeneralMap } = useMobileDanjiMap();
 
-  const { danji } = useDanjiDetail(data?.listing?.danji_id);
+  const { danji } = useDanjiDetailMobile(data?.listing?.danji_id);
 
   const {
     data: qnaData,
