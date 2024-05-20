@@ -16,11 +16,9 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
-import { addFavorite } from '@/apis/listing/addListingFavroite';
-
-import { removeFavorite } from '@/apis/listing/removeListingFavorite';
-
 import Routes from '@/router/routes';
+
+import { apiService } from '@/services';
 
 import useMapListingList from './useMapListingList';
 
@@ -70,11 +68,11 @@ export default memo(() => {
 
       if (active) {
         toast.success('관심을 설정했습니다.');
-        await addFavorite(id);
+        await apiService.addListingFavorite({ listing_id: id });
         mutate();
       } else {
         toast.success('관심을 해제했습니다.');
-        await removeFavorite(id);
+        await apiService.removeListingFavorite({ listing_id: id });
         mutate();
       }
     },

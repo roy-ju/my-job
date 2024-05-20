@@ -17,6 +17,10 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     );
   }
 
+  if (path.includes(`/${Routes.EntryMobile}/${Routes.DanjiDetailV2}/`)) {
+    return;
+  }
+
   // 구해요 개선에 따른 페이지 URL변경
   if (path === `/${Routes.PAST_RecommedationGuide}`) {
     return NextResponse.redirect(new URL(`${Routes.SuggestGuide}`, request.url), 301);
@@ -52,7 +56,6 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
   }
 
   // Redirect Mobile user
-
   if (ua.indexOf('Mobi') > -1 || ua.indexOf('Android') > -1) {
     // 구해요 개선에 따른 페이지 URL변경
     if (path === `/${Routes.EntryMobile}/${Routes.Login}`) {

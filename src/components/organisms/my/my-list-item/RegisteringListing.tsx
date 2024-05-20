@@ -13,7 +13,7 @@ import { ListingProps } from './Listing';
 interface Props extends ListingProps {
   onClickListingItem?: (listingId: number) => () => void;
   onChangeCheckbox?: (listingId: number) => (e: React.ChangeEvent<HTMLInputElement>) => void;
-  statusText: string;
+
   isDeleteActive: boolean;
   checkedListingIdList: number[];
 }
@@ -30,7 +30,6 @@ export default function RegisteringListing({
   tradeOrDepositPrice,
   realestateType,
   monthlyRentFee,
-  statusText,
 }: Props) {
   const renderPrice = () => {
     switch (buyOrRent) {
@@ -76,7 +75,6 @@ export default function RegisteringListing({
           </div>
           <div tw="text-info text-gray-1000">{listingTitle}</div>
           <div tw="text-info text-gray-700">매물정보는 등록이 완료되면 노출됩니다.</div>
-          <div tw="text-info text-nego-1000">{statusText}</div>
         </div>
       </div>
     </button>

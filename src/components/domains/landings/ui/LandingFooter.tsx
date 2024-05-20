@@ -50,7 +50,7 @@ export default function LandingFooter() {
             <a
               tw="hover:opacity-70 transition-opacity"
               target="_blank"
-              href="https://blog.naver.com/negocio21"
+              href="https://blog.naver.com/negocio_official"
               aria-label="네고시오 블로그"
               rel="noopener noreferrer"
             >

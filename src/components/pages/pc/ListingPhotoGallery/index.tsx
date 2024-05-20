@@ -1,9 +1,14 @@
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Panel } from '@/components/atoms';
-import { PhotoGallery } from '@/components/templates';
-import { RealestateType } from '@/constants/enums';
-import { useRouter } from '@/hooks/utils';
 import { memo, useMemo } from 'react';
+
+import { Panel } from '@/components/atoms';
+
+import { PhotoGallery } from '@/components/templates';
+
+import { RealestateType } from '@/constants/enums';
+
+import { useRouter } from '@/hooks/utils';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 interface Props {
   depth: number;
@@ -13,7 +18,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const router = useRouter(depth);
   const listingID = Number(router.query.listingID) ?? 0;
-  const { data } = useAPI_GetListingDetail(listingID);
+  const { data } = useFetchListingDetail(listingID);
 
   const paths = useMemo(() => {
     if (

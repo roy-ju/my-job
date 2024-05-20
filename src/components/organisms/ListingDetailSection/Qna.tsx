@@ -1,6 +1,8 @@
-import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
-import { Button, Chip, Loading, Moment } from '@/components/atoms';
 import tw, { styled } from 'twin.macro';
+
+import { Button, Chip, Loading, Moment } from '@/components/atoms';
+
+import { QnaListResponse } from '@/services/qna/types';
 
 const ListContainer = styled.div`
   & > div:not(:last-of-type) {
@@ -9,7 +11,7 @@ const ListContainer = styled.div`
 `;
 
 export interface ListItemProps {
-  item?: NonNullable<GetListingQnaListResponse['list']>[0];
+  item?: NonNullable<QnaListResponse['list']>[0];
   onClickDelete?: () => void;
 }
 
@@ -52,7 +54,7 @@ export interface QnaProps {
   isOwner?: boolean;
   isLoading?: boolean;
   hasNext?: boolean;
-  qnaList?: GetListingQnaListResponse['list'];
+  qnaList?: QnaListResponse['list'];
   onClickDeleteQna?: (id: number) => void;
   onClickCreateQna?: () => void;
   onClickNext?: () => void;

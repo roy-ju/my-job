@@ -26,12 +26,13 @@ const colors = {
   gray600: tw`text-gray-600`,
   gray700: tw`text-gray-700`,
   nego800: tw`text-nego-800`,
+  gray1000: tw`text-gray-1000`,
 };
 
 interface TextButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant: 'underline' | 'right' | 'down' | 'up';
   size: 'small' | 'large';
-  color: 'gray600' | 'gray700' | 'nego800';
+  color: 'gray600' | 'gray700' | 'nego800' | 'gray1000';
   title: string;
 }
 

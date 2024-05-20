@@ -10,9 +10,9 @@ import { BuyOrRent } from '@/constants/enums';
 
 import { TimeTypeString } from '@/constants/strings';
 
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-
 import Routes from '@/router/routes';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
 import makeCreateBiddingParams from './makeCreateBiddingParams';
 
@@ -21,7 +21,7 @@ export default function useBiddingForm(depth: number) {
 
   const listingID = Number(router.query.listingID);
 
-  const { data } = useAPI_GetListingDetail(listingID);
+  const { data } = useFetchListingDetail(listingID);
 
   const biddingParams = useMemo(() => {
     if (typeof router.query.params === 'string') {

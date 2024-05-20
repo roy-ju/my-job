@@ -14,8 +14,6 @@ import useMap from '@/states/hooks/useMap';
 
 import useSyncronizer from '@/states/hooks/useSyncronizer';
 
-import listingEligibilityCheck from '@/apis/listing/listingEligibilityCheck';
-
 import useMapLayout from '@/hooks/useMapLayout';
 
 import { useRouter as useCustomRouter } from '@/hooks/utils';
@@ -177,7 +175,7 @@ function MapWrapper({
     }
 
     if (userData?.has_address) {
-      const res = await listingEligibilityCheck({ danji_id: null });
+      const res = await apiService.listingEligibilityCheck({ id: null });
 
       if (res && !res?.is_eligible) {
         setOpenNeedMoreVerificationAddressPopup(true);
@@ -414,7 +412,7 @@ export default function MapLayout({ children }: Props) {
       handleChangeTabIndex(0);
     } else if (router.query.depth1 === Routes.LawQnaUpdate) {
       handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.Map) {
+    } else if (router.query.depth1 === Routes.Map || router.pathname === `/${Routes.Map}`) {
       handleChangeTabIndex(2);
     } else if (router.query.depth1 === Routes.SubHome) {
       handleChangeTabIndex(1);

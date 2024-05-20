@@ -4,18 +4,18 @@ import NewTabs from '@/components/molecules/Tabs/NewTabs';
 
 import { countFormat } from '@/utils/fotmat';
 
-import { GetDashboardInfoResponse } from '@/apis/my/getDashboardInfo';
-
 import ErrorIcon from '@/assets/icons/error_12.svg';
 
 import ChevronIcon from '@/assets/icons/my_chevron_16.svg';
+
+import { DashboardInfoResponse } from '@/services/my/types';
 
 import ListingSummaryCtaButtons from './ListingSummaryCtaButtons';
 
 import NeedHomeVerify from './NeedHomeVerify';
 
 export interface ListingSummaryProps {
-  dashboardInfo?: GetDashboardInfoResponse | null;
+  dashboardInfo?: DashboardInfoResponse | null;
   tab?: number;
   hasAddress?: boolean;
   hasNotVerifiedAddress?: boolean;

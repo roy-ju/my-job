@@ -52,7 +52,7 @@ const AlreadyExistAddressPopup = dynamic(
   { ssr: false },
 );
 
-const InvalidAccessPopup = dynamic(() => import('./register-home-address-verify-result/popups/InvalidAccessPopup'), {
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), {
   ssr: false,
 });
 
@@ -164,7 +164,9 @@ export default function RegisterHomeAddressVerifyResult() {
         />
       </Container>
 
-      {popup === 'invalidAccess' && <InvalidAccessPopup handleConfirm={handleRedirectHome} />}
+      {popup === 'invalidAccess' && (
+        <InvalidAccessPopup message="유효하지 않은 접근입니다." handleConfirm={handleRedirectHome} />
+      )}
 
       {popup === 'alreadyExistAddress' && <AlreadyExistAddressPopup handleConfirm={handleRedirectRegisteredMyHome} />}
     </>

@@ -31,6 +31,7 @@ import adjustWindowPopup from '@/utils/adjustWindowPopup';
 import useDanjiFavoriteAdd from '@/components/domains/danji/hooks/useDanjiFavoriteAdd';
 
 import useCreateSuggestForm from '@/components/domains/suggest/form/hooks/useCreateSuggestForm';
+import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
 interface LoginCustomEventDetail extends NegocioLoginResponseEventPayload {
   error_code: number;
@@ -49,6 +50,8 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
   const { returnUrl, handleUpdateReturnUrl } = useReturnUrl();
 
+  const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
+
   const { openVerifyCiPopup } = useVerifyCiPopup();
 
   const { platform } = useCheckPlatform();
@@ -66,6 +69,11 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
   const device = useMemo(() => (platform === 'pc' ? 'MOBILE' : 'PC'), [platform]);
 
   const handleClickKakaoLogin = useCallback(async () => {
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
     setIsKakaoLoginButtonClicked(true);
 
     if (platform === 'pc') {
@@ -83,9 +91,14 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
     }
 
     setIsKakaoLoginButtonClicked(false);
-  }, [platform]);
+  }, [handleOpenAppInstallPopup, inAppInfo, platform]);
 
   const handleClickAppleLogin = useCallback(async () => {
+    if (inAppInfo.isInAppBrowser) {
+      handleOpenAppInstallPopup();
+      return;
+    }
+
     setIsAppleLoginButtonClicked(true);
 
     const res = await loginWithApple();
@@ -111,7 +124,7 @@ export default function useLoginCtas({ ipAddress }: { ipAddress?: string }) {
 
       window.dispatchEvent(new CustomEvent(Events.NEGOCIO_LOGIN_RESPONSE_EVENT, { detail: payload }));
     }
-  }, [device, ipAddress]);
+  }, [device, handleOpenAppInstallPopup, inAppInfo, ipAddress]);
 
   useEffect(() => {
     if (!platform) return;

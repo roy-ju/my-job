@@ -1,60 +1,56 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo } from 'react';
 
-import { addFavorite } from '@/apis/listing/addListingFavroite';
+import dynamic from 'next/dynamic';
 
-import useAPI_GetListingDetail, { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-
-import useAPI_GetListingQnaList from '@/apis/listing/getListingQnaList';
-
-import useAPI_GetListingStatus from '@/apis/listing/getListingStatus';
-
-import { removeFavorite } from '@/apis/listing/removeListingFavorite';
+import LoadingContainer from '@/components/atoms/LoadingContainer';
 
 import { Loading, Panel } from '@/components/atoms';
 
-import { ListingDetail } from '@/components/templates';
-
-import { useRouter } from '@/hooks/utils';
-
-import Routes from '@/router/routes';
-
-import { toast } from 'react-toastify';
-
-import { OverlayPresenter, Popup } from '@/components/molecules';
-
-import deleteListingQna from '@/apis/listing/deleteListingQna';
-
-import axios from '@/lib/axios';
-
-import useAuthPopup from '@/states/hooks/useAuhPopup';
-
-import useReturnUrl from '@/states/hooks/useReturnUrl';
-
-import { BuyOrRent, VisitUserType } from '@/constants/enums';
-
-import { formatNumberInKorean } from '@/utils';
-
-import Paths from '@/constants/paths';
+import { OverlayPresenter } from '@/components/molecules';
 
 import { SharePopup } from '@/components/organisms';
 
-import { BuyOrRentString, RealestateTypeString } from '@/constants/strings';
-
-import viewListing from '@/apis/listing/viewListing';
-
-import useAuth from '@/hooks/services/useAuth';
-
-import useAPI_GetRealestateDocument from '@/apis/listing/getRealestateDocument';
+import { ListingDetail } from '@/components/templates';
 
 import ErrorCodes from '@/constants/error_codes';
 
-import { useRouter as useNextRouter } from 'next/router';
+import { ListingDetailResponse } from '@/services/listing/types';
 
-import { apiService } from '@/services';
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
 
-import kakaoShare from '@/utils/kakaoShare';
+import useFetchListingStatus from '@/services/listing/useFetchListingStatus';
 
-import useListingDetailRedirector from './useListingDetailRedirector';
+import useFetchQnaList from '@/services/qna/useFetchQnaList';
+
+import useFetchListingRealestateDocumentSummary from '@/services/listing/useFetchListingRealestateDocumentSummary';
+
+import useListingDetailRedirectorPc from '../../ListingDetail/hooks/useListingDetailRedirectorPc';
+
+import useListingDetailPc from '../../ListingDetail/hooks/useListingDetailPc';
+
+import useFavroriteHandler from '../../ListingDetail/hooks/useFavroriteHandler';
+
+import useShareHandler from '../../ListingDetail/hooks/useShareHandler';
+
+import useQnasHandler from '../../ListingDetail/hooks/useQnasHandler';
+
+import useSuggestHandler from '../../ListingDetail/hooks/useSuggestHandler';
+
+import useMoreButtonHandler from '../../ListingDetail/hooks/useMoreButtonHandler';
+
+import useListingViewPc from '../../ListingDetail/hooks/useListingViewPc';
+
+import useWindowCallbacksSelectMarkerPc from '../../ListingDetail/hooks/useWindowCallbacksSelectMarkerPc';
+
+const SuggestAcceptRecommendPopup = dynamic(() => import('../../ListingDetail/popups/SuggestAcceptRecommendPopup'), {
+  ssr: false,
+});
+
+const SuggestNotInterestedPopup = dynamic(() => import('../../ListingDetail/popups/SuggestNotInterestedPopup'), {
+  ssr: false,
+});
+
+const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), { ssr: false });
 
 interface Props {
   depth: number;
@@ -64,349 +60,93 @@ interface Props {
 }
 
 export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
-  const { user } = useAuth();
+  const { redirectable } = useListingDetailRedirectorPc(listingID);
 
-  const { redirectable } = useListingDetailRedirector(listingID, depth);
+  const { data: statusData, isLoading: isLoadingStatus } = useFetchListingStatus(listingID);
 
-  const router = useRouter(depth);
+  const { data, mutate: mutateListing, isLoading } = useFetchListingDetail(statusData?.can_access ? listingID : 0);
 
-  const nextRouter = useNextRouter();
-
-  const { data: statusData, isLoading: isLoadingStatus } = useAPI_GetListingStatus(listingID);
-
-  const { data, mutate: mutateListing, isLoading } = useAPI_GetListingDetail(statusData?.can_access ? listingID : 0);
-
-  const { data: realestateDocumentData } = useAPI_GetRealestateDocument(statusData?.can_access ? listingID : 0);
-
-  const [isPopupButtonLoading, setIsPopupButtonLoading] = useState(false);
-
-  const { openAuthPopup } = useAuthPopup();
-
-  const { handleUpdateReturnUrl } = useReturnUrl();
+  const { data: realestateDocumentData } = useFetchListingRealestateDocumentSummary(
+    statusData?.can_access ? listingID : 0,
+  );
 
   const {
     data: qnaData,
     hasNext: hasMoreQnas,
     increamentPageNumber: loadMoreQnas,
     mutate: mutateQnas,
-  } = useAPI_GetListingQnaList(statusData?.can_access ? listingID : 0);
+  } = useFetchQnaList(statusData?.can_access ? listingID : 0);
 
-  const [popup, setPopup] = useState('none');
+  const {
+    popup,
 
-  const handleClickMoreItem = useCallback(
-    (_: number, buttonTitle: string) => {
-      if (buttonTitle === '매물관리') {
-        router.push(Routes.ListingManage, { persistParams: true });
-      } else if (buttonTitle === '신고하기') {
-        router.push(Routes.ListingReport, { persistParams: true });
-      } else if (buttonTitle === '중개약정확인') {
-        router.replace(Routes.ContractTerms, {
-          searchParams: {
-            listingID: router.query.listingID as string,
-            type: data?.visit_user_type === VisitUserType.SellerGeneral ? 'seller' : 'buyer',
-          },
-        });
-      }
-    },
-    [router, data?.visit_user_type],
-  );
+    handleNavigateToParticipateBidding,
+    handleNavigateToUpdateTargetPrice,
+    handleNavigateToUpdateBidding,
+    handleNavigateToChatRoom,
+    handleNavigateToPhotoGallery,
+    handleNavigateToSuggestForm,
+    handleNavigateToListingDetailHistory,
 
-  const handleClickFavorite = useCallback(async () => {
-    if (!user) {
-      openAuthPopup('onlyLogin');
-      handleUpdateReturnUrl();
-      return;
-    }
+    handleOpenPopup,
+    handleClosePopup,
 
-    async function removeFavoriteOptimistic() {
-      if (data?.listing?.id) {
-        await removeFavorite(data.listing.id);
-        const { data: updatedData } = await axios.post('/listing/detail', { listing_id: listingID });
-        return updatedData;
-      }
-    }
-    async function addFavoriteOptimistic() {
-      if (data?.listing?.id) {
-        await addFavorite(data.listing.id);
-        const { data: updatedData } = await axios.post('/listing/detail', { listing_id: listingID });
-        return updatedData;
-      }
-    }
+    routerPop,
+    handleClickBack,
+  } = useListingDetailPc({
+    data,
+    listingID: data?.listing?.id ?? 0,
+  });
 
-    if (data?.listing?.id) {
-      if (data.is_favorite) {
-        await mutateListing(removeFavoriteOptimistic, {
-          optimisticData: { ...data, is_favorite: false },
-          rollbackOnError: true,
-        });
+  useListingViewPc({ listingID, ipAddress: ipAddress !== '::1' ? ipAddress ?? '' : '', statusData });
 
-        toast.success('관심 매물을 해제하셨습니다.');
-      } else {
-        await mutateListing(addFavoriteOptimistic, {
-          optimisticData: { ...data, is_favorite: true },
-          rollbackOnError: true,
-        });
+  useWindowCallbacksSelectMarkerPc({ data });
 
-        toast.success('관심 매물에 추가되었습니다.');
-      }
-    }
-  }, [user, data, openAuthPopup, handleUpdateReturnUrl, listingID, mutateListing]);
+  const { handleClickFavorite } = useFavroriteHandler({ data, mutateListing });
 
-  const handleClickDeleteQna = useCallback(
-    async (id: number) => {
-      await deleteListingQna({ qna_id: id });
-      toast.success('문의가 삭제되었습니다.');
-      await mutateQnas();
-    },
-    [mutateQnas],
-  );
+  const { isPopupButtonLoading, handleSuggestAcceptRecommend, handleSuggestNotInterested } = useSuggestHandler({
+    data,
+    mutateListing,
+    handleClosePopup,
+  });
 
-  const handleNavigateToCreateQna = useCallback(() => {
-    const id = listingID || (router?.query?.listingID as string);
+  const { handleClickMoreItem } = useMoreButtonHandler({ data });
 
-    if (!user) {
-      openAuthPopup('needVerify');
-      handleUpdateReturnUrl(`/${Routes.ListingDetail}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
-      return;
-    }
+  const { handleCopyUrl, handleShareViaKakao } = useShareHandler({ data, handleClosePopup });
 
-    if (user && !user.isVerified) {
-      nextRouter.push(`/${Routes.VerifyCi}/${Routes.ListingDetail}?listingID=${id}`);
-      handleUpdateReturnUrl(`/${Routes.ListingDetail}/${Routes.ListingQnaCreateForm}?listingID=${id}`);
-      return;
-    }
+  const { handleNavigateToCreateQna, handleClickDeleteQna } = useQnasHandler({
+    listingID: data?.listing?.id ?? 0,
+    mutateQnas,
+  });
 
-    nextRouter.push(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${id}`);
-  }, [handleUpdateReturnUrl, listingID, nextRouter, openAuthPopup, router?.query?.listingID, user]);
-
-  const handleNavigateToParticipateBidding = useCallback(() => {
-    if (!user) {
-      openAuthPopup('needVerify');
-      handleUpdateReturnUrl(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${nextRouter.query.listingID}`);
-      return;
-    }
-
-    if (user && !user.isVerified) {
-      nextRouter.push(`/${Routes.VerifyCi}/${Routes.ListingDetail}?listingID=${nextRouter.query.listingID}`);
-      handleUpdateReturnUrl(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${nextRouter.query.listingID}`);
-      return;
-    }
-
-    nextRouter.push(`/${Routes.ListingDetail}/${Routes.BiddingForm}?listingID=${nextRouter.query.listingID}`);
-  }, [handleUpdateReturnUrl, nextRouter, openAuthPopup, user]);
-
-  const handleNavigateToUpdateBidding = useCallback(() => {
-    if (!data?.bidding_id) {
-      toast.error('bidding ID가 존재하지 않습니다.');
-    }
-
-    router.push(Routes.UpdateBiddingForm, {
-      searchParams: {
-        listingID: router.query.listingID as string,
-        biddingID: `${data?.bidding_id}`,
-      },
-    });
-  }, [router, data?.bidding_id]);
-
-  const handleNavigateToChatRoom = useCallback(() => {
-    if (data?.chat_room_id) {
-      router.push(Routes.ChatRoom, {
-        searchParams: {
-          listingID: router.query.listingID as string,
-          chatRoomID: `${data.chat_room_id}`,
-        },
-      });
-    }
-  }, [router, data]);
-
-  const handleNavigateToPhotoGallery = useCallback(() => {
-    router.push(Routes.ListingPhotoGallery, { persistParams: true });
-  }, [router]);
-
-  const handleNavigateToUpdateTargetPrice = useCallback(() => {
-    router.push(Routes.ListingTargetPriceUpdate, {
-      searchParams: {
-        listingID: router.query.listingID as string,
-      },
-    });
-  }, [router]);
-
-  const handleNavigateToSuggestForm = useCallback(() => {
-    router.replace(Routes.SuggestForm, { persistParams: true });
-    // To do 추가 로직 구현필요
-  }, [router]);
-
-  const handleNavigateToListingDetailHistory = useCallback(() => {
-    router.replace(Routes.ListingDetailHistory, {
-      persistParams: true,
-      searchParams: {
-        listingID: `${listingID}`,
-        biddingID: `${data?.bidding_id}`,
-        back: `${router.asPath}`,
-      },
-    });
-  }, [router, data, listingID]);
-
-  const openSuggestNotInterstedPopup = useCallback(() => {
-    setPopup('suggestNotInterested');
-  }, []);
-
-  const openSuggestAcceptRecommendPopup = useCallback(() => {
-    setPopup('suggestAcceptRecommend');
-  }, []);
-
-  const handleSuggestAcceptRecommend = useCallback(async () => {
-    if (!data?.suggest_recommend_id) return;
-    setIsPopupButtonLoading(true);
-
-    await mutateListing();
-
-    setIsPopupButtonLoading(false);
-
-    setPopup('none');
-  }, [data?.suggest_recommend_id, mutateListing]);
-
-  const handleSuggestNotInterested = useCallback(async () => {
-    if (!data?.suggest_recommend_id) return;
-    setIsPopupButtonLoading(true);
-
-    await apiService.mySuggestRecommendNotIntersted({ id: data.suggest_recommend_id });
-    await mutateListing();
-
-    setIsPopupButtonLoading(false);
-
-    setPopup('none');
-  }, [data?.suggest_recommend_id, mutateListing]);
-
-  const handleClickShare = useCallback(() => {
-    setPopup('share');
-  }, []);
-
-  const handleCopyUrl = useCallback(() => {
-    let priceText = '';
-    if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
-      priceText = `${formatNumberInKorean(data?.trade_or_deposit_price)}/${formatNumberInKorean(
-        data?.monthly_rent_fee,
-      )}`;
-    } else {
-      priceText = `${formatNumberInKorean(data?.trade_or_deposit_price ?? 0)}`;
-    }
-
-    const content = `[네고시오] ${data?.display_address}\n► 부동산 종류 : ${
-      RealestateTypeString[data?.listing?.realestate_type ?? 0]
-    }\n► 거래종류 : ${BuyOrRentString[data?.listing?.buy_or_rent ?? 0]}\n► 집주인 희망가 :${priceText}\n\n${
-      window.origin
-    }/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
-    navigator.clipboard.writeText(content);
-    setPopup('none');
-    toast.success('복사되었습니다.');
-  }, [data]);
-
-  const handleShareViaKakao = useCallback(() => {
-    const link = `${window.origin}/${Routes.ListingDetail}?listingID=${data?.listing?.id}`;
-    let description = data?.display_address;
-
-    if (data?.listing?.buy_or_rent === BuyOrRent.Wolsae) {
-      description = `${formatNumberInKorean(data?.trade_or_deposit_price)}/${formatNumberInKorean(
-        data?.monthly_rent_fee,
-      )}, ${data?.display_address}`;
-    } else {
-      description = `${formatNumberInKorean(data?.trade_or_deposit_price ?? 0)}, ${data?.display_address}`;
-    }
-
-    kakaoShare({
-      width: 1200,
-      height: 630,
-      objectType: 'feed',
-      title: data?.listing?.listing_title ?? '',
-      description,
-      imgUrl: Paths.DEFAULT_OPEN_GRAPH_IMAGE_2,
-      buttonTitle: '자세히보기',
-      link,
-    });
-  }, [data]);
-
-  const handleNavigateToBack = useCallback(() => {
-    if (router.query.back) {
-      nextRouter.replace(router.query.back as string);
-    }
-  }, [router, nextRouter]);
-
-  useEffect(() => {
-    if (statusData?.can_access === true) {
-      viewListing({
-        listing_id: listingID,
-        ip_address: ipAddress !== '::1' ? ipAddress ?? '' : '',
-        device: '',
-        browser: '',
-      });
-    }
-  }, [listingID, statusData, ipAddress]);
-
-  useEffect(() => {
-    if (data && data.listing) {
-      window.Negocio.callbacks.selectMarker({
-        id: `listingMarker:${data.listing?.id}`,
-        lat: data.listing?.lat,
-        lng: data.listing?.long,
-      });
-    }
-  }, [data]);
-
-  if (data?.error_code) {
-    return <Panel width={panelWidth}>{data?.error_code}</Panel>;
-  }
-
-  if (isLoading || isLoadingStatus || (!statusData?.can_access && redirectable)) {
+  if (isLoading || isLoadingStatus || redirectable) {
     return (
       <Panel width={panelWidth}>
-        <div tw="py-20">
+        <LoadingContainer>
           <Loading />
-        </div>
+        </LoadingContainer>
       </Panel>
     );
   }
 
-  if (!statusData?.can_access && !redirectable) {
-    return (
-      <OverlayPresenter>
-        <Popup>
-          <Popup.ContentGroup tw="py-10">
-            {statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST ? (
-              <Popup.Title tw="[text-align: center]">유효하지 않은 페이지 입니다.</Popup.Title>
-            ) : (
-              <Popup.Title tw="[text-align: center]">
-                거래가 종료되어
-                <br />
-                매물 상세 정보를 확인할 수 없습니다.
-              </Popup.Title>
-            )}
-          </Popup.ContentGroup>
-          <Popup.ButtonGroup>
-            <Popup.ActionButton onClick={() => router.pop({ persistParams: false })}>확인</Popup.ActionButton>
-          </Popup.ButtonGroup>
-        </Popup>
-      </OverlayPresenter>
-    );
+  if (statusData?.error_code === ErrorCodes.LISTING_DOES_NOT_EXIST) {
+    return <InvalidAccessPopup handleConfirm={routerPop} />;
   }
 
   return (
     <Panel width={panelWidth}>
       <ListingDetail
         depth={depth}
-        listingDetail={data as GetListingDetailResponse}
+        listingDetail={data as ListingDetailResponse}
         qnaList={qnaData}
         isLoading={isLoading || isLoadingStatus}
         hasMoreQnas={hasMoreQnas}
         realestateDocumentData={realestateDocumentData}
-        onClickBack={router.query.back ? handleNavigateToBack : undefined}
-        onClickShare={handleClickShare}
+        onClickBack={handleClickBack}
         onClickMoreItem={handleClickMoreItem}
         onClickFavorite={handleClickFavorite}
         onClickLoadMoreQna={loadMoreQnas}
         onClickDeleteQna={handleClickDeleteQna}
-        onClickSuggestAcceptRecommend={openSuggestAcceptRecommendPopup}
-        onClickSuggestNotInterested={openSuggestNotInterstedPopup}
         onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
         onNavigateToUpdateTargetPrice={handleNavigateToUpdateTargetPrice}
         onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
@@ -415,53 +155,33 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
         onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
         onNavigateToSuggestForm={handleNavigateToSuggestForm}
         onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
+        onClickShare={() => handleOpenPopup('share')}
+        onClickSuggestAcceptRecommend={() => handleOpenPopup('suggestAcceptRecommend')}
+        onClickSuggestNotInterested={() => handleOpenPopup('suggestNotInterested')}
       />
+
       {popup === 'suggestNotInterested' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-6">
-              <Popup.Title tw="text-b2 text-center">
-                관심없음으로 표시한 매물은
-                <br />
-                추천받은 목록에서 삭제됩니다.
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleSuggestNotInterested}>
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+        <SuggestNotInterestedPopup
+          isLoading={isPopupButtonLoading}
+          handleConfirm={handleSuggestNotInterested}
+          handleCancel={handleClosePopup}
+        />
       )}
 
       {popup === 'suggestAcceptRecommend' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-6">
-              <Popup.Title tw="text-b2 text-center">
-                매물에 대한 추가 협의는 채팅으로 진행할 수 있습니
-                <br />
-                다. 이를 위한 중개사님과의 채팅방이 개설됩니다.
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton isLoading={isPopupButtonLoading} onClick={handleSuggestAcceptRecommend}>
-                확인
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+        <SuggestAcceptRecommendPopup
+          isLoading={isPopupButtonLoading}
+          handleConfirm={handleSuggestAcceptRecommend}
+          handleCancel={handleClosePopup}
+        />
       )}
 
       {popup === 'share' && (
         <OverlayPresenter>
           <SharePopup
-            onClickOutside={() => setPopup('none')}
             onClickShareViaKakao={handleShareViaKakao}
             onClickCopyUrl={handleCopyUrl}
+            onClickOutside={handleClosePopup}
           />
         </OverlayPresenter>
       )}

@@ -1,8 +1,12 @@
 import { NextRouter, withRouter } from 'next/router';
+
 import { Component, ErrorInfo, ReactNode } from 'react';
+
 import { isLocalhost } from '@/utils/is';
-import logError from '@/apis/dev/logError';
+
 import { checkPlatform } from '@/utils/checkPlatform';
+
+import { apiService } from '@/services';
 
 interface Props {
   router: NextRouter;
@@ -36,11 +40,12 @@ class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Uncaught error:', error, errorInfo);
+
     const isPC = checkPlatform() === 'pc';
 
     if (isLocalhost(window.location.hostname)) return;
 
-    logError({
+    apiService.devErrorLog({
       source: isPC ? 'Negocio Web' : 'Negocio Mobile',
       route: window.location.href,
       message: error.message,
