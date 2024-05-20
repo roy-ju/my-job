@@ -6,7 +6,7 @@ import { Panel } from '@/components/atoms';
 
 import { DanjiDetail } from '@/components/templates';
 
-import useDanjiDetail from './useDanjiDetail';
+import useDanjiDetailPc from '@/components/domains/danji/hooks/useDanjiDetailPc';
 
 const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), {
   ssr: false,
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export default memo(({ prefetchedData, panelWidth, depth }: Props) => {
-  const { danji, mutate } = useDanjiDetail(depth, undefined, prefetchedData);
+  const { danji, mutate } = useDanjiDetailPc(depth, undefined, prefetchedData);
 
   const handleMutateDanji = () => {
     mutate();

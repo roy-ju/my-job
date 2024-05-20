@@ -7,7 +7,7 @@ import { useAPI_GetDanjiDetail } from '@/apis/danji/danjiDetail';
 
 import { ListingDanjiMarker } from '@/types/markers';
 
-export default function useDanjiDetail(
+export default function useDanjiDetailPc(
   depth: number,
   danjiID?: number,
   prefetchedData?: { [key: string]: any } | null,
