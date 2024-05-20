@@ -18,19 +18,13 @@ import { useRouter } from '@/hooks/utils';
 
 import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings';
 
-import useDanjiDetail from '@/components/pages/pc/DanjiDetail/useDanjiDetail';
-
 import falsy from '@/utils/falsy';
 
 import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
 
-import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
-
 import Routes from '@/router/routes';
 
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-
-import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
+import { ListingDetailResponse, ListingRealestateDocumenSummarytResponse } from '@/services/listing/types';
 
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 
@@ -38,17 +32,20 @@ import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 
 import ShareIcon from '@/assets/icons/share.svg';
 
+import { QnaListResponse } from '@/services/qna/types';
+
+import useDanjiDetailPc from '@/components/domains/danji/hooks/useDanjiDetailPc';
 import UserStatusStrings from './strings';
 
 import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
 
 export interface ListingDetailProps {
   depth?: number;
-  listingDetail?: GetListingDetailResponse | null;
-  qnaList?: GetListingQnaListResponse['list'];
+  listingDetail?: ListingDetailResponse | null;
+  qnaList?: QnaListResponse['list'];
   hasMoreQnas?: boolean;
 
-  realestateDocumentData?: GetRealestateDocumentResponse;
+  realestateDocumentData?: ListingRealestateDocumenSummarytResponse;
 
   isLoadingQna?: boolean;
   isLoading?: boolean;
@@ -97,7 +94,7 @@ export default function ListingDetail({
 }: ListingDetailProps) {
   const router = useRouter(depth);
 
-  const { danji } = useDanjiDetail(depth, listingDetail?.listing?.danji_id);
+  const { danji } = useDanjiDetailPc(depth, listingDetail?.listing?.danji_id);
 
   const interactStore = useDanjiInteraction({ danjiData: danji });
 

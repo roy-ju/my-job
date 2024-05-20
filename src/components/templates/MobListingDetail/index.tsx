@@ -18,13 +18,7 @@ import { DefaultListingImageLg, RealestateTypeString } from '@/constants/strings
 
 import { BuyOrRent, RealestateType, VisitUserType } from '@/constants/enums';
 
-import { GetListingDetailResponse } from '@/apis/listing/getListingDetail';
-
-import { GetListingQnaListResponse } from '@/apis/listing/getListingQnaList';
-
-import { GetRealestateDocumentResponse } from '@/apis/listing/getRealestateDocument';
-
-import useDanjiDetail from '@/components/pages/mobile/DanjiDetail/useDanjiDetail';
+import { ListingDetailResponse, ListingRealestateDocumenSummarytResponse } from '@/services/listing/types';
 
 import HeartFilledIcon from '@/assets/icons/heart.svg';
 
@@ -32,16 +26,20 @@ import HeartOutlinedIcon from '@/assets/icons/heart_outlined.svg';
 
 import ShareIcon from '@/assets/icons/share.svg';
 
+import { QnaListResponse } from '@/services/qna/types';
+
+import useDanjiDetailMobile from '@/components/domains/danji/hooks/useDanjiDetailMobile';
+
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
 
 import UserStatusStrings from '../ListingDetail/strings';
 
 export interface ListingDetailProps {
-  listingDetail?: GetListingDetailResponse | null;
-  qnaList?: GetListingQnaListResponse['list'];
+  listingDetail?: ListingDetailResponse | null;
+  qnaList?: QnaListResponse['list'];
   hasMoreQnas?: boolean;
 
-  realestateDocumentData?: GetRealestateDocumentResponse;
+  realestateDocumentData?: ListingRealestateDocumenSummarytResponse;
 
   isLoadingQna?: boolean;
   isLoading?: boolean;
@@ -88,7 +86,7 @@ export default function MobListingDetail({
   onClickShare,
   onClickBack,
 }: ListingDetailProps) {
-  const { danji } = useDanjiDetail(listingDetail?.listing?.danji_id);
+  const { danji } = useDanjiDetailMobile(listingDetail?.listing?.danji_id);
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);

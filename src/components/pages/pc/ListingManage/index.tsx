@@ -1,11 +1,18 @@
-import cancelListing from '@/apis/listing/cancelListing';
-import useAPI_GetListingDetail from '@/apis/listing/getListingDetail';
-import { Loading, Panel } from '@/components/atoms';
-import { OverlayPresenter, Popup } from '@/components/molecules';
-import { ListingManage } from '@/components/templates';
-import { useRouter } from '@/hooks/utils';
-import Routes from '@/router/routes';
 import { memo, useCallback, useRef, useState } from 'react';
+
+import { Loading, Panel } from '@/components/atoms';
+
+import { OverlayPresenter, Popup } from '@/components/molecules';
+
+import { ListingManage } from '@/components/templates';
+
+import { useRouter } from '@/hooks/utils';
+
+import Routes from '@/router/routes';
+
+import useFetchListingDetail from '@/services/listing/useFetchListingDetail';
+
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -15,7 +22,7 @@ interface Props {
 export default memo(({ panelWidth, depth }: Props) => {
   const router = useRouter(depth);
   const listingID = Number(router.query.listingID) ?? 0;
-  const { data: listingData, isLoading } = useAPI_GetListingDetail(listingID);
+  const { data: listingData, isLoading } = useFetchListingDetail(listingID);
 
   const popupData = useRef('');
   const [popup, setPopup] = useState('none');
@@ -24,7 +31,7 @@ export default memo(({ panelWidth, depth }: Props) => {
 
   const handleDelete = useCallback(async () => {
     setIsDeleting(true);
-    await cancelListing({ listing_id: listingID, cancel_reason: popupData.current });
+    await apiService.listingSellerCancel({ listing_id: listingID, cancel_reason: popupData.current });
     router.popAll();
   }, [router, listingID]);
 

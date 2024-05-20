@@ -1,9 +1,12 @@
-import { MobileContainer } from '@/components/atoms';
-// import { MobDanjiRealPriceListAll } from '@/components/templates';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 import React from 'react';
-import useDanjiDetail from '../DanjiDetail/useDanjiDetail';
+
+import { useRouter } from 'next/router';
+
+import dynamic from 'next/dynamic';
+
+import { MobileContainer } from '@/components/atoms';
+
+import useDanjiDetailMobile from '@/components/domains/danji/hooks/useDanjiDetailMobile';
 
 const MobDanjiRealPriceListAll = dynamic(import('@/components/templates/MobDanjiRealPriceListAll'), {
   loading: () => <div />,
@@ -17,7 +20,7 @@ const DanjiRealPriceListAll = () => {
     router.back();
   };
 
-  const { danji } = useDanjiDetail();
+  const { danji } = useDanjiDetailMobile();
 
   return (
     <MobileContainer>

@@ -4,8 +4,6 @@ import { AuthRequired, Panel } from '@/components/atoms';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { SelectAddressTemplate } from '@/components/templates';
-
 import { useRouter } from '@/hooks/utils';
 
 import { makeAddressDetail } from '@/utils/fotmat';
@@ -13,6 +11,8 @@ import { makeAddressDetail } from '@/utils/fotmat';
 import useFetchMyAddressList from '@/services/my/useFetchMyAddressList';
 
 import Routes from '@/router/routes';
+
+import SelectAddress from '@/components/domains/listings/SelectAddress';
 
 interface Props {
   depth: number;
@@ -103,7 +103,7 @@ export default memo(({ depth, panelWidth }: Props) => {
     <AuthRequired ciRequired>
       <Panel width={panelWidth}>
         {!showInActivePopup && (
-          <SelectAddressTemplate
+          <SelectAddress
             type="suggest"
             list={list}
             selectedUserAddressID={selectedUserAddressID}
