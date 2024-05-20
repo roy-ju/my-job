@@ -44,12 +44,13 @@ const RealPriceChart = dynamic(() => import('./RealPriceChart'), { ssr: false })
 const RealPriceList = dynamic(() => import('./RealPriceList'), { ssr: false });
 
 interface RealpriceProps extends CommonDanjiDetailProps {
+  isSeo?: boolean;
   isShowRpTab: boolean;
   setLoadingRp?: Dispatch<SetStateAction<boolean>>;
   setIsShowRpTab: Dispatch<SetStateAction<boolean>>;
 }
 
-function Realprice({ danji, isShowRpTab, setLoadingRp, setIsShowRpTab }: RealpriceProps) {
+function Realprice({ isSeo, danji, isShowRpTab, setLoadingRp, setIsShowRpTab }: RealpriceProps) {
   const [isMutate, setIsMutate] = useState<boolean>();
 
   const router = useRouter();
@@ -177,6 +178,7 @@ function Realprice({ danji, isShowRpTab, setLoadingRp, setIsShowRpTab }: Realpri
       <Separator tw="w-full [min-height: 8px]" />
       <div tw="pt-10">
         <Info
+          isSeo={isSeo}
           danji={danji}
           buyOrRent={buyOrRent || data?.buy_or_rent}
           selectedYear={selectedYear}
@@ -250,6 +252,7 @@ function Realprice({ danji, isShowRpTab, setLoadingRp, setIsShowRpTab }: Realpri
           )}
 
           <RealPriceList
+            isSeo={isSeo}
             danji={danji}
             isMorePage={false}
             buyOrRent={buyOrRent || data?.buy_or_rent}

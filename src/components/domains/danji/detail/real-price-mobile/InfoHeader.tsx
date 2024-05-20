@@ -9,8 +9,10 @@ import { Tabs } from '@/components/molecules';
 import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
 
 import Routes from '@/router/routes';
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 
 function InfoHeader({
+  isSeo,
   danjiId,
   buyOrRent,
   selectedYear,
@@ -18,6 +20,7 @@ function InfoHeader({
   onChangeBuyOrRent,
   onChangeSelectedYear,
 }: {
+  isSeo?: boolean;
   danjiId: number;
   buyOrRent?: number;
   selectedYear?: number;
@@ -25,11 +28,30 @@ function InfoHeader({
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
 }) {
+  console.log(isSeo);
+  const { platform } = useCheckPlatform();
+
   const router = useRouter();
 
   const danjiID = `${danjiId}` || `${router.query.danjiID}` || '';
 
   const handleCTA = () => {
+    if (isSeo && platform === 'pc') {
+      router.replace(
+        {
+          pathname: `/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}`,
+          query: {
+            danjiID,
+            bor: buyOrRent?.toString() || '',
+            sl: selectedYear?.toString() || '',
+          },
+        },
+        `/${Routes.DanjiDetail}/${Routes.DanjiRealPriceDetail}?danjiID=${danjiID}`,
+      );
+
+      return;
+    }
+
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceDetail}`,

@@ -28,7 +28,7 @@ import { DanjiDetailResponse } from '@/services/danji/types';
 
 import useCheckPlatform from '@/hooks/useCheckPlatform';
 
-export default function useHeaderHandler({ danji }: { danji: DanjiDetailResponse }) {
+export default function useHeaderHandler({ isSeo, danji }: { isSeo?: boolean; danji: DanjiDetailResponse }) {
   const { platform } = useCheckPlatform();
 
   const router = useRouter();
@@ -43,9 +43,21 @@ export default function useHeaderHandler({ danji }: { danji: DanjiDetailResponse
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
-  const isRenderBackButton = useMemo(() => platform !== 'pc', [platform]);
+  const isRenderBackButton = useMemo(() => (isSeo ? true : platform !== 'pc'), [isSeo, platform]);
 
   const handleClickBack = () => {
+    if (isSeo) {
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace(platform === 'pc' ? `/` : `/${Routes.EntryMobile}`);
+      }
+
+      return;
+    }
+
     if (platform === 'pc') return;
 
     const canGoBack = window.history.length > 1;
@@ -134,7 +146,7 @@ export default function useHeaderHandler({ danji }: { danji: DanjiDetailResponse
   const handleShareViaKakao = () => {
     if (!danji) return;
 
-    const link = `${window.origin}/danji/${danji.danji_id}`;
+    const link = `${window.origin}/${Routes.EntryMobile}/danjiDetail?danjiID=${danji.danji_id}`;
 
     kakaoShare({
       width: 1200,
@@ -155,7 +167,7 @@ export default function useHeaderHandler({ danji }: { danji: DanjiDetailResponse
 
     const content = `[네고시오] ${danji?.name}\n► ${danji?.road_name_address ?? danji?.jibun_address}\n\n${
       window.origin
-    }/danji/${danji.danji_id}`;
+    }/${Routes.EntryMobile}/danjiDetail?danjiID=${danji.danji_id}`;
 
     navigator.clipboard.writeText(content);
 

@@ -46,7 +46,6 @@ export { default as MobSearchMap } from './MobSearchMap';
 
 export { default as MobListingDetail } from './MobListingDetail';
 
-export { default as MobDanjiDetail } from './MobDanjiDetail';
 export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';
 export { default as MobRealPriceDetail } from './MobRealPriceDetail';
 export { default as MobDanjiSelect } from './MobDanjiSelect';

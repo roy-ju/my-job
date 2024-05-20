@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
-import DanjiDetail from '@/components/pages/mobile/DanjiDetail';
+import DanjiMobile from '@/components/pages/Danji/DanjiMobile';
 
 import {
   DanjiDetailResponse,
@@ -34,7 +34,8 @@ const Page: NextPageWithLayout<{
   preselectedSchoolType,
   prefetchedDanjiSchoolData,
 }) => (
-  <DanjiDetail
+  <DanjiMobile
+    isSeo
     prefetchedData={prefetchedData}
     prefetchedPhotosData={prefetchedPhotosData}
     prefetchedSuggestList={prefetchedSuggestList}
@@ -50,7 +51,6 @@ Page.getLayout = function getLayout(page) {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log('hi');
   const userAgent = context.req.headers['user-agent'];
   const platform = checkPlatform(userAgent);
 

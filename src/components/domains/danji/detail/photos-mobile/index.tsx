@@ -8,6 +8,12 @@ import { DanjiPhotosResponse } from '@/services/danji/types';
 
 import { DefaultListingImageLg } from '@/constants/strings';
 
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
+import { useRouter } from 'next/router';
+
+import Routes from '@/router/routes';
+
 import PhotoHero from './PhotoHero';
 
 import { CommonDanjiDetailProps } from '../types';
@@ -15,10 +21,15 @@ import { CommonDanjiDetailProps } from '../types';
 const PhotosDialog = dynamic(() => import('./PhotosDialog'), { ssr: false });
 
 interface PhotosProps extends CommonDanjiDetailProps {
+  isSeo?: boolean;
   danjiPhotos?: DanjiPhotosResponse;
 }
 
-function Photos({ danji, danjiPhotos }: PhotosProps) {
+function Photos({ isSeo, danji, danjiPhotos }: PhotosProps) {
+  const router = useRouter();
+
+  const { platform } = useCheckPlatform();
+
   const { addFullScreenDialog, closeAll } = useFullScreenDialog();
 
   const paths = useMemo(() => danjiPhotos?.danji_photos?.map((item) => item) ?? [], [danjiPhotos]);
@@ -26,10 +37,15 @@ function Photos({ danji, danjiPhotos }: PhotosProps) {
   const handleViewPhotos = useCallback(() => {
     if (paths.length <= 0) return;
 
+    if (isSeo && platform === 'pc') {
+      router.replace(`/${Routes.DanjiDetail}/${Routes.DanjiPhotos}?danjiID=${danji.danji_id}`);
+      return;
+    }
+
     addFullScreenDialog({
       body: <PhotosDialog paths={paths} onClickBack={closeAll} />,
     });
-  }, [addFullScreenDialog, closeAll, paths]);
+  }, [addFullScreenDialog, closeAll, danji.danji_id, isSeo, paths, platform, router]);
 
   return (
     <PhotoHero

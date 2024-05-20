@@ -8,6 +8,7 @@ import { DanjiRealPricesPyoungListResponse } from '@/services/danji/types';
 
 import { useFetchDanjiRealPricesList } from '@/services/danji/useFetchDanjiRealPricesList';
 
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 import MoreButton from './MoreButton';
 
 import List from './List';
@@ -17,6 +18,7 @@ import { CommonDanjiDetailProps } from '../types';
 import { FullWidth, ListContainer, ListTitle, ListWrraper } from './widget/RealpriceWidget';
 
 interface RealPricesListProps extends CommonDanjiDetailProps {
+  isSeo?: boolean;
   isMorePage: boolean;
   buyOrRent?: number;
   selectedYear?: number;
@@ -30,6 +32,7 @@ interface RealPricesListProps extends CommonDanjiDetailProps {
 }
 
 function RealPricesList({
+  isSeo,
   danji,
   isMorePage,
   buyOrRent,
@@ -42,6 +45,8 @@ function RealPricesList({
   selectedIndex,
   danjiRealPricesPyoungList,
 }: RealPricesListProps) {
+  const { platform } = useCheckPlatform();
+
   const router = useRouter();
 
   const { list: realPricesList, setSize } = useFetchDanjiRealPricesList({
@@ -110,6 +115,18 @@ function RealPricesList({
       sessionStorage.setItem('d-ch', '2');
     }
 
+    if (isSeo && platform === 'pc') {
+      router.replace(
+        {
+          pathname: `/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}`,
+          query: { danjiID: `${router.query.danjiID}` },
+        },
+        `/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}?danjiID=${router.query.danjiID}`,
+      );
+
+      return;
+    }
+
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}`,
@@ -118,6 +135,8 @@ function RealPricesList({
       `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}?danjiID=${router.query.danjiID}`,
     );
   }, [
+    isSeo,
+    platform,
     buyOrRent,
     checked,
     danjiRealPricesPyoungList,
