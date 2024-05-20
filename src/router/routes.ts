@@ -12,7 +12,7 @@ const Routes = {
   DanjiListings: 'danjiListings',
 
   /** 단지 상세 */
-  DanjiDetailV2: 'danji',
+  DanjiDetailSeo: 'danji',
 
   /** 단지 상세 */
   DanjiDetail: 'danjiDetail',

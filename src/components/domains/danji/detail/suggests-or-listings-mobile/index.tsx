@@ -19,6 +19,7 @@ import {
 
 import { apiService } from '@/services';
 
+import useCheckPlatform from '@/hooks/useCheckPlatform';
 import Tabs from './Tabs';
 
 import Messages from './Messages';
@@ -36,6 +37,7 @@ const ImpossibleSuggestAreaPopup = dynamic(() => import('@/components/organisms/
 });
 
 interface SuggestsOrListingsProps extends CommonDanjiDetailProps {
+  isSeo?: boolean;
   tabIndex: number;
   danji: DanjiDetailResponse;
   danjiSuggestList?: DanjiSuggestListResponse;
@@ -44,12 +46,15 @@ interface SuggestsOrListingsProps extends CommonDanjiDetailProps {
 }
 
 export default function SuggestsOrListings({
+  isSeo,
   tabIndex,
   danji,
   danjiSuggestList,
   danjiListingList,
   naverDanji,
 }: SuggestsOrListingsProps) {
+  const { platform } = useCheckPlatform();
+
   const router = useRouter();
 
   const danjiID = danji.danji_id || Number(router?.query?.danjiID ?? 0);
@@ -97,14 +102,34 @@ export default function SuggestsOrListings({
   }, [listingListData]);
 
   const handleSuggestListAll = () => {
+    if (isSeo && platform === 'pc') {
+      router.replace(`/${Routes.SuggestListings}?danjiID=${danjiID}`);
+      return;
+    }
+
     router.push(`/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${danjiID}`);
   };
 
   const handleListingListAll = () => {
+    if (isSeo && platform === 'pc') {
+      router.replace(`/${Routes.DanjiListings}?danjiID=${danjiID}`);
+      return;
+    }
+
     router.push(`/${Routes.EntryMobile}/${Routes.DanjiListings}?danjiID=${danjiID}`);
   };
 
   const handleSuggestDetail = (id: number, mySuggest: boolean) => {
+    if (isSeo && platform === 'pc') {
+      if (mySuggest) {
+        router.replace(`/${Routes.DanjiDetail}/${Routes.MySuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
+        return;
+      }
+
+      router.replace(`/${Routes.DanjiDetail}/${Routes.SuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
+      return;
+    }
+
     if (mySuggest) {
       router.push(`/${Routes.EntryMobile}/${Routes.MySuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
       return;
@@ -114,6 +139,24 @@ export default function SuggestsOrListings({
   };
 
   const handleListingDetail = (id: number, buyOrRent: number) => {
+    if (isSeo && platform === 'pc') {
+      router.replace(
+        {
+          pathname: `/${Routes.DanjiListings}/${Routes.ListingDetail}`,
+          query: {
+            listingID: `${id}`,
+            danjiID: `${danji?.danji_id}` || `${router?.query?.danjiID}` || '',
+            bor: `${buyOrRent}`,
+          },
+        },
+        `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${id}&danjiID=${
+          danji?.danji_id || `${router?.query?.danjiID}` || ''
+        }`,
+      );
+
+      return;
+    }
+
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`,
@@ -130,6 +173,17 @@ export default function SuggestsOrListings({
   const handleCreateSuggest = () => {
     if (!isRecommendationService) {
       setPopup('impossibleSuggestArea');
+      return;
+    }
+
+    if (isSeo && platform === 'pc') {
+      router.replace({
+        pathname: `/${Routes.DanjiDetail}/${Routes.SuggestForm}`,
+        query: {
+          entry: Routes.DanjiDetail,
+          danjiID: `${danjiID}`,
+        },
+      });
       return;
     }
 
@@ -199,7 +253,10 @@ export default function SuggestsOrListings({
           naverDanji={naverDanji}
         />
       </div>
-      <FixedButton tabIndex={tabIndex} handleClickSuggestButton={handleCreateSuggest} />
+
+      {!isSeo && platform === 'mobile' && (
+        <FixedButton tabIndex={tabIndex} handleClickSuggestButton={handleCreateSuggest} />
+      )}
 
       {popup === 'impossibleSuggestArea' && <ImpossibleSuggestAreaPopup handleClosePopup={handleClosePopup} />}
     </>

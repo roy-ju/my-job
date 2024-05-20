@@ -17,7 +17,7 @@ export function middleware(request: NextRequest, _: NextFetchEvent) {
     );
   }
 
-  if (path.includes(`/${Routes.EntryMobile}/${Routes.DanjiDetailV2}/`)) {
+  if (path.includes(`/${Routes.EntryMobile}/${Routes.DanjiDetailSeo}/`)) {
     return;
   }
 

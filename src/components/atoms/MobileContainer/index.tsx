@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import tw, { styled } from 'twin.macro';
 
@@ -21,8 +21,24 @@ const BottomNavWrraper = styled.div`
 `;
 
 export default function MobileContainer({ children, bottomNav, maxWidth }: MobileContainerProps) {
+  useEffect(() => {
+    if (maxWidth) {
+      const element = document?.getElementById('__next');
+
+      if (element) {
+        element.style.background = '#F3F0FF';
+      }
+
+      return () => {
+        if (element) {
+          element.style.background = 'white';
+        }
+      };
+    }
+  }, [maxWidth]);
+
   return (
-    <Container style={{ maxWidth }}>
+    <Container style={maxWidth ? { maxWidth, margin: '0 auto' } : {}}>
       <ChildrenWrraper>{children}</ChildrenWrraper>
       {bottomNav && <BottomNavWrraper>{bottomNav}</BottomNavWrraper>}
     </Container>

@@ -21,10 +21,11 @@ const HeartFilledIcon = dynamic(() => import('@/assets/icons/heart.svg'), { ssr:
 const HeartOutlinedIcon = dynamic(() => import('@/assets/icons/heart_outlined.svg'), { ssr: false });
 
 interface HeaderProps extends CommonDanjiDetailProps {
+  isSeo?: boolean;
   isHeaderActive: boolean;
 }
 
-function Header({ danji, isHeaderActive }: HeaderProps) {
+function Header({ isSeo, danji, isHeaderActive }: HeaderProps) {
   const {
     isRenderBackButton,
     popup,
@@ -34,7 +35,7 @@ function Header({ danji, isHeaderActive }: HeaderProps) {
     handleClickShare,
     handleCopyUrl,
     handleShareViaKakao,
-  } = useHeaderHandler({ danji });
+  } = useHeaderHandler({ isSeo, danji });
 
   return (
     <>
@@ -57,9 +58,11 @@ function Header({ danji, isHeaderActive }: HeaderProps) {
           <NavigationHeader.Button onClick={handleClickShare}>
             <ShareIcon tw="text-inherit" />
           </NavigationHeader.Button>
-          <NavigationHeader.Button onClick={handleClickFavorite}>
-            {danji?.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-inherit" />}
-          </NavigationHeader.Button>
+          {!isSeo && (
+            <NavigationHeader.Button onClick={handleClickFavorite}>
+              {danji?.is_favorite ? <HeartFilledIcon tw="text-red" /> : <HeartOutlinedIcon tw="text-inherit" />}
+            </NavigationHeader.Button>
+          )}
         </div>
       </NavigationHeader>
 

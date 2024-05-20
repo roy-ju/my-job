@@ -18,8 +18,6 @@ import {
   NaverDanjiResponse,
 } from '@/services/danji/types';
 
-import { Router, useRouter } from 'next/router';
-
 import {
   ListingsSection,
   RealPriceSection,

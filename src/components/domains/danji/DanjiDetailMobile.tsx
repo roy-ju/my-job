@@ -51,6 +51,7 @@ const Realprice = dynamic(() => import('./detail/real-price-mobile'), { ssr: fal
 const AroundInfo = dynamic(() => import('./detail/around-info-mobile'), { ssr: false });
 
 interface MobDanjiDetailProps extends CommonDanjiDetailProps {
+  isSeo?: boolean;
   danjiPhotos?: DanjiPhotosResponse;
   danjiSuggestList?: DanjiSuggestListResponse;
   danjiListingList?: DanjiListingListResponse;
@@ -60,6 +61,7 @@ interface MobDanjiDetailProps extends CommonDanjiDetailProps {
 }
 
 function DanjiDetailMobile({
+  isSeo,
   danji,
   danjiPhotos,
   danjiSuggestList,
@@ -93,10 +95,10 @@ function DanjiDetailMobile({
     <>
       <Container>
         <HeaderWrraper>
-          <Header danji={danji} isHeaderActive={isHeaderActive} />
+          <Header isSeo={isSeo} danji={danji} isHeaderActive={isHeaderActive} />
         </HeaderWrraper>
         <RelativeFlexContents id="scroll-container" ref={scrollContainer}>
-          <Photos danji={danji} danjiPhotos={danjiPhotos} />
+          <Photos isSeo={isSeo} danji={danji} danjiPhotos={danjiPhotos} />
           <TabsMobile
             danji={danji}
             tabIndex={tabIndex}
@@ -107,6 +109,7 @@ function DanjiDetailMobile({
           <ListingsSection ref={listingsSectionRef}>
             <Summary danji={danji} />
             <SuggestsOrListings
+              isSeo={isSeo}
               tabIndex={tabIndex}
               danji={danji}
               danjiSuggestList={danjiSuggestList}
@@ -116,6 +119,7 @@ function DanjiDetailMobile({
           </ListingsSection>
           <RealPriceSection ref={realPriceSectionRef}>
             <Realprice
+              isSeo={isSeo}
               danji={danji}
               isShowRpTab={showRealPriceTab}
               setLoadingRp={setLoadingRealprice}
