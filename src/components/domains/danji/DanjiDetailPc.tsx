@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import dynamic from 'next/dynamic';
 
@@ -28,11 +28,11 @@ import {
 
 import Header from './detail/header';
 
-import Photos from './detail/photos-mobile';
+import PhotosPc from './detail/photos/PhotosPc';
 
 import TabsMobile from './detail/tabs-mobile';
 
-import Summary from './detail/summary-mobile';
+import Summary from './detail/summary';
 
 import SuggestsOrListings from './detail/suggest-or-listings-pc';
 
@@ -63,6 +63,7 @@ interface DanjiDetailProps extends CommonDanjiDetailProps {
   naverDanji?: NaverDanjiResponse;
   preselectedSchoolType: number;
   danjiSchools?: DanjiSchoolsResponse;
+  handleMutateDanji?: () => void;
 }
 
 function DanjiDetailPc({
@@ -73,6 +74,7 @@ function DanjiDetailPc({
   naverDanji,
   preselectedSchoolType,
   danjiSchools,
+  handleMutateDanji,
 }: DanjiDetailProps) {
   const {
     scrollContainer,
@@ -104,7 +106,7 @@ function DanjiDetailPc({
         </HeaderWrraper>
 
         <RelativeFlexContents id="scroll-container" ref={scrollContainer}>
-          <Photos danji={danji} danjiPhotos={danjiPhotos} />
+          <PhotosPc danji={danji} danjiPhotos={danjiPhotos} />
           <TabsMobile
             danji={danji}
             tabIndex={tabIndex}

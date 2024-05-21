@@ -6,6 +6,8 @@ import Address from './Address';
 
 import Details from './Details';
 
+import RecentlyTradePrice from './RecentlyTradePrice';
+
 import { Container, PaddingInlineWrraper } from './widget/SummaryWidget';
 
 import { CommonDanjiDetailProps } from '../types';
@@ -17,6 +19,7 @@ function Summary({ danji }: CommonDanjiDetailProps) {
         <Name danji={danji} />
         <Address danji={danji} />
         <Details danji={danji} />
+        <RecentlyTradePrice danji={danji} />
       </PaddingInlineWrraper>
     </Container>
   );

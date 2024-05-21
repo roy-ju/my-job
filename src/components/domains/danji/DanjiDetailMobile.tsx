@@ -28,11 +28,11 @@ import {
 
 import Header from './detail/header';
 
-import Photos from './detail/photos-mobile';
+import PhotosMobile from './detail/photos/PhotosMobile';
 
 import TabsMobile from './detail/tabs-mobile';
 
-import Summary from './detail/summary-mobile';
+import Summary from './detail/summary';
 
 import SuggestsOrListings from './detail/suggests-or-listings-mobile';
 
@@ -98,7 +98,7 @@ function DanjiDetailMobile({
           <Header isSeo={isSeo} danji={danji} isHeaderActive={isHeaderActive} />
         </HeaderWrraper>
         <RelativeFlexContents id="scroll-container" ref={scrollContainer}>
-          <Photos isSeo={isSeo} danji={danji} danjiPhotos={danjiPhotos} />
+          <PhotosMobile isSeo={isSeo} danji={danji} danjiPhotos={danjiPhotos} />
           <TabsMobile
             danji={danji}
             tabIndex={tabIndex}

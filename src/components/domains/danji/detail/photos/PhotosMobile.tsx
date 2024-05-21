@@ -2,15 +2,15 @@ import { memo, useCallback, useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
 
+import { useRouter } from 'next/router';
+
+import useCheckPlatform from '@/hooks/useCheckPlatform';
+
 import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
 
 import { DanjiPhotosResponse } from '@/services/danji/types';
 
 import { DefaultListingImageLg } from '@/constants/strings';
-
-import useCheckPlatform from '@/hooks/useCheckPlatform';
-
-import { useRouter } from 'next/router';
 
 import Routes from '@/router/routes';
 

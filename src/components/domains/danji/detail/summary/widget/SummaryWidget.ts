@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
 export const Container = styled.div`
-  ${tw`pb-9`}
+  ${tw`pb-10`}
 `;
 
 export const HorizontalLine = styled.div`

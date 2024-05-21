@@ -328,8 +328,6 @@ export default function useRouter(depth = 0) {
     [router, depth],
   );
 
-  // console.log(router.query);
-
   const clientDepth = useMemo(() => {
     if (router.query.depth2) {
       return Number(router.query.depth2) > 0 ? 1 : 2;
@@ -344,7 +342,6 @@ export default function useRouter(depth = 0) {
 
   return useMemo(
     () => ({
-      // depth:router.query.depth2 ? 2 : router.query.depth1 ? 1 : 0
       depth: clientDepth,
       push,
       pop,
