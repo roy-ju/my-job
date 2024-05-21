@@ -50,7 +50,6 @@ type ListItemProps = {
 };
 
 export default function ListItem({ item, handleClick }: ListItemProps) {
-  console.log(item);
   const labelRenderType = useMemo(() => {
     // 거래 성사 경우
     if (item?.suggest_complete_status) {

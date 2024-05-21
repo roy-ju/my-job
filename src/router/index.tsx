@@ -13,6 +13,15 @@ import Head from 'next/head';
 
 import AppConfig from '@/config';
 
+import {
+  DanjiDetailResponse,
+  DanjiPhotosResponse,
+  DanjiListingListResponse,
+  DanjiSuggestListResponse,
+  NaverDanjiResponse,
+  DanjiSchoolsResponse,
+} from '@/services/danji/types';
+
 import Routes from './routes';
 
 function FallbackComponent() {
@@ -136,15 +145,15 @@ const Qna = dynamic(() => import('@/components/pages/Qna/QnaPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
-const DanjiDetail = dynamic(() => import('@/components/pages/pc/DanjiDetail'), {
-  ssr: false,
+const DanjiDetail = dynamic(() => import('@/components/pages/Danji/DanjiPc'), {
+  // ssr: false,
   loading: FallbackComponent,
 });
 const DanjiRealPriceListAll = dynamic(() => import('@/components/pages/pc/DanjiRealPriceListAll'), {
   loading: FallbackComponent,
   ssr: false,
 });
-const DanjiPhotos = dynamic(() => import('@/components/pages/pc/DanjiPhotos'), {
+const DanjiPhotos = dynamic(() => import('@/components/pages/DanjiPhotos/DanjiPhotosPc'), {
   loading: FallbackComponent,
   ssr: false,
 });
@@ -437,14 +446,34 @@ interface RouterProps {
   query: ParsedUrlQuery; // 쿼리 파라미터
   depth: number; // route segment 의 depth
   ipAddress: string;
-  prefetchedData?: { [key: string]: any } | null;
+  prefetchedData?: DanjiDetailResponse;
+  prefetchedPhotosData?: DanjiPhotosResponse;
+  prefetchedSuggestList?: DanjiSuggestListResponse;
+  prefetchedListingList?: DanjiListingListResponse;
+  prefetchedNaverDanji?: NaverDanjiResponse;
+  preselectedSchoolType: number;
+  prefetchedDanjiSchoolData?: DanjiSchoolsResponse;
 }
 
-function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps) {
+function Router({
+  route,
+  query,
+  depth,
+  ipAddress,
+  prefetchedData,
+  prefetchedPhotosData,
+  prefetchedSuggestList,
+  prefetchedListingList,
+  prefetchedNaverDanji,
+  preselectedSchoolType,
+  prefetchedDanjiSchoolData,
+}: RouterProps) {
   const props = {
     panelWidth: DEFAULT_PANEL_WIDTH,
     depth,
   };
+
+  console.log(prefetchedData);
 
   switch (route) {
     case Routes.My: {
@@ -550,11 +579,33 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     case Routes.ChatRoomReport: {
       return <ChatRoomReport key={query.chatRoomID as string} {...props} />;
     }
+
     case Routes.DanjiDetail: {
-      return <DanjiDetail key={`${query.danjiID as string}`} prefetchedData={prefetchedData} {...props} />;
+      if (!prefetchedData) return null;
+
+      return (
+        <DanjiDetail
+          key={`${query.danjiID as string}`}
+          prefetchedData={prefetchedData}
+          prefetchedPhotosData={prefetchedPhotosData}
+          prefetchedSuggestList={prefetchedSuggestList}
+          prefetchedListingList={prefetchedListingList}
+          prefetchedNaverDanji={prefetchedNaverDanji}
+          prefetchedDanjiSchoolData={prefetchedDanjiSchoolData}
+          preselectedSchoolType={preselectedSchoolType}
+          {...props}
+        />
+      );
     }
     case Routes.DanjiPhotos: {
-      return <DanjiPhotos key={`${query.danjiID}`} {...props} />;
+      return (
+        <DanjiPhotos
+          key={`${query.danjiID}`}
+          prefetchedData={prefetchedData}
+          prefetchedPhotosData={prefetchedPhotosData}
+          {...props}
+        />
+      );
     }
     case Routes.DanjiRealPriceDetail: {
       return <DanjiRealPriceDetail key={`${query.danjiID}`} {...props} />;
@@ -749,6 +800,7 @@ function Router({ route, query, depth, ipAddress, prefetchedData }: RouterProps)
     }
   }
 }
+
 interface MetaInsertedProps extends RouterProps {
   title?: string;
   description?: string;

@@ -28,7 +28,6 @@ function InfoHeader({
   onChangeBuyOrRent?: (value: number) => void;
   onChangeSelectedYear?: (value: number) => void;
 }) {
-  console.log(isSeo);
   const { platform } = useCheckPlatform();
 
   const router = useRouter();

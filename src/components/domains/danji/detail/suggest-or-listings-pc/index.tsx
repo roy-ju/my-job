@@ -93,20 +93,48 @@ export default function SuggestsOrListings({
   }, [listingListData]);
 
   const handleSuggestListAll = () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestListings}?danjiID=${danjiID}`);
-  };
+    const query = router.query;
 
-  const handleListingListAll = () => {
-    router.push(`/${Routes.EntryMobile}/${Routes.DanjiListings}?danjiID=${danjiID}`);
+    delete query.depth1;
+    delete query.depth2;
+
+    const convertedQuery = {
+      ...query,
+      ...(router.query.listingID ? { listingID: router.query.listingID as string } : {}),
+      danjiID: `${danji?.danji_id}`,
+    };
+
+    router.push({
+      pathname: `/${Routes.SuggestListings}`,
+      query: convertedQuery,
+    });
   };
 
   const handleSuggestDetail = (id: number, mySuggest: boolean) => {
     if (mySuggest) {
-      router.push(`/${Routes.EntryMobile}/${Routes.MySuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
+      router.push(`/${Routes.DanjiDetail}/${Routes.MySuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
       return;
     }
 
-    router.push(`/${Routes.EntryMobile}/${Routes.SuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
+    router.push(`/${Routes.DanjiDetail}/${Routes.SuggestDetail}?danjiID=${danjiID}&suggestID=${id}`);
+  };
+
+  const handleListingListAll = () => {
+    const query = router.query;
+
+    delete query.depth1;
+    delete query.depth2;
+
+    const convertedQuery = {
+      ...query,
+      ...(router.query.listingID ? { listingID: router.query.listingID as string } : {}),
+      danjiID: `${danji?.danji_id}`,
+    };
+
+    router.push({
+      pathname: `/${Routes.DanjiListings}`,
+      query: convertedQuery,
+    });
   };
 
   const handleListingDetail = (id: number, buyOrRent: number) => {

@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import dynamic from 'next/dynamic';
 
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
@@ -20,6 +22,7 @@ const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/I
 });
 
 const DanjiPc = ({
+  panelWidth,
   prefetchedData,
   prefetchedPhotosData,
   prefetchedSuggestList,
@@ -28,6 +31,7 @@ const DanjiPc = ({
   preselectedSchoolType,
   prefetchedDanjiSchoolData,
 }: {
+  panelWidth?: string;
   prefetchedData?: DanjiDetailResponse;
   prefetchedPhotosData?: DanjiPhotosResponse;
   prefetchedSuggestList?: DanjiSuggestListResponse;
@@ -36,15 +40,19 @@ const DanjiPc = ({
   preselectedSchoolType: number;
   prefetchedDanjiSchoolData?: DanjiSchoolsResponse;
 }) => {
-  const { data } = useFetchDanjiDetail({ prefetchedData });
+  const { data, mutate } = useFetchDanjiDetail({ prefetchedData });
+
+  const handleMutateDanji = useCallback(() => {
+    mutate();
+  }, [mutate]);
 
   if (data && data?.error_code) {
     return <InvalidAccessPopup />;
   }
 
   return (
-    <Panel width="380px">
-      {data && data?.danji_id && (
+    <Panel width={panelWidth}>
+      {data && (
         <DanjiDetailPc
           danji={data}
           danjiPhotos={prefetchedPhotosData}
@@ -53,6 +61,7 @@ const DanjiPc = ({
           danjiSchools={prefetchedDanjiSchoolData}
           naverDanji={prefetchedNaverDanji}
           preselectedSchoolType={preselectedSchoolType}
+          handleMutateDanji={handleMutateDanji}
         />
       )}
     </Panel>
