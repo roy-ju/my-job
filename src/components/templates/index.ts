@@ -1,4 +1,4 @@
-/** PC 모바일 공통 (32개) */
+/** PC 모바일 공통 */
 export { default as PageNotFound } from './PageNotFound';
 
 export { default as MapLayout } from './MapLayout';
@@ -7,7 +7,6 @@ export { default as MapListingList } from './MapListingList';
 
 export { default as ChatRoomReport } from './ChatRoomReport';
 
-export { default as DanjiPhotos } from './DanjiPhotos';
 export { default as DanjiDetail } from './DanjiDetail';
 export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiRealPriceListAll } from './DanjiRealPriceListAll';

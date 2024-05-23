@@ -19,13 +19,15 @@ import {
 
 import { apiService } from '@/services';
 
+import getPath from '@/utils/getPath';
+
+import RegisterButtons from './RegisterButtons';
+
 import Tabs from '../suggests-or-listings-mobile/Tabs';
 
 import Messages from '../suggests-or-listings-mobile/Messages';
 
 import ListingItemList from '../suggests-or-listings-mobile/ListingItemList';
-
-import RegisterButtons from '../suggests-or-listings-mobile/RegisterButtons';
 
 import { CommonDanjiDetailProps } from '../types';
 
@@ -48,7 +50,7 @@ export default function SuggestsOrListings({
 }: SuggestsOrListingsProps) {
   const router = useRouter();
 
-  const danjiID = danji.danji_id || Number(router?.query?.danjiID ?? 0);
+  const danjiID = danji.danji_id ?? 0;
 
   const [isRecommendationService, setIsRecommendationService] = useState(false);
 
@@ -140,14 +142,14 @@ export default function SuggestsOrListings({
   const handleListingDetail = (id: number, buyOrRent: number) => {
     router.push(
       {
-        pathname: `/${Routes.EntryMobile}/${Routes.ListingDetail}`,
+        pathname: `/${Routes.DanjiListings}/${Routes.ListingDetail}`,
         query: {
           listingID: `${id}`,
           danjiID: `${danjiID}`,
           bor: `${buyOrRent}`,
         },
       },
-      `/${Routes.EntryMobile}/${Routes.ListingDetail}?listingID=${id}&danjiID=${danjiID}`,
+      `/${Routes.DanjiListings}/${Routes.ListingDetail}?listingID=${id}&danjiID=${danjiID}`,
     );
   };
 
@@ -157,11 +159,17 @@ export default function SuggestsOrListings({
       return;
     }
 
+    const path = getPath({
+      depth1: router?.query?.depth1 as NegocioPath,
+      depth2: router?.query?.depth2 as NegocioPath,
+      targetPath: Routes.SuggestForm as NegocioPath,
+    });
+
     router.push({
-      pathname: `/${Routes.EntryMobile}/${Routes.SuggestForm}`,
+      pathname: path,
       query: {
         entry: Routes.DanjiDetail,
-        danjiID: `${danjiID}`,
+        danjiID,
       },
     });
   };

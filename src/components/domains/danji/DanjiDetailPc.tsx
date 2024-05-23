@@ -52,7 +52,7 @@ const BottomDiv = styled.div`
   ${tw`[height: 10px]`}
 `;
 
-const Realprice = dynamic(() => import('./detail/real-price-mobile'), { ssr: false });
+const Realprice = dynamic(() => import('./detail/real-price'), { ssr: false });
 
 const AroundInfo = dynamic(() => import('./detail/around-info-mobile'), { ssr: false });
 

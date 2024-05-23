@@ -4,7 +4,7 @@ import { NaverDanjiResponse } from '@/services/danji/types';
 
 import NaverRealestateButton from './NaverRealestateButton';
 
-import useCheckSuggestsOrListings from './hooks/useCheckSuggestsOrListings';
+import useCheckSuggestsOrListings from '../suggests-or-listings-mobile/hooks/useCheckSuggestsOrListings';
 
 type RegisterButtonsProps = {
   tab: number;
