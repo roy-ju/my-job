@@ -22,7 +22,7 @@ export default function useKakaoLoginCallbackHandler({ ipAddress }: { ipAddress:
 
       if (!kakaoAccessTokenResponse) {
         toast.error('카카오 서버 쪽 문제가 발생했습니다. 다시 시도해 주세요.');
-        window.close();
+        // window.close();
         return false;
       }
 

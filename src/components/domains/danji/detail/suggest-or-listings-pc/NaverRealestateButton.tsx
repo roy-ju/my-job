@@ -19,7 +19,7 @@ export default function NaverRealestateButton({ danjiID, naverDanji }: NaverReal
   const renderCondition = !!naverDanji?.outlink_pc;
 
   const handleClickNaverRealestateButton = () => {
-    if (naverDanjiData?.outlink_mobile) {
+    if (naverDanjiData?.outlink_pc) {
       window.open(naverDanjiData.outlink_pc);
     }
   };

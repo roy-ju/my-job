@@ -35,6 +35,42 @@ function InfoHeader({
   const danjiID = `${danjiId}` || `${router.query.danjiID}` || '';
 
   const handleCTA = () => {
+    if (!isSeo && platform === 'pc') {
+      const depth1 = router.query.depth1;
+      const depth2 = router.query.depth2;
+
+      const query = router.query;
+
+      delete query.depth1;
+      delete query.depth2;
+
+      const convertedQuery = {
+        ...query,
+        ...(router.query.listingID ? { listingID: router.query.listingID as string } : {}),
+        danjiID: `${danjiId}`,
+        bor: buyOrRent?.toString() || '',
+        sl: selectedYear?.toString() || '',
+      };
+
+      if (depth1 && depth2) {
+        if (depth2 === Routes.DanjiDetail || depth2 === Routes.ListingDetail) {
+          router.push({
+            pathname: `/${depth2}/${Routes.DanjiRealPriceDetail}`,
+            query: convertedQuery,
+          });
+        } else {
+          router.push({
+            pathname: `/${depth1}/${Routes.DanjiRealPriceDetail}`,
+            query: convertedQuery,
+          });
+        }
+      } else if (depth1 && !depth2) {
+        router.push({ pathname: `/${depth1}/${Routes.DanjiRealPriceDetail}`, query: convertedQuery });
+      }
+
+      return;
+    }
+
     if (isSeo && platform === 'pc') {
       router.replace(
         {

@@ -473,8 +473,6 @@ function Router({
     depth,
   };
 
-  console.log(prefetchedData);
-
   switch (route) {
     case Routes.My: {
       return <My {...props} />;

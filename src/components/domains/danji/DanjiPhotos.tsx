@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import Image from 'next/image';
 
 import Container from '@/components/atoms/Container';
 
+import FlexContents from '@/components/atoms/FlexContents';
+
 import { NavigationHeader } from '@/components/molecules';
 
 import { DanjiPhotosResponse } from '@/services/danji/types';
 
-import FlexContents from '@/components/atoms/FlexContents';
 import ImagePopup from './photos/ImagePopup';
 
 export default function DanjiPhotos({
@@ -24,13 +25,16 @@ export default function DanjiPhotos({
 
   const [filePath, setFilePath] = useState('');
 
+  const lengthText = useCallback(
+    () => <span tw="text-nego-1000 font-bold ml-1">{danjiPhotos?.danji_photos?.length || 0}</span>,
+    [danjiPhotos?.danji_photos?.length],
+  );
+
   return (
     <Container>
       <NavigationHeader>
         {onClickBack && <NavigationHeader.BackButton onClick={onClickBack} />}
-        <NavigationHeader.Title>
-          단지 사진<span tw="text-nego-1000 font-bold">{danjiPhotos?.danji_photos?.length || 0}</span>
-        </NavigationHeader.Title>
+        <NavigationHeader.Title>단지 사진 {lengthText()}</NavigationHeader.Title>
       </NavigationHeader>
 
       <FlexContents tw="pb-5">

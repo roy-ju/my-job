@@ -21,8 +21,13 @@ export default function DanjiPhotosPc({ panelWidth, prefetchedData, prefetchedPh
     const depth1 = router.query.depth1;
     const depth2 = router.query.depth2;
 
+    const query = router.query;
+
+    delete query.depth1;
+    delete query.depth1;
+
     if (depth1 && depth2) {
-      router.replace({ pathname: `/${depth1}`, query: { ...router.query } });
+      router.replace({ pathname: `/${depth1}`, query: { ...query } });
     } else if (depth1 && !depth2) {
       router.replace('/');
     }
