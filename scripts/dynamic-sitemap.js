@@ -22,6 +22,13 @@ const Routes = {
   MY: 'my',
   DANJIDETAIL: 'danjiDetail',
   DANJIDETAILSEO: 'danji',
+
+  SUBHOME: 'subHome',
+  TRADEPROCESS: 'tradeProcess',
+  DICTIONARY: 'dictionary',
+  COMMONSENSE: 'commonSense',
+  SPECIALTERMS: 'specialTerms',
+  LISTINGCHECKLIST: 'listingCheckList',
 };
 
 const SitemapURLToBeCreated = {
@@ -58,6 +65,13 @@ const sitemapBaseXMLList = [
   { locValue: `${mobileBaseURL}/${Routes.LAWQNA}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.CHATROOMLIST}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.MY}`, lastmodValue, priorityValue },
+
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.TRADEPROCESS}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.DICTIONARY}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.COMMONSENSE}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.SPECIALTERMS}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.LISTINGCHECKLIST}`, lastmodValue, priorityValue },
 ];
 
 const sitemapXMLList = [{ locValue: `${webBaseURL}/${SitemapURLToBeCreated.BASE}.xml`, lastmodValue }];
