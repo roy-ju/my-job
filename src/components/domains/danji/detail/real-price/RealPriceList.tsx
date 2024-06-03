@@ -50,8 +50,10 @@ function RealPricesList({
 
   const router = useRouter();
 
+  const danjiId = danji?.danji_id;
+
   const { list: realPricesList, setSize } = useFetchDanjiRealPricesList({
-    danjiId: danji?.danji_id,
+    danjiId,
     realestateType: danji?.type ? Number(danji.type) : null,
     buyOrRent,
     year: selectedYear || 3,
@@ -128,7 +130,7 @@ function RealPricesList({
       const convertedQuery = {
         ...query,
         ...(router.query.listingID ? { listingID: router.query.listingID as string } : {}),
-        danjiID: `${danji.danji_id}`,
+        danjiID: `${danjiId}`,
       };
 
       if (depth1 && depth2) {
@@ -154,9 +156,9 @@ function RealPricesList({
       router.replace(
         {
           pathname: `/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}`,
-          query: { danjiID: `${router.query.danjiID}` },
+          query: { danjiID: `${danjiId}` },
         },
-        `/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}?danjiID=${router.query.danjiID}`,
+        `/${Routes.DanjiDetail}/${Routes.DanjiRealPriceList}?danjiID=${danjiId}`,
       );
 
       return;
@@ -165,23 +167,24 @@ function RealPricesList({
     router.push(
       {
         pathname: `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}`,
-        query: { danjiID: `${router.query.danjiID}` },
+        query: { danjiID: `${danjiId}` },
       },
-      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}?danjiID=${router.query.danjiID}`,
+      `/${Routes.EntryMobile}/${Routes.DanjiRealPriceList}?danjiID=${danjiId}`,
     );
   }, [
-    isSeo,
-    platform,
     buyOrRent,
-    checked,
-    danjiRealPricesPyoungList,
-    router,
+    selectedYear,
+    selectedGonggeup,
     selectedArea,
     selectedAreaMin,
     selectedAreaMax,
-    selectedGonggeup,
     selectedIndex,
-    selectedYear,
+    danjiRealPricesPyoungList,
+    checked,
+    isSeo,
+    platform,
+    router,
+    danjiId,
   ]);
 
   const onIntersect = useCallback(() => {

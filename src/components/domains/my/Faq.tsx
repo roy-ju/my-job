@@ -12,7 +12,7 @@ import { NavigationHeader } from '@/components/molecules';
 
 import useIosWebkitNoneApplySafeArea from '@/hooks/useIosWebkitNoneApplySafeArea';
 
-import useFetchInternalFaqList from '@/apis/internal/getFaqs';
+import useFetchInternalFaqList from '@/services/internal/useFetchInternalFaqList';
 
 import FilterCategories from './faq/FilterCategories';
 

@@ -12,13 +12,13 @@ import { LegalCounselingWriting } from '@/components/templates';
 
 import { useRouter } from '@/hooks/utils';
 
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-
-import { lawQnaUpdate } from '@/apis/lawQna/lawQnaCrud';
+import useFetchLawQnaList from '@/services/law-qna/useFetchLawQnaList';
 
 import Routes from '@/router/routes';
 
 import ErrorCodes from '@/constants/error_codes';
+
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -31,7 +31,7 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
 
   const nextRouter = useNextRouter();
 
-  const { mutate } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
+  const { mutate } = useFetchLawQnaList({ searchQuery: router?.query?.q ? (router.query.q as string) : null });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,7 +42,7 @@ export default memo(({ depth, panelWidth, qnaID }: Props) => {
 
     setIsLoading(true);
 
-    const response = await lawQnaUpdate({ law_qna_id: qnaID, title: text, user_message: message });
+    const response = await apiService.updateLawQna({ law_qna_id: qnaID, title: text, user_message: message });
 
     if (response === null) {
       toast.success('수정이 완료되었습니다.');

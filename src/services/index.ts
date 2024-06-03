@@ -912,6 +912,71 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async createLawQna(req: { title: string; user_message: string }) {
+    try {
+      const { data } = await this.instance.post('/lawqna/create', {
+        ...req,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateLawQna(req: { law_qna_id: number; title: string; user_message: string }) {
+    try {
+      const { data } = await this.instance.post('/lawqna/update', {
+        ...req,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteLawQna(req: { law_qna_id: number }) {
+    try {
+      const { data } = await this.instance.post('/lawqna/delete', {
+        ...req,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async lawQnaLike(req: { law_qna_id: number }): Promise<null | ErrorResponse> {
+    try {
+      const { data } = await this.instance.post('/lawqna/like', req);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async lawQnaDislike(req: { law_qna_id: number }): Promise<null | ErrorResponse> {
+    try {
+      const { data } = await this.instance.post('/lawqna/dislike', req);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async viewLawQna(req: {
+    law_qna_id: number;
+    ip_address: string;
+    device: string;
+    browser: string;
+  }): Promise<null | ErrorResponse> {
+    try {
+      const { data } = await this.instance.post('/lawqna/view', req);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async devErrorLog(req: { source: string; route: string; message: string }) {
     try {
       const { data } = await this.instance.post('/dev/errorlog', {
