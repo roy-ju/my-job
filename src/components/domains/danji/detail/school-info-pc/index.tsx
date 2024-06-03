@@ -1,8 +1,6 @@
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
-
-import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import { SchoolType } from '@/constants/enums';
 
@@ -18,7 +16,7 @@ import Nodata from './Nodata';
 
 import ListItem from './ListItem';
 
-import { Container, TitleWrraper, ListWrraper, NodataWrraper, Title } from './widget/SchoolInfoMobileWidget';
+import { Container, TitleWrraper, ListWrraper, NodataWrraper, Title } from './widget/SchoolInfoPcWidget';
 
 import { CommonDanjiDetailProps } from '../types';
 
@@ -32,12 +30,28 @@ interface SchoolInfoProps extends CommonDanjiDetailProps {
 }
 
 function SchoolInfo({ danji, danjiSchools, preselectedSchoolType }: SchoolInfoProps) {
-  const { selectedSchoolType, isClickMore, handleChangeSelectedSchoolType, handleUpdateMoreButtonState } =
-    useSchoolInfoHandler({
-      preselectedSchoolType,
-    });
+  const {
+    interactionState,
+    interactionStore,
 
-  const { makeTrueSchool, makeDanjiSchoolID } = useMobileDanjiInteraction();
+    selectedSchoolID,
+
+    selectedSchoolType,
+    setSelectedSchoolType,
+
+    setSelctedIndex,
+
+    isClickMore,
+
+    handleChangeSelectedSchoolType,
+    handleUpdateMoreButtonState,
+
+    handleClickHakgudo,
+    handleClickListItem,
+  } = useSchoolInfoHandler({
+    danji,
+    preselectedSchoolType,
+  });
 
   const { data } = useFetchDanjiSchools({
     danjiId: danji.danji_id,
@@ -53,57 +67,64 @@ function SchoolInfo({ danji, danjiSchools, preselectedSchoolType }: SchoolInfoPr
     if (selectedSchoolType === SchoolType.HighSchool) return data?.list_high_schools ?? [];
   }, [data?.list_elementary_schools, data?.list_high_schools, data?.list_middle_schools, selectedSchoolType]);
 
-  const handleClickHakgudo = async (id?: string) => {
-    if (!danji) return;
-
-    if (selectedSchoolType === SchoolType.ElementarySchool) {
-      sessionStorage.setItem('danji-selected-school', '"1"');
+  useEffect(() => {
+    if (data?.list_middle_schools && data.list_middle_schools.length > 0) {
+      setSelectedSchoolType(SchoolType.MiddleSchool);
+      return;
     }
 
-    if (selectedSchoolType === SchoolType.MiddleSchool) {
-      sessionStorage.setItem('danji-selected-school', '"2"');
+    if (data?.list_elementary_schools && data.list_elementary_schools.length > 0) {
+      setSelectedSchoolType(SchoolType.ElementarySchool);
+      return;
     }
 
-    if (selectedSchoolType === SchoolType.HighSchool) {
-      sessionStorage.setItem('danji-selected-school', '"3"');
+    if (data?.list_high_schools && data.list_high_schools.length > 0) {
+      setSelectedSchoolType(SchoolType.HighSchool);
+      return;
     }
 
-    await makeTrueSchool();
+    setSelectedSchoolType(SchoolType.ElementarySchool);
+  }, [setSelectedSchoolType, data?.list_middle_schools, data?.list_elementary_schools, data?.list_high_schools]);
 
-    if (id) {
-      makeDanjiSchoolID(id);
+  useEffect(() => {
+    if (schoolList && schoolList.length > 0 && interactionState.selectedSchoolMarker) {
+      const index = schoolList.findIndex(
+        (item) => interactionState?.selectedSchoolMarker?.id === `schoolMarker:${item.school_id}`,
+      );
+      setSelctedIndex(index);
     }
-  };
+  }, [interactionState.selectedSchoolMarker, schoolList, setSelctedIndex]);
 
   return (
     <Container>
       <TitleWrraper>
         <Title>학군</Title>
-        <DistrictButton handleClick={handleClickHakgudo} />
+        <DistrictButton selected={interactionStore.isSchoolOn} handleClick={handleClickHakgudo} />
       </TitleWrraper>
-
       <SchoolTabs variant="contained" value={selectedSchoolType} tw="mt-2" onChange={handleChangeSelectedSchoolType}>
         <SchoolTabs.Tab value={SchoolType.ElementarySchool}>초등학교</SchoolTabs.Tab>
         <SchoolTabs.Tab value={SchoolType.MiddleSchool}>중학교</SchoolTabs.Tab>
         <SchoolTabs.Tab value={SchoolType.HighSchool}>고등학교</SchoolTabs.Tab>
         <SchoolTabs.Indicator />
       </SchoolTabs>
-
       {schoolList && schoolList.length === 0 && (
         <NodataWrraper>
           <Nodata message="주변에 학교가 없습니다." />
         </NodataWrraper>
       )}
-
       {schoolList && schoolList.length > 0 && (
         <ListWrraper>
           <ListItem isTitle />
           {schoolList.slice(0, isClickMore ? schoolList.length : 3).map((item) => (
-            <ListItem key={item.school_id} item={item} handleClick={() => handleClickHakgudo(item.school_id)} />
+            <ListItem
+              key={item.school_id}
+              item={item}
+              handleClick={() => handleClickListItem(item.school_id)}
+              selected={selectedSchoolID === item.school_id}
+            />
           ))}
         </ListWrraper>
       )}
-
       {schoolList && schoolList.length > 3 ? (
         <MoreButton title={!isClickMore ? '더보기' : '접기'} handleClick={handleUpdateMoreButtonState} />
       ) : null}
