@@ -9,8 +9,6 @@ import { Button, InfiniteScroll } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import { ILawQnaListItem } from '@/apis/lawQna/getLawQna';
-
 import useScroll from '@/hooks/useScroll';
 
 import { formatCreatedTime } from '@/utils/formatsTime';
@@ -23,12 +21,13 @@ import DeleteAllIcon from '@/assets/icons/delete_all.svg';
 
 import SearchBlackIcon from '@/assets/icons/search.svg';
 
+import { LawQnaListItem } from '@/services/law-qna/types';
+
 import { LegalContent } from './Components/LegalContent';
 
 import Banner from './Components/Banner';
 
 export default function LegalCounseling({
-  isLoading,
   qnaLawData,
   onClickBack,
   onClickHome,
@@ -39,8 +38,7 @@ export default function LegalCounseling({
   onClickCreate,
   onClickAllPage,
 }: {
-  isLoading: boolean;
-  qnaLawData: ILawQnaListItem[];
+  qnaLawData: LawQnaListItem[];
   onClickBack?: () => void;
   onClickHome?: () => void;
   onNext?: () => void;

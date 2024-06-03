@@ -16,8 +16,6 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 
 import { formatCreatedTime } from '@/utils/formatsTime';
 
-import { GetLawQnaDetailResponse } from '@/apis/lawQna/getLawQnaDetail';
-
 import TripleDotsIcon from '@/assets/icons/triple_dots_gray.svg';
 
 import defaultAvatar from '@/../public/static/images/default_avatar.png';
@@ -28,12 +26,14 @@ import ThumbIcon from '@/assets/icons/thumb_big.svg';
 
 import ThumbRedIcon from '@/assets/icons/thumb_big_red.svg';
 
+import { LawQnaDetailResponse } from '@/services/law-qna/types';
+
 const ButtomWrraper = styled.div``;
 
 export interface LegalCounselingDetailProps {
   openPopup?: boolean;
   openErrPopup?: boolean;
-  lawQnaDetailData?: GetLawQnaDetailResponse;
+  lawQnaDetailData?: LawQnaDetailResponse & ErrorResponse;
   errorTitle?: string;
   onClickBack?: () => void;
   onClickDetail?: (id?: number) => void;

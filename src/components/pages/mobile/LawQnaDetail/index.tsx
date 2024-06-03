@@ -28,17 +28,13 @@ import Paths from '@/constants/paths';
 
 import Routes from '@/router/routes';
 
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-
-import useAPI_GetLawQnaDetail from '@/apis/lawQna/getLawQnaDetail';
-
-import { lawQnaDelete } from '@/apis/lawQna/lawQnaCrud';
-
-import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
-
-import lawQnaView from '@/apis/lawQna/lawQnaView';
-
 import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
+
+import useFetchLawQnaList from '@/services/law-qna/useFetchLawQnaList';
+
+import useFetchLawQnaDetail from '@/services/law-qna/useFetchLawQnaDetail';
+
+import { apiService } from '@/services';
 
 function LawQnaDetail() {
   const { user } = useAuth();
@@ -55,7 +51,9 @@ function LawQnaDetail() {
 
   const [text, setText] = useState('');
 
-  const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
+  const { mutate: mutateQnaData } = useFetchLawQnaList({
+    searchQuery: router?.query?.q ? (router.query.q as string) : null,
+  });
 
   const { openAuthPopup } = useAuthPopup();
 
@@ -63,7 +61,7 @@ function LawQnaDetail() {
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
-  const { data: lawQnaDetailData, mutate: lawQnaDetailDataMutate } = useAPI_GetLawQnaDetail(
+  const { data: lawQnaDetailData, mutate: lawQnaDetailDataMutate } = useFetchLawQnaDetail(
     router?.query?.qnaID ? Number(router?.query?.qnaID) : undefined,
   );
 
@@ -82,7 +80,7 @@ function LawQnaDetail() {
   const handleClickDelete = useCallback(async () => {
     if (!qnaID) return;
 
-    const response = await lawQnaDelete({ law_qna_id: Number(qnaID) });
+    const response = await apiService.deleteLawQna({ law_qna_id: Number(qnaID) });
 
     if (response === null) {
       toast.success('게시물이 삭제되었습니다.', { toastId: 'toast_delete' });
@@ -177,11 +175,11 @@ function LawQnaDetail() {
       }
 
       if (liked) {
-        await lawQnaDislike({ law_qna_id: qnaId });
+        await apiService.lawQnaDislike({ law_qna_id: qnaId });
         lawQnaDetailDataMutate();
         mutateQnaData();
       } else {
-        await lawQnaLike({ law_qna_id: qnaId });
+        await apiService.lawQnaLike({ law_qna_id: qnaId });
         lawQnaDetailDataMutate();
         mutateQnaData();
       }
@@ -233,7 +231,7 @@ function LawQnaDetail() {
 
   useEffect(() => {
     async function view(id: number) {
-      await lawQnaView({
+      await apiService.viewLawQna({
         ip_address: '',
         device: getDevice(),
         browser: getBrowser(),

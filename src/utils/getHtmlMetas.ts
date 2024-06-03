@@ -21,9 +21,32 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   const targetRoute = query.depth2 ?? query.depth1;
 
+  if (targetRoute === Routes.SubHome) {
+    return {
+      title: `부동산 거래도우미 홈 | ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오'
+      }`,
+      description: '집구하는데 필요한 정보는 여기에 다 있어요, 거래도우미 서비스를 이용해보세요!',
+      ogTitle: '부동산 거래도우미 홈',
+      ogDescription: '집구하는데 필요한 정보는 여기에 다 있어요, 거래도우미 서비스를 이용해보세요!',
+      ogImagePath: AppConfig.ogImagePath,
+      ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+      ogType: 'website',
+      ogTitleOnly: true,
+
+      canonical: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.EntryMobile}/${Routes.SubHome}`,
+    };
+  }
+
   if (targetRoute === Routes.TradeProcess) {
     return {
-      title: `부동산 거래 절차`,
+      title: `부동산 거래 절차 | ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오'
+      }`,
       description: '어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!',
       ogTitle: '부동산 거래 절차',
       ogDescription: '어렵기만한 거래 절차, A부터 Z까지 모두 다 알려드려요!',
@@ -31,12 +54,18 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
       ogTitleOnly: true,
+
+      canonical: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.EntryMobile}/${Routes.TradeProcess}`,
     };
   }
 
   if (targetRoute === Routes.ListingCheckList) {
     return {
-      title: `매물 체크리스트`,
+      title: `매물 체크리스트 | ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오'
+      }`,
       description: '집보는데 뭘 봐야할까? 네고시오에서 제안하는 매물 체크리스트를 참고해보세요!',
       ogTitle: '매물 체크리스트',
       ogDescription: '집보는데 뭘 봐야할까? 네고시오에서 제안하는 매물 체크리스트를 참고해보세요!',
@@ -44,12 +73,18 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
       ogTitleOnly: true,
+
+      canonical: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.EntryMobile}/${Routes.ListingCheckList}`,
     };
   }
 
   if (targetRoute === Routes.CommonSense) {
     return {
-      title: `부동산 상식`,
+      title: `부동산 상식 | ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오'
+      }`,
       description: '가장 중요하지만, 가장 어려운 부동산 상식의 모든 것을 알려드릴게요!',
       ogTitle: '부동산 상식',
       ogDescription: '가장 중요하지만, 가장 어려운 부동산 상식의 모든 것을 알려드릴게요!',
@@ -57,12 +92,18 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
       ogTitleOnly: true,
+
+      canonical: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.EntryMobile}/${Routes.CommonSense}`,
     };
   }
 
   if (targetRoute === Routes.SpecialTerms) {
     return {
-      title: `계약서 및 특약사항`,
+      title: `계약서 및 특약사항 | ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오'
+      }`,
       description: '계약서 작성부터 꼭 필요한 특약사항까지 모두 알려드려요!',
       ogTitle: '계약서 및 특약사항',
       ogDescription: '계약서 작성부터 꼭 필요한 특약사항까지 모두 알려드려요!',
@@ -70,12 +111,18 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
       ogTitleOnly: true,
+
+      canonical: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.EntryMobile}/${Routes.SpecialTerms}`,
     };
   }
 
   if (targetRoute === Routes.Dictionary) {
     return {
-      title: `부동산 용어 사전`,
+      title: `부동산 용어 사전 | ${
+        process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오'
+      }`,
       description: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
       ogTitle: '부동산 용어 사전',
       ogDescription: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
@@ -83,6 +130,8 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
       ogType: 'website',
       ogTitleOnly: true,
+
+      canonical: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.EntryMobile}/${Routes.Dictionary}`,
     };
   }
 
@@ -96,7 +145,15 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       const convertedTitle = `부동산 용어 사전 > ${data?.term?.name ?? ''}`;
 
       return {
-        title: convertedTitle ? `${convertedTitle}` : '',
+        title: convertedTitle
+          ? `${convertedTitle}  | ${
+              process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+                ? '(TEST) 부동산 가격협상 앱 네고시오'
+                : '부동산 가격협상 앱 네고시오'
+            }`
+          : process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+          ? '(TEST) 부동산 가격협상 앱 네고시오'
+          : '부동산 가격협상 앱 네고시오',
         description: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
         ogTitle: convertedTitle ? `${convertedTitle}` : '',
         ogDescription: '부동산과 관련된 용어를 예시와 함께 설명해드려요!',
@@ -452,8 +509,8 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
         keyWords: `'${
           data?.name || ''
         }', 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
-        canonical: `https://www.negocio.co.kr/danjiDetail?danjiID=${query?.danjiID}`,
-        alternate: `https://www.negocio.co.kr/m/danjiDetail?danjiID=${query?.danjiID}`,
+        canonical: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.DanjiDetail}?danjiID=${query?.danjiID}`,
+        alternate: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.EntryMobile}/${Routes.DanjiDetail}?danjiID=${query?.danjiID}`,
       };
     } catch (e) {
       return defaultMeta;
@@ -465,7 +522,7 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
       const { data: lawQnaDetail } = await axios.post('/lawqna/get', { law_qna_id: Number(query.qnaID) });
 
       return {
-        title: `네고시오 부동산 법률 상담 게시판 | ${
+        title: `부동산 법률 상담 게시판 | ${
           process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
             ? '(TEST) 부동산 가격협상 앱 네고시오'
             : '부동산 가격협상 앱 네고시오'
@@ -487,13 +544,13 @@ export default async function getHtmlMetas(query: ParsedUrlQuery) {
 
   if (targetRoute === Routes.LawQna) {
     return {
-      title: `네고시오 부동산 법률 상담 게시판 | ${
+      title: `부동산 법률 상담 게시판 | ${
         process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
           ? '(TEST) 부동산 가격협상 앱 네고시오'
           : '부동산 가격협상 앱 네고시오'
       }`,
       description: '실제 변호사에게 답변을 받을 수 있는 부동산 상담',
-      ogTitle: '네고시오 부동산 법률 상담 게시판',
+      ogTitle: '부동산 법률 상담 게시판',
       ogDescription: '실제 변호사에게 답변을 받을 수 있는 부동산 상담',
       ogImagePath: Paths.LAWQNA,
       ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',

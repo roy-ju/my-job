@@ -10,7 +10,7 @@ import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
 
 import { SocialLoginType } from '@/constants/enums';
 
-import getKakaoAccessToken from '@/apis/internal/getKakaoAccessToken';
+import getKakaoAccessToken from '@/services/internal/getkakaoAccessToken';
 
 export default function useKakaoLoginCallbackHandler({ ipAddress }: { ipAddress: any }) {
   const handleLogin = useCallback(

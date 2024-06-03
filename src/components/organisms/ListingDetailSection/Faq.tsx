@@ -1,6 +1,6 @@
 import List from '@/components/domains/my/faq/List';
 
-import useFetchInternalFaqList from '@/apis/internal/getFaqs';
+import useFetchInternalFaqList from '@/services/internal/useFetchInternalFaqList';
 
 export default function Faq() {
   const { data } = useFetchInternalFaqList();

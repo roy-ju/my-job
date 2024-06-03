@@ -42,7 +42,7 @@ import SchoolInfo from './detail/school-info-mobile';
 
 import News from './detail/news';
 
-import { Container, HeaderWrraper } from './detail/widget/MobileTemplateWidget';
+import { Container, HeaderWrraper } from './detail/widget/danjiDetailWidget';
 
 import { CommonDanjiDetailProps } from './detail/types';
 

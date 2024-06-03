@@ -47,13 +47,7 @@ export default function useHeaderHandler({ isSeo, danji }: { isSeo?: boolean; da
 
   const handleClickBack = () => {
     if (isSeo) {
-      const canGoBack = window.history.length > 1;
-
-      if (canGoBack) {
-        router.back();
-      } else {
-        router.replace(platform === 'pc' ? `/` : `/${Routes.EntryMobile}`);
-      }
+      router.replace(platform === 'pc' ? `/` : `/${Routes.EntryMobile}`);
 
       return;
     }
