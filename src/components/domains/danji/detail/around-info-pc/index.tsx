@@ -1,4 +1,4 @@
-import dynamic from 'next/dynamic';
+import tw from 'twin.macro';
 
 import { v4 as uuid4 } from 'uuid';
 
@@ -19,23 +19,23 @@ import {
   DistanceText,
   ListItem,
   LoadingWrraper,
-  MapWrraper,
   NameText,
   NodataWrraper,
   ScrollContainer,
   Title,
   TitleWrraper,
-} from './widget/DanjiAroundInfoMobileWidget';
+} from './widget/DanjiAroundInfoPcWidget';
 
-import useAroundInfoMobileHandler from './hooks/useAroundInfoMobileHandler';
+import useAroundInfoMobileHandler from './hooks/useAroundInfoPcHandler';
 
 import { categoryButtonList } from './types';
 
-const DanjiAroundMapCard = dynamic(() => import('../danji-around-map-card'), { ssr: false });
-
 export default function AroundInfo({ danji }: CommonDanjiDetailProps) {
   const {
+    interactionState,
+
     scrollRef,
+    listRefs,
     refs,
 
     onDragStart,
@@ -50,8 +50,8 @@ export default function AroundInfo({ danji }: CommonDanjiDetailProps) {
 
     nodata,
 
-    convertedMarker,
     convertedCategory,
+    convertPlaceName,
 
     handleClickListItem,
     handleClickMoreButton,
@@ -70,7 +70,7 @@ export default function AroundInfo({ danji }: CommonDanjiDetailProps) {
     <Container>
       <TitleWrraper>
         <Title>교통 및 주변정보</Title>
-        <Button size="small" variant="outlined" onClick={() => handleClickBtn()}>
+        <Button size="small" variant="outlined" selected={interactionState.around} onClick={handleClickBtn}>
           지도에서 보기
         </Button>
       </TitleWrraper>
@@ -98,10 +98,6 @@ export default function AroundInfo({ danji }: CommonDanjiDetailProps) {
         ))}
       </ScrollContainer>
 
-      <MapWrraper>
-        <DanjiAroundMapCard aroundList={convertedMarker} danji={danji} addressName="" />
-      </MapWrraper>
-
       {catergoryList.length === 0 &&
         (nodata ? (
           <NodataWrraper style={{ minHeight: '9.5125rem' }}>
@@ -115,10 +111,30 @@ export default function AroundInfo({ danji }: CommonDanjiDetailProps) {
         <ListContainer>
           {convertedCategory.slice(0, sliceNum).map((item, index) => (
             <ListItem
-              isFirst={index === 0}
               id={item.id}
               key={`${item.id}-${uuid4()}`}
-              onClick={() => handleClickListItem(item.address_name, item.place_name, item.x, item.y)}
+              ref={(element) => {
+                listRefs.current[index] = element;
+              }}
+              css={[
+                index === 0
+                  ? tw`[border-top: 1px solid #F4F6FA] [border-bottom: 1px solid #F4F6FA] px-4 py-[3px]`
+                  : tw`[border-bottom: 1px solid #F4F6FA] px-4 py-[3.5px]`,
+                (interactionState.danjiAroundPlaceName
+                  ? item.place_name === interactionState.danjiAroundPlaceName
+                  : item.address_name === interactionState.selectedAroundMarker?.addressName ||
+                    convertPlaceName({ category: item.category_group_code, name: item.place_name }) ===
+                      convertPlaceName({
+                        category: interactionState.selectedAroundMarker?.type,
+                        name:
+                          typeof interactionState.selectedAroundMarker?.place === 'string'
+                            ? interactionState.selectedAroundMarker?.place
+                            : interactionState?.selectedAroundMarker?.place
+                            ? interactionState?.selectedAroundMarker?.place[0]
+                            : '',
+                      })) && tw`bg-[#F3F0FF]`,
+              ]}
+              onClick={() => handleClickListItem(item.id, item.place_name, item.address_name)}
             >
               {activeCategory.SW8 && (
                 <SubwayFormatUI categoryGroupName={item.category_name} categoryGroupCode={item.category_group_code} />

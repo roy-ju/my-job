@@ -2,9 +2,9 @@
 
 import { useRef, useState, MouseEvent, useMemo, useEffect } from 'react';
 
-import cloneDeep from 'lodash/cloneDeep';
+import { useRecoilValue } from 'recoil';
 
-import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { convertedArr, convertedArrForMarker } from '@/utils/danjiAroundInfo';
 
@@ -14,12 +14,22 @@ import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_
 
 import { DanjiDetailResponse } from '@/services/danji/types';
 
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
+
+import danjiInteractionAtom from '@/states/atom/danjiInteraction';
+
 import { BtnState } from '../types';
 
-export default function useAroundInfoMobileHandler({ danji }: { danji?: DanjiDetailResponse }) {
+export default function useAroundInfoPcHandler({ danji }: { danji?: DanjiDetailResponse }) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const refs = useRef<any>([]);
+
+  const listRefs = useRef<any>([]);
+
+  const interactionState = useRecoilValue(danjiInteractionAtom);
+
+  const interactionStore = useDanjiInteraction({ danjiData: danji });
 
   const [catergoryList, setCategoryList] = useState<SearchCategoryResponse['documents']>([]);
 
@@ -37,20 +47,13 @@ export default function useAroundInfoMobileHandler({ danji }: { danji?: DanjiDet
     HP8: true,
   });
 
+  const [selectedIndex, setSelctedIndex] = useState<number>();
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const [isDrag, setIsDrag] = useState<boolean>(false);
 
   const [startX, setStartX] = useState<number>();
-
-  const {
-    makeTrueAround,
-    makeBindDanji,
-    makeDanjiAroundDetailDefault,
-    makeDanjiAroundAddress,
-    makeDanjiAroundLatLng,
-    makeDanjiAroundPlace,
-  } = useMobileDanjiInteraction();
 
   const onDragStart = (e: MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current) return;
@@ -94,10 +97,28 @@ export default function useAroundInfoMobileHandler({ danji }: { danji?: DanjiDet
     return convertedArrForMarker([...markers]);
   }, [update, activeCategory]);
 
+  const handleClickBtn = () => {
+    if (interactionState.around) {
+      interactionStore.makeAroundOff();
+      interactionStore.makeDanjiAroundPlaceName('');
+    } else {
+      interactionStore.makeSchoolOff();
+      interactionStore.makeSelectedSchoolMarkerDefault();
+
+      interactionStore.makeAroundOn();
+      interactionStore.makeAroundMarker(convertedMarker);
+    }
+  };
+
   const onClickCategory = async (id: keyof BtnState, index: number) => {
     setActiveIndex(index);
     setSliceNum(3);
     setIsMoreClick(false);
+    setSelctedIndex(undefined);
+
+    interactionStore.makeCategory(id as string);
+    interactionStore.makeSelectedAroundMarkerDefault();
+    interactionStore.makeSelectedAroundDefault();
 
     if (id === Object.keys(activeCategory)[0]) return;
 
@@ -106,30 +127,19 @@ export default function useAroundInfoMobileHandler({ danji }: { danji?: DanjiDet
     setMarkers([]);
   };
 
-  const handleClickBtn = async (address?: string, placeName?: string, lat?: string, lng?: string) => {
-    await makeTrueAround();
-    makeBindDanji(danji);
-    makeDanjiAroundDetailDefault(Object.keys(activeCategory)[0] as keyof BtnState);
-
-    if (address) {
-      makeDanjiAroundAddress(address);
+  const handleClickListItem = (id: string, placeName: string, address: string) => {
+    if (!interactionState.around) {
+      interactionStore.makeAroundOn();
+      interactionStore.makeAroundMarker(convertedMarker);
+      interactionStore.makeSchoolOff();
+      interactionStore.makeSelectedSchoolMarkerDefault();
     }
 
-    if (placeName) {
-      makeDanjiAroundPlace(placeName);
-    }
+    interactionStore.makeDanjiAroundPlaceName(placeName);
 
-    if (lat && lng) {
-      makeDanjiAroundLatLng(lat, lng);
-    }
-  };
-
-  const handleClickListItem = (addressName: string, placeName: string, x: string | string[], y: string | string[]) => {
-    if (typeof x === 'string' && typeof y === 'string') {
-      handleClickBtn(addressName, placeName, x, y);
-    } else {
-      handleClickBtn(addressName, placeName, x[0], y[0]);
-    }
+    setTimeout(() => {
+      interactionStore.makeSelectedAround(`aroundMarker:${id}`, address);
+    }, 200);
   };
 
   const handleClickMoreButton = () => {
@@ -151,6 +161,26 @@ export default function useAroundInfoMobileHandler({ danji }: { danji?: DanjiDet
       scrollRef.current.scrollLeft = childOffsetLeft - offsetLeft - scrollRef.current.offsetWidth / 2 + offsetWidth / 2;
     }
   }, [activeIndex]);
+
+  useEffect(() => {
+    if (convertedMarker) {
+      interactionStore.makeAroundMarker(convertedMarker);
+    }
+  }, [activeCategory, update]);
+
+  useEffect(() => {
+    const scrollContainer = document.getElementById('scroll-container');
+
+    if (listRefs?.current && typeof selectedIndex === 'number' && scrollContainer) {
+      // listRefs?.current[selectedIndex]?.scrollIntoView({ behavior: 'smooth', block: 'middle', inline: 'nearest' });
+      const height = listRefs?.current[selectedIndex]?.getBoundingClientRect().top ?? 0;
+
+      scrollContainer.scrollBy({
+        top: height - 450,
+        behavior: 'smooth',
+      });
+    }
+  }, [selectedIndex, convertedCategory, listRefs?.current]);
 
   useEffect(() => {
     let page = 1;
@@ -230,8 +260,64 @@ export default function useAroundInfoMobileHandler({ danji }: { danji?: DanjiDet
     };
   }, [activeCategory]);
 
+  const convertPlaceName = ({ category, name }: { category?: string; name?: string }) => {
+    if (!name) return '';
+
+    if (category === KakaoMapCategoryCode.SUBWAY) {
+      const index = name.indexOf('역');
+      return name.slice(0, index + 1);
+    }
+
+    return name;
+  };
+
+  useEffect(() => {
+    if (convertedCategory && convertedCategory.length > 0 && interactionState.selectedAroundMarker) {
+      const index = convertedCategory.findIndex(
+        (item) =>
+          item.address_name === interactionState?.selectedAroundMarker?.addressName ||
+          `aroundMarker:${item.id}` === interactionState?.selectedAroundMarker?.id,
+      );
+
+      if (index === -1) {
+        const anotherIndex = convertedCategory.findIndex(
+          (item) =>
+            convertPlaceName({ category: item.category_group_code, name: item.place_name }) ===
+            convertPlaceName({
+              category: interactionState.selectedAroundMarker?.type,
+              name:
+                typeof interactionState.selectedAroundMarker?.place === 'string'
+                  ? interactionState.selectedAroundMarker?.place
+                  : interactionState?.selectedAroundMarker?.place
+                  ? interactionState?.selectedAroundMarker?.place[0]
+                  : '',
+            }),
+        );
+
+        setSelctedIndex(anotherIndex);
+        if (anotherIndex > 2) {
+          setSliceNum(convertedCategory.length);
+        }
+      } else {
+        setSelctedIndex(index);
+        if (index > 2) {
+          setSliceNum(convertedCategory.length);
+        }
+      }
+    }
+  }, [interactionState.selectedAroundMarker, convertedCategory]);
+
+  useEffect(() => {
+    if (typeof selectedIndex === 'number' && selectedIndex > 2) {
+      setIsMoreClick(true);
+    }
+  }, [selectedIndex]);
+
   return {
+    interactionState,
+
     scrollRef,
+    listRefs,
     refs,
 
     onDragStart,
@@ -246,8 +332,8 @@ export default function useAroundInfoMobileHandler({ danji }: { danji?: DanjiDet
 
     nodata,
 
-    convertedMarker,
     convertedCategory,
+    convertPlaceName,
 
     handleClickListItem,
     handleClickMoreButton,

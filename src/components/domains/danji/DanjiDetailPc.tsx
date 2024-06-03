@@ -38,7 +38,7 @@ import SuggestsOrListings from './detail/suggest-or-listings-pc';
 
 import BasicInfo from './detail/basic-info-pc';
 
-import SchoolInfo from './detail/school-info-mobile';
+import SchoolInfo from './detail/school-info-pc';
 
 import News from './detail/news';
 
@@ -54,7 +54,7 @@ const BottomDiv = styled.div`
 
 const Realprice = dynamic(() => import('./detail/real-price'), { ssr: false });
 
-const AroundInfo = dynamic(() => import('./detail/around-info-mobile'), { ssr: false });
+const AroundInfo = dynamic(() => import('./detail/around-info-pc'), { ssr: false });
 
 interface DanjiDetailProps extends CommonDanjiDetailProps {
   danjiPhotos?: DanjiPhotosResponse;
@@ -104,7 +104,6 @@ function DanjiDetailPc({
         <HeaderWrraper>
           <Header danji={danji} isHeaderActive={isHeaderActive} />
         </HeaderWrraper>
-
         <RelativeFlexContents id="scroll-container" ref={scrollContainer}>
           <PhotosPc danji={danji} danjiPhotos={danjiPhotos} />
           <TabsMobile
