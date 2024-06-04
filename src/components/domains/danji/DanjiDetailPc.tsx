@@ -63,7 +63,6 @@ interface DanjiDetailProps extends CommonDanjiDetailProps {
   naverDanji?: NaverDanjiResponse;
   preselectedSchoolType: number;
   danjiSchools?: DanjiSchoolsResponse;
-  handleMutateDanji?: () => void;
 }
 
 function DanjiDetailPc({
@@ -74,7 +73,6 @@ function DanjiDetailPc({
   naverDanji,
   preselectedSchoolType,
   danjiSchools,
-  handleMutateDanji,
 }: DanjiDetailProps) {
   const {
     scrollContainer,

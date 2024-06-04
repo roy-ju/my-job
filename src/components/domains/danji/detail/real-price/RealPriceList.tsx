@@ -131,6 +131,8 @@ function RealPricesList({
         ...query,
         ...(router.query.listingID ? { listingID: router.query.listingID as string } : {}),
         danjiID: `${danjiId}`,
+        bor: buyOrRent?.toString() || '',
+        sl: selectedYear?.toString() || '',
       };
 
       if (depth1 && depth2) {
