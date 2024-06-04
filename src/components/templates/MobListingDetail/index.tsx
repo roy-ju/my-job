@@ -30,6 +30,7 @@ import { QnaListResponse } from '@/services/qna/types';
 
 import useDanjiDetailMobile from '@/components/domains/danji/hooks/useDanjiDetailMobile';
 
+import SchoolInfoPc from '@/components/domains/danji/detail/school-info-pc';
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
 
 import UserStatusStrings from '../ListingDetail/strings';

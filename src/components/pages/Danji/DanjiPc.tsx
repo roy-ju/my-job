@@ -1,5 +1,3 @@
-import { useCallback } from 'react';
-
 import dynamic from 'next/dynamic';
 
 import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
@@ -40,11 +38,7 @@ const DanjiPc = ({
   preselectedSchoolType: number;
   prefetchedDanjiSchoolData?: DanjiSchoolsResponse;
 }) => {
-  const { data, mutate } = useFetchDanjiDetail({ prefetchedData });
-
-  const handleMutateDanji = useCallback(() => {
-    mutate();
-  }, [mutate]);
+  const { data } = useFetchDanjiDetail({ prefetchedData });
 
   if (data && data?.error_code) {
     return <InvalidAccessPopup />;
@@ -61,7 +55,6 @@ const DanjiPc = ({
           danjiSchools={prefetchedDanjiSchoolData}
           naverDanji={prefetchedNaverDanji}
           preselectedSchoolType={preselectedSchoolType}
-          handleMutateDanji={handleMutateDanji}
         />
       )}
     </Panel>

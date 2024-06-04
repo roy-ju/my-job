@@ -7,7 +7,6 @@ export { default as MapListingList } from './MapListingList';
 
 export { default as ChatRoomReport } from './ChatRoomReport';
 
-export { default as DanjiDetail } from './DanjiDetail';
 export { default as DanjiSelect } from './DanjiSelect';
 export { default as DanjiRealPriceListAll } from './DanjiRealPriceListAll';
 export { default as RealPriceDetail } from './RealPriceDetail';
