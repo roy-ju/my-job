@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import dynamic from 'next/dynamic';
 
@@ -70,7 +70,7 @@ const SuggestNotInterestedPopup = dynamic(() => import('./popups/SuggestNotInter
 
 const InvalidAccessPopup = dynamic(() => import('@/components/organisms/popups/InvalidAccessPopup'), { ssr: false });
 
-export default memo(() => {
+export default function ListingDetailMobile() {
   const router = useRouter();
 
   const listingID = Number(router.query.listingID) ?? 0;
@@ -242,4 +242,4 @@ export default memo(() => {
       )}
     </>
   );
-});
+}
