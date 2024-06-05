@@ -14,12 +14,6 @@ import { SharePopup } from '@/components/organisms';
 
 import { MobListingDetail } from '@/components/templates';
 
-import FullScreenMap from '@/components/templates/MobDanjiDetail/Components/FullScreenMap';
-
-import DanjiAroundDetail from '@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail';
-
-import DanjiSchoolDetail from '@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail';
-
 import ErrorCodes from '@/constants/error_codes';
 
 import { ListingDetailResponse } from '@/services/listing/types';
@@ -53,6 +47,18 @@ import useSuggestHandler from '../../ListingDetail/hooks/useSuggestHandler';
 import useMoreButtonHandler from '../../ListingDetail/hooks/useMoreButtonHandler';
 
 import useListingViewMobile from '../../ListingDetail/hooks/useListingViewMobile';
+
+const DanjiAroundDetail = dynamic(() => import('@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail'), {
+  ssr: false,
+});
+
+const DanjiSchoolDetail = dynamic(() => import('@/components/templates/MobDanjiDetail/Components/DanjiSchoolDetail'), {
+  ssr: false,
+});
+
+const FullScreenMap = dynamic(() => import('@/components/domains/danji/detail/full-screen-map'), {
+  ssr: false,
+});
 
 const SuggestAcceptRecommendPopup = dynamic(() => import('../../ListingDetail/popups/SuggestAcceptRecommendPopup'), {
   ssr: false,
