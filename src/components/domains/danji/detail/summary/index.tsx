@@ -1,5 +1,7 @@
 import { memo } from 'react';
 
+import tw from 'twin.macro';
+
 import Name from './Name';
 
 import Address from './Address';
@@ -12,9 +14,13 @@ import { Container, PaddingInlineWrraper } from './widget/SummaryWidget';
 
 import { CommonDanjiDetailProps } from '../types';
 
-function Summary({ danji }: CommonDanjiDetailProps) {
+interface SummaryProps extends CommonDanjiDetailProps {
+  isListingDetailPage?: boolean;
+}
+
+function Summary({ danji, isListingDetailPage = false }: SummaryProps) {
   return (
-    <Container>
+    <Container css={[isListingDetailPage && tw`pb-0`]}>
       <PaddingInlineWrraper>
         <Name danji={danji} />
         <Address danji={danji} />

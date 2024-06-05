@@ -312,7 +312,11 @@ export default function DanjiSchoolMapCard({
           const index = list.findIndex((ele) => ele.school_id === danjiSchoolID);
           const initialSchool = list.find((ele) => ele.school_id === danjiSchoolID);
 
-          setTimeout(() => listRefs.current[index].scrollIntoView(true), 500);
+          setTimeout(() => {
+            if (listRefs?.current[index]) {
+              listRefs.current[index].scrollIntoView(true);
+            }
+          }, 500);
 
           if (index && initialSchool) {
             map.panTo(new naver.maps.LatLng(initialSchool?.lat, initialSchool?.long), {

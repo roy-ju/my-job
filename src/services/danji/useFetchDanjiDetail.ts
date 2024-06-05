@@ -16,11 +16,11 @@ export function useFetchDanjiDetail({
   const router = useRouter();
 
   const id = useMemo(() => {
+    if (danjiID) return danjiID;
+
     if (router?.query?.danjiID && Number(router.query.danjiID) > 0) {
       return Number(router.query.danjiID);
     }
-
-    if (danjiID) return danjiID;
 
     return 0;
   }, [danjiID, router?.query?.danjiID]);

@@ -169,14 +169,16 @@ export default memo(() => {
             <MobListingDetail
               listingDetail={data as ListingDetailResponse}
               qnaList={qnaData}
-              isLoading={isLoading || isLoadingStatus}
               hasMoreQnas={hasMoreQnas}
               realestateDocumentData={realestateDocumentData}
               onClickBack={handleClickBack}
+              onClickShare={() => handleOpenPopup('share')}
               onClickMoreItem={handleClickMoreItem}
               onClickFavorite={handleClickFavorite}
               onClickLoadMoreQna={loadMoreQnas}
               onClickDeleteQna={handleClickDeleteQna}
+              onClickSuggestAcceptRecommend={() => handleOpenPopup('suggestAcceptRecommend')}
+              onClickSuggestNotInterested={() => handleOpenPopup('suggestNotInterested')}
               onNavigateToParticipateBidding={handleNavigateToParticipateBidding}
               onNavigateToUpdateTargetPrice={handleNavigateToUpdateTargetPrice}
               onNavigateToUpdateBidding={handleNavigateToUpdateBidding}
@@ -185,9 +187,6 @@ export default memo(() => {
               onNavigateToPhotoGallery={handleNavigateToPhotoGallery}
               onNavigateToSuggestForm={handleNavigateToSuggestForm}
               onNavigateToListingDetailHistory={handleNavigateToListingDetailHistory}
-              onClickShare={() => handleOpenPopup('share')}
-              onClickSuggestAcceptRecommend={() => handleOpenPopup('suggestAcceptRecommend')}
-              onClickSuggestNotInterested={() => handleOpenPopup('suggestNotInterested')}
             />
             {popup === 'suggestNotInterested' && (
               <SuggestNotInterestedPopup

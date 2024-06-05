@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect } from 'react';
 
 import tw, { styled } from 'twin.macro';
@@ -34,7 +33,7 @@ const RelativeDivContainer = styled.div`
 export default function Map({ danji }: CommonDanjiDetailProps) {
   const { mapType, makeRoadType, makePanoPosition } = useMobileDanjiMap();
 
-  const danjiMapButtonStore = useMobileDanjiInteraction();
+  const { makeTrue } = useMobileDanjiInteraction();
 
   const {
     streetViewLayer,
@@ -49,6 +48,10 @@ export default function Map({ danji }: CommonDanjiDetailProps) {
     updateClickedCenter,
     bindPanorama,
   } = useBasicInfoDanjiMapMobile({ danji });
+
+  const handleEnlarge = useCallback(() => {
+    makeTrue();
+  }, [makeTrue]);
 
   useEffect(() => {
     if (!map) return;
@@ -65,19 +68,20 @@ export default function Map({ danji }: CommonDanjiDetailProps) {
     }
 
     naver.maps.Event.addListener(map, 'click', (e) => {
+      console.log(e);
       const latlng = e.coord;
 
       if (streetLayer.getMap()) {
+        console.log('hi');
         makeRoadType();
         updateClickedCenter({ lat: latlng.y, lng: latlng.x });
         makePanoPosition(latlng.y, latlng.x);
       }
     });
-  }, [mapType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapType, map]);
 
-  const handleEnlarge = useCallback(() => {
-    danjiMapButtonStore.makeTrue();
-  }, []);
+  console.log(mapType);
 
   return (
     <DivContainer ref={containerRef}>
@@ -97,6 +101,7 @@ export default function Map({ danji }: CommonDanjiDetailProps) {
             />
             <MapTypeButton type={mapType} right="12px" bottom="12px" />
             {mapType === 'road' && <MapStreet containerId="panorama-small" bindPanorama={bindPanorama} />}
+
             {(mapType === 'map' || mapType === 'roadlayer') && (
               <NaverMapV1
                 onCreate={onCreate}

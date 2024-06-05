@@ -10,6 +10,10 @@ const ListContainer = styled.div`
   }
 `;
 
+const SectionWrraper = styled.div`
+  ${tw`px-5 py-10`}
+`;
+
 export interface ListItemProps {
   item?: NonNullable<QnaListResponse['list']>[0];
   onClickDelete?: () => void;
@@ -50,7 +54,7 @@ function ListItem({ item, onClickDelete }: ListItemProps) {
   );
 }
 
-export interface QnaProps {
+export interface ListingDetailQnaProps {
   isOwner?: boolean;
   isLoading?: boolean;
   hasNext?: boolean;
@@ -60,7 +64,7 @@ export interface QnaProps {
   onClickNext?: () => void;
 }
 
-export default function Qna({
+export default function ListingDetailQna({
   isOwner = false,
   qnaList,
   hasNext,
@@ -68,7 +72,7 @@ export default function Qna({
   onClickDeleteQna,
   onClickCreateQna,
   onClickNext,
-}: QnaProps) {
+}: ListingDetailQnaProps) {
   const qnaSize = qnaList?.length ?? 0;
 
   if (isLoading) {
@@ -80,31 +84,33 @@ export default function Qna({
   }
 
   return (
-    <div>
-      <div tw="flex justify-between">
-        <div tw="font-bold">
-          <h2>매물문의</h2>
+    <SectionWrraper>
+      <div>
+        <div tw="flex justify-between">
+          <div tw="font-bold">
+            <h2>매물문의</h2>
+          </div>
+          {!isOwner && (
+            <Button variant="outlined" size="small" onClick={onClickCreateQna} name="listingDetailQna">
+              문의하기
+            </Button>
+          )}
         </div>
-        {!isOwner && (
-          <Button variant="outlined" size="small" onClick={onClickCreateQna} name="listingDetailQna">
-            문의하기
+        {qnaSize > 0 ? (
+          <ListContainer>
+            {qnaList?.map((item) => (
+              <ListItem key={item.id} item={item} onClickDelete={() => onClickDeleteQna?.(item.id)} />
+            ))}
+          </ListContainer>
+        ) : (
+          <div tw="text-b2 text-gray-700 h-12 my-4 flex items-center justify-center">매물문의 내역이 없습니다.</div>
+        )}
+        {hasNext && (
+          <Button tw="w-full" variant="outlined" onClick={onClickNext}>
+            더보기
           </Button>
         )}
       </div>
-      {qnaSize > 0 ? (
-        <ListContainer>
-          {qnaList?.map((item) => (
-            <ListItem key={item.id} item={item} onClickDelete={() => onClickDeleteQna?.(item.id)} />
-          ))}
-        </ListContainer>
-      ) : (
-        <div tw="text-b2 text-gray-700 h-12 my-4 flex items-center justify-center">매물문의 내역이 없습니다.</div>
-      )}
-      {hasNext && (
-        <Button tw="w-full" variant="outlined" onClick={onClickNext}>
-          더보기
-        </Button>
-      )}
-    </div>
+    </SectionWrraper>
   );
 }
