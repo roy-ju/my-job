@@ -1,7 +1,9 @@
 import { Fragment, useMemo } from 'react';
 
-import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { customAlphabet } from 'nanoid';
+
+import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
+
 import BUSANFOUR from '@/assets/mapsubwayicons/busan_four.svg';
 import BUSANONE from '@/assets/mapsubwayicons/busan_one.svg';
 import BUSANTHREE from '@/assets/mapsubwayicons/busan_three.svg';

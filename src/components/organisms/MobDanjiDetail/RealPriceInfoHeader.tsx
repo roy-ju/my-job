@@ -1,10 +1,12 @@
-import React from 'react';
-import { Tabs } from '@/components/molecules';
-import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
+import { useRouter } from 'next/router';
+
 import { Button } from '@/components/atoms';
 
+import { Tabs } from '@/components/molecules';
+
+import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
+
 import Routes from '@/router/routes';
-import { useRouter } from 'next/router';
 
 export default function RealPriceInfoHeader({
   danjiId,

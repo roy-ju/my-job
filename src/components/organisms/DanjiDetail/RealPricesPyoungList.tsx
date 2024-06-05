@@ -1,12 +1,19 @@
-import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
-import { Button, Checkbox } from '@/components/atoms';
-import { BuyOrRent } from '@/constants/enums';
-import { cuttingDot } from '@/utils/fotmat';
+import { useMemo, useRef, useState, MouseEvent, TouchEvent, useEffect } from 'react';
+
+import tw from 'twin.macro';
+
 import { motion } from 'framer-motion';
+
 import { customAlphabet } from 'nanoid';
 
-import { useMemo, useRef, useState, MouseEvent, TouchEvent, useEffect } from 'react';
-import tw from 'twin.macro';
+import { Button, Checkbox } from '@/components/atoms';
+
+import { cuttingDot } from '@/utils/fotmat';
+
+import { BuyOrRent } from '@/constants/enums';
+
+import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
+
 import { Wrraper } from './ButtonWrraper';
 
 export default function RealPricesPyoungList({
