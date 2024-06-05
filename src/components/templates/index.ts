@@ -30,7 +30,6 @@ export { default as ListingCreateForm } from './ListingCreateForm';
 export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
 export { default as ReportListing } from './ReportListing';
-export { default as PhotoGallery } from './PhotoGallery';
 
 export { default as LegalCounseling } from './LegalCounseling';
 export { default as LegalCounselingSearch } from './LegalCounselingSearch';

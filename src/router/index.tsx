@@ -218,7 +218,7 @@ const ListingCreateResult = dynamic(() => import('@/components/pages/ListingCrea
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingPhotoGallery = dynamic(() => import('@/components/pages/pc/ListingPhotoGallery'), {
+const ListingPhotoGallery = dynamic(() => import('@/components/pages/ListingPhotoGallery/ListingPhotoGalleryPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
