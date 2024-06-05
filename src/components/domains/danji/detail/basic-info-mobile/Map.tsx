@@ -68,11 +68,9 @@ export default function Map({ danji }: CommonDanjiDetailProps) {
     }
 
     naver.maps.Event.addListener(map, 'click', (e) => {
-      console.log(e);
       const latlng = e.coord;
 
       if (streetLayer.getMap()) {
-        console.log('hi');
         makeRoadType();
         updateClickedCenter({ lat: latlng.y, lng: latlng.x });
         makePanoPosition(latlng.y, latlng.x);
@@ -80,8 +78,6 @@ export default function Map({ danji }: CommonDanjiDetailProps) {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapType, map]);
-
-  console.log(mapType);
 
   return (
     <DivContainer ref={containerRef}>
