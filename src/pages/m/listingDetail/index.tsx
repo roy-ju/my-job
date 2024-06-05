@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
-const ListingDetail = dynamic(() => import('@/components/pages/mobile/ListingDetail'), { ssr: false });
+const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail/ListingDetailMobile'), { ssr: false });
 
 const Page: NextPageWithLayout = () => <ListingDetail />;
 

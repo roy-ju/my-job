@@ -10,7 +10,7 @@ import { OverlayPresenter } from '@/components/molecules';
 
 import { SharePopup } from '@/components/organisms';
 
-import { ListingDetail } from '@/components/templates';
+import ListingDetailPcTemplate from '@/components/domains/listings/detail/ListingDetailPcTemplate';
 
 import ErrorCodes from '@/constants/error_codes';
 
@@ -24,29 +24,29 @@ import useFetchQnaList from '@/services/qna/useFetchQnaList';
 
 import useFetchListingRealestateDocumentSummary from '@/services/listing/useFetchListingRealestateDocumentSummary';
 
-import useListingDetailRedirectorPc from '../../ListingDetail/hooks/useListingDetailRedirectorPc';
+import useListingDetailRedirectorPc from './hooks/useListingDetailRedirectorPc';
 
-import useListingDetailPc from '../../ListingDetail/hooks/useListingDetailPc';
+import useListingDetailPc from './hooks/useListingDetailPc';
 
-import useFavroriteHandler from '../../ListingDetail/hooks/useFavroriteHandler';
+import useFavroriteHandler from './hooks/useFavroriteHandler';
 
-import useShareHandler from '../../ListingDetail/hooks/useShareHandler';
+import useShareHandler from './hooks/useShareHandler';
 
-import useQnasHandler from '../../ListingDetail/hooks/useQnasHandler';
+import useQnasHandler from './hooks/useQnasHandler';
 
-import useSuggestHandler from '../../ListingDetail/hooks/useSuggestHandler';
+import useSuggestHandler from './hooks/useSuggestHandler';
 
-import useMoreButtonHandler from '../../ListingDetail/hooks/useMoreButtonHandler';
+import useMoreButtonHandler from './hooks/useMoreButtonHandler';
 
-import useListingViewPc from '../../ListingDetail/hooks/useListingViewPc';
+import useListingViewPc from './hooks/useListingViewPc';
 
-import useWindowCallbacksSelectMarkerPc from '../../ListingDetail/hooks/useWindowCallbacksSelectMarkerPc';
+import useWindowCallbacksSelectMarkerPc from './hooks/useWindowCallbacksSelectMarkerPc';
 
-const SuggestAcceptRecommendPopup = dynamic(() => import('../../ListingDetail/popups/SuggestAcceptRecommendPopup'), {
+const SuggestAcceptRecommendPopup = dynamic(() => import('./popups/SuggestAcceptRecommendPopup'), {
   ssr: false,
 });
 
-const SuggestNotInterestedPopup = dynamic(() => import('../../ListingDetail/popups/SuggestNotInterestedPopup'), {
+const SuggestNotInterestedPopup = dynamic(() => import('./popups/SuggestNotInterestedPopup'), {
   ssr: false,
 });
 
@@ -135,7 +135,7 @@ export default memo(({ depth, panelWidth, listingID, ipAddress }: Props) => {
 
   return (
     <Panel width={panelWidth}>
-      <ListingDetail
+      <ListingDetailPcTemplate
         depth={depth}
         listingDetail={data as ListingDetailResponse}
         qnaList={qnaData}
