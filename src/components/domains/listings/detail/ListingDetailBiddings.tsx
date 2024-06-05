@@ -105,44 +105,48 @@ export default function ListingDetailBiddings({ listingDetail }: ListingDetailBi
   if (!biddingsChatRoomCreated && !biddingsChatRoomNotCreated) {
     if (isOwner) {
       return (
+        <SectionContainer>
+          <div>
+            <div tw="mb-3">
+              <div tw="flex items-center gap-1">
+                <div tw="font-bold">제안 현황</div>
+                <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
+                  <QuestionIcon />
+                </Button>
+              </div>
+            </div>
+            <div tw="text-center text-gray-700 text-b2 py-8">
+              매수인/임차인의 가격 제안을 기다려 보세요!
+              <br />
+              원하는 가격 제안이 들어오면 중개사님과 협의해 주세요.
+            </div>
+          </div>
+        </SectionContainer>
+      );
+    }
+
+    return (
+      <SectionContainer>
         <div>
           <div tw="mb-3">
             <div tw="flex items-center gap-1">
-              <div tw="font-bold">제안 현황</div>
+              <div tw="font-bold">
+                <h2>제안 현황</h2>
+              </div>
               <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
                 <QuestionIcon />
               </Button>
             </div>
           </div>
           <div tw="text-center text-gray-700 text-b2 py-8">
-            매수인/임차인의 가격 제안을 기다려 보세요!
-            <br />
-            원하는 가격 제안이 들어오면 중개사님과 협의해 주세요.
+            <h4>
+              생각해보는 금액을 제안해 보시고,
+              <br />
+              네고의 기회를 잡아보세요!
+            </h4>
           </div>
         </div>
-      );
-    }
-
-    return (
-      <div>
-        <div tw="mb-3">
-          <div tw="flex items-center gap-1">
-            <div tw="font-bold">
-              <h2>제안 현황</h2>
-            </div>
-            <Button variant="ghost" size="none" onClick={() => openTooltip('biddingParticipatingStatus')}>
-              <QuestionIcon />
-            </Button>
-          </div>
-        </div>
-        <div tw="text-center text-gray-700 text-b2 py-8">
-          <h4>
-            생각해보는 금액을 제안해 보시고,
-            <br />
-            네고의 기회를 잡아보세요!
-          </h4>
-        </div>
-      </div>
+      </SectionContainer>
     );
   }
 

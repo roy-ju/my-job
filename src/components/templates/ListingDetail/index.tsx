@@ -64,7 +64,7 @@ import Summary from '@/components/domains/danji/detail/summary';
 
 import BasicInfoPc from '@/components/domains/danji/detail/basic-info-pc';
 
-import DanjiRealpriceContainer from '../DanjiDetail/Components/DanjiRealpriceContainer';
+const Realprice = dynamic(() => import('@/components/domains/danji/detail/real-price'), { ssr: false });
 
 const AroundInfo = dynamic(() => import('@/components/domains/danji/detail/around-info-pc'), { ssr: false });
 
@@ -134,9 +134,11 @@ export default function ListingDetail({
   const interactStore = useDanjiInteraction({ danjiData: danji });
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
+
   const [userStatusAccordion, setUserStatusAccordion] = useState<HTMLDivElement | null>(null);
 
   const [isHeaderActive, setIsHeaderActive] = useState(false);
+
   const [isTopCtaButtonsVisible, setIsTopCtaButtonsVisible] = useState(true);
 
   const photoPaths = useMemo(() => {
@@ -154,15 +156,19 @@ export default function ListingDetail({
   }, [listingDetail?.listing?.realestate_type, listingDetail?.photos, listingDetail?.danji_photos]);
 
   const basicContainerRef = useRef<HTMLDivElement | null>(null);
-  const realPriceContainerRef = useRef<HTMLDivElement | null>(null);
+
   const basicDetailContainerRef = useRef<HTMLDivElement | null>(null);
+
   const danjiSchoolContainerRef = useRef<HTMLDivElement | null>(null);
 
   const [listingInfoSection, setListingInfoSection] = useState<HTMLDivElement | null>(null);
+
   const [danjiSection, setDanjiSection] = useState<HTMLDivElement | null>(null);
+
   const [qnaSection, setQnaSection] = useState<HTMLDivElement | null>(null);
 
   const [tabIndex, setTabIndex] = useState(0);
+
   const [visibleState, setVisibleState] = useState<Record<string, number>>({
     listingInfoSection: 0,
     danjiSection: 0,
@@ -312,17 +318,8 @@ export default function ListingDetail({
                   <ListingsAllViewButton danji={danji} />
                 </SectionContainer>
               )}
-              <DanjiRealpriceContainer
-                ref={realPriceContainerRef}
-                danji={danji}
-                depth={depth}
-                isShowRpTab={isShowRpTab}
-                isShowlistingsSection={isShowlistingsSection}
-                setLoadingRp={() => {}}
-                setIsShowRpTab={setIsShowRpTab}
-              />
+              <Realprice danji={danji} isShowRpTab={isShowRpTab} setIsShowRpTab={setIsShowRpTab} />
               <SectionContainer id="negocio-danjidetail-bid" ref={basicDetailContainerRef}>
-                <StyledSperator />
                 <BasicInfoPc danji={danji} />
               </SectionContainer>
               <SectionContainer id="negocio-danjidetail-sc" ref={danjiSchoolContainerRef}>
