@@ -1,6 +1,7 @@
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import React from 'react';
+import { DanjiDetailResponse } from '@/services/danji/types';
+
 import RealPriceInfoCurrent from './RealPriceInfoCurrent';
+
 import RealPriceInfoHeader from './RealPriceInfoHeader';
 
 export default function RealPriceInfo({
@@ -10,7 +11,7 @@ export default function RealPriceInfo({
   onChangeBuyOrRent,
   onChangeSelectedYear,
 }: {
-  danji?: GetDanjiDetailResponse;
+  danji?: DanjiDetailResponse;
   buyOrRent?: number;
   selectedYear?: number;
   onChangeBuyOrRent?: (value: number) => void;

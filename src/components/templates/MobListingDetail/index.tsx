@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import tw, { styled } from 'twin.macro';
 
 import Container from '@/components/atoms/Container';
@@ -57,6 +59,8 @@ import Summary from '@/components/domains/danji/detail/summary';
 import BasicInfoMobile from '@/components/domains/danji/detail/basic-info-mobile';
 
 import MobDanjiRealpriceContainer from '../MobDanjiDetail/Components/MobDanjiRealpriceContainer';
+
+const AroundInfo = dynamic(() => import('@/components/domains/danji/detail/around-info-mobile'), { ssr: false });
 
 const SectionContainer = styled.div``;
 
@@ -300,7 +304,7 @@ export default function MobListingDetail({
                 <StyledSperator />
                 <MobDanjiDetailSection.SchoolInfo danji={danji} />
                 <StyledSperator />
-                <MobDanjiDetailSection.AroundInfo danji={danji} />
+                <AroundInfo danji={danji} />
                 <StyledSperator />
               </SectionContainer>
             </MobDanjiDetailSection>
