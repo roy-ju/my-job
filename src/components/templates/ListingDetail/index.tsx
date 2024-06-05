@@ -8,7 +8,7 @@ import RelativeFlexContents from '@/components/atoms/RelativeFlexContents';
 
 import { PersistentBottomBar, Separator } from '@/components/atoms';
 
-import { DanjiDetailSection, ListingCtaButtons, PhotoHero } from '@/components/organisms';
+import { DanjiDetailSection, PhotoHero } from '@/components/organisms';
 
 import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
@@ -55,6 +55,8 @@ import ListingDetailAgent from '@/components/domains/listings/detail/ListingDeta
 import ListingDetailQna from '@/components/domains/listings/detail/ListingDetailQna';
 
 import ListingDetailFaqs from '@/components/domains/listings/detail/ListingDetailFaqs';
+
+import ListingDetailCtaButtons from '@/components/domains/listings/detail/ListingDetailCtaButtons';
 
 import Summary from '@/components/domains/danji/detail/summary';
 
@@ -346,7 +348,7 @@ export default function ListingDetail({
       </RelativeFlexContents>
       {!isTopCtaButtonsVisible && (
         <PersistentBottomBar>
-          <ListingCtaButtons
+          <ListingDetailCtaButtons
             visitUserType={listingDetail?.visit_user_type ?? 0}
             buttonSize="bigger"
             onNavigateToParticipateBidding={onNavigateToParticipateBidding}
