@@ -48,7 +48,7 @@ import useMoreButtonHandler from '../../ListingDetail/hooks/useMoreButtonHandler
 
 import useListingViewMobile from '../../ListingDetail/hooks/useListingViewMobile';
 
-const DanjiAroundDetail = dynamic(() => import('@/components/templates/MobDanjiDetail/Components/DanjiAroundDetail'), {
+const DanjiAroundDetail = dynamic(() => import('@/components/domains/danji/detail/danji-around-detail-mobile'), {
   ssr: false,
 });
 
