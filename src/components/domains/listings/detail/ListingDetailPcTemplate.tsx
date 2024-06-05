@@ -10,11 +10,15 @@ import RelativeFlexContents from '@/components/atoms/RelativeFlexContents';
 
 import { PersistentBottomBar, Separator } from '@/components/atoms';
 
-import { MobDanjiDetailSection, PhotoHero } from '@/components/organisms';
+import { DanjiDetailSection, PhotoHero } from '@/components/organisms';
+
+import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
 import useScroll from '@/hooks/useScroll';
 
 import useIsomorphicLayoutEffect from '@/hooks/useIsomorphicLayoutEffect';
+
+import { useRouter } from '@/hooks/utils';
 
 import { DefaultListingImageLg } from '@/constants/strings';
 
@@ -25,6 +29,8 @@ import { useFetchDanjiDetail } from '@/services/danji/useFetchDanjiDetail';
 import { ListingDetailResponse, ListingRealestateDocumenSummarytResponse } from '@/services/listing/types';
 
 import { QnaListResponse } from '@/services/qna/types';
+
+import Routes from '@/router/routes';
 
 import ListingDetailHeader from '@/components/domains/listings/detail/ListingDetailHeader';
 
@@ -56,11 +62,11 @@ import ListingDetailCtaButtons from '@/components/domains/listings/detail/Listin
 
 import Summary from '@/components/domains/danji/detail/summary';
 
-import BasicInfoMobile from '@/components/domains/danji/detail/basic-info-mobile';
+import BasicInfoPc from '@/components/domains/danji/detail/basic-info-pc';
 
 const Realprice = dynamic(() => import('@/components/domains/danji/detail/real-price'), { ssr: false });
 
-const AroundInfo = dynamic(() => import('@/components/domains/danji/detail/around-info-mobile'), { ssr: false });
+const AroundInfo = dynamic(() => import('@/components/domains/danji/detail/around-info-pc'), { ssr: false });
 
 const SectionContainer = styled.div``;
 
@@ -69,6 +75,7 @@ const StyledSperator = styled(Separator)`
 `;
 
 export interface ListingDetailProps {
+  depth?: number;
   listingDetail?: ListingDetailResponse | null;
   qnaList?: QnaListResponse['list'];
   hasMoreQnas?: boolean;
@@ -93,7 +100,8 @@ export interface ListingDetailProps {
   onNavigateToListingDetailHistory?: () => void;
 }
 
-export default function MobListingDetail({
+export default function ListingDetailPcTemplate({
+  depth = 0,
   listingDetail,
   qnaList,
   hasMoreQnas,
@@ -117,9 +125,13 @@ export default function MobListingDetail({
   onNavigateToSuggestForm,
   onNavigateToListingDetailHistory,
 }: ListingDetailProps) {
+  const router = useRouter(depth);
+
   const { data: danji } = useFetchDanjiDetail({
     danjiID: listingDetail?.listing?.danji_id ? listingDetail.listing.danji_id : null,
   });
+
+  const interactStore = useDanjiInteraction({ danjiData: danji });
 
   const scrollContainer = useRef<HTMLDivElement | null>(null);
 
@@ -247,6 +259,15 @@ export default function MobListingDetail({
     }
   }, [visibleState]);
 
+  const isShowlistingsSection = useMemo(() => router.query.depth1 !== Routes.DanjiListings, [router.query]);
+
+  useIsomorphicLayoutEffect(
+    () => () => {
+      interactStore.makeDataReset();
+    },
+    [],
+  );
+
   return (
     <Container tw="relative">
       <ListingDetailHeader
@@ -257,7 +278,7 @@ export default function MobListingDetail({
         onClickFavorite={onClickFavorite}
         onClickMoreItem={onClickMoreItem}
       />
-      <RelativeFlexContents ref={scrollContainer}>
+      <RelativeFlexContents ref={scrollContainer} id="scroll-container">
         <PhotoHero
           onClickViewPhotos={onNavigateToPhotoGallery}
           defaultPhotoPath={DefaultListingImageLg[listingDetail?.listing?.realestate_type ?? 0]}
@@ -286,27 +307,29 @@ export default function MobListingDetail({
           <ListingBasicInfo listingDetail={listingDetail} />
           <ListingDetailInfo listingDetail={listingDetail} />
           <ListingRealestateDocument realestateDocumentData={realestateDocumentData} />
-          <StyledSperator />
         </SectionContainer>
-        {danji && (
+        <StyledSperator />
+        {danji && !danji.error_code && (
           <SectionContainer id="danjiSection" ref={setDanjiSection}>
-            <MobDanjiDetailSection>
-              <SectionContainer tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
-                <Summary danji={danji} isListingDetailPage />
-                <ListingsAllViewButton danji={danji} />
-              </SectionContainer>
+            <DanjiDetailSection>
+              {isShowlistingsSection && (
+                <SectionContainer tw="pt-6" id="negocio-danjidetail-bi" ref={basicContainerRef}>
+                  <Summary danji={danji} isListingDetailPage />
+                  <ListingsAllViewButton danji={danji} />
+                </SectionContainer>
+              )}
               <Realprice danji={danji} isShowRpTab={isShowRpTab} setIsShowRpTab={setIsShowRpTab} />
               <SectionContainer id="negocio-danjidetail-bid" ref={basicDetailContainerRef}>
-                <BasicInfoMobile danji={danji} />
+                <BasicInfoPc danji={danji} />
               </SectionContainer>
               <SectionContainer id="negocio-danjidetail-sc" ref={danjiSchoolContainerRef}>
                 <StyledSperator />
-                <MobDanjiDetailSection.SchoolInfo danji={danji} />
+                <DanjiDetailSection.SchoolInfo danji={danji} />
                 <StyledSperator />
                 <AroundInfo danji={danji} />
                 <StyledSperator />
               </SectionContainer>
-            </MobDanjiDetailSection>
+            </DanjiDetailSection>
           </SectionContainer>
         )}
         <SectionContainer id="qnaSection" ref={setQnaSection}>

@@ -12,7 +12,7 @@ import { OverlayPresenter } from '@/components/molecules';
 
 import { SharePopup } from '@/components/organisms';
 
-import { MobListingDetail } from '@/components/templates';
+import ListingDetailMobileTemplate from '@/components/domains/listings/detail/ListingDetailMobileTemplate';
 
 import ErrorCodes from '@/constants/error_codes';
 
@@ -32,21 +32,21 @@ import useFetchQnaList from '@/services/qna/useFetchQnaList';
 
 import useFetchListingRealestateDocumentSummary from '@/services/listing/useFetchListingRealestateDocumentSummary';
 
-import useListingDetailRedirectorMobile from '../../ListingDetail/hooks/useListingDetailRedirectorMobile';
+import useListingDetailRedirectorMobile from './hooks/useListingDetailRedirectorMobile';
 
-import useListingDetailMobile from '../../ListingDetail/hooks/useListingDetailMobile';
+import useListingDetailMobile from './hooks/useListingDetailMobile';
 
-import useFavroriteHandler from '../../ListingDetail/hooks/useFavroriteHandler';
+import useFavroriteHandler from './hooks/useFavroriteHandler';
 
-import useShareHandler from '../../ListingDetail/hooks/useShareHandler';
+import useShareHandler from './hooks/useShareHandler';
 
-import useQnasHandler from '../../ListingDetail/hooks/useQnasHandler';
+import useQnasHandler from './hooks/useQnasHandler';
 
-import useSuggestHandler from '../../ListingDetail/hooks/useSuggestHandler';
+import useSuggestHandler from './hooks/useSuggestHandler';
 
-import useMoreButtonHandler from '../../ListingDetail/hooks/useMoreButtonHandler';
+import useMoreButtonHandler from './hooks/useMoreButtonHandler';
 
-import useListingViewMobile from '../../ListingDetail/hooks/useListingViewMobile';
+import useListingViewMobile from './hooks/useListingViewMobile';
 
 const DanjiAroundDetail = dynamic(() => import('@/components/domains/danji/detail/danji-around-detail-mobile'), {
   ssr: false,
@@ -60,11 +60,11 @@ const FullScreenMap = dynamic(() => import('@/components/domains/danji/detail/fu
   ssr: false,
 });
 
-const SuggestAcceptRecommendPopup = dynamic(() => import('../../ListingDetail/popups/SuggestAcceptRecommendPopup'), {
+const SuggestAcceptRecommendPopup = dynamic(() => import('./popups/SuggestAcceptRecommendPopup'), {
   ssr: false,
 });
 
-const SuggestNotInterestedPopup = dynamic(() => import('../../ListingDetail/popups/SuggestNotInterestedPopup'), {
+const SuggestNotInterestedPopup = dynamic(() => import('./popups/SuggestNotInterestedPopup'), {
   ssr: false,
 });
 
@@ -172,7 +172,7 @@ export default memo(() => {
       {!isTrue && !isTrueAround && !isTrueSchool && (
         <>
           <MobileContainer>
-            <MobListingDetail
+            <ListingDetailMobileTemplate
               listingDetail={data as ListingDetailResponse}
               qnaList={qnaData}
               hasMoreQnas={hasMoreQnas}

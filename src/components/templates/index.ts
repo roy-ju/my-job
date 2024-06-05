@@ -26,7 +26,7 @@ export { default as BiddingSummary } from './BiddingSummary';
 export { default as BiddingSuccess } from './BiddingSuccess';
 
 export { default as ListingCreateForm } from './ListingCreateForm';
-export { default as ListingDetail } from './ListingDetail';
+
 export { default as ListingManage } from './ListingManage';
 export { default as ListingReport } from './ListingReport';
 export { default as ReportListing } from './ReportListing';
@@ -41,8 +41,6 @@ export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 export { default as MobLayoutMapContainer } from './MobMapLayout';
 export { default as MobMapStreetView } from './MobMapStreetView';
 export { default as MobSearchMap } from './MobSearchMap';
-
-export { default as MobListingDetail } from './MobListingDetail';
 
 export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';
 export { default as MobRealPriceDetail } from './MobRealPriceDetail';

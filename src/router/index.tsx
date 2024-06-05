@@ -113,7 +113,7 @@ const Deregister = dynamic(() => import('@/components/pages/Deregister/Deregiste
   ssr: false,
   loading: FallbackComponent,
 });
-const ListingDetail = dynamic(() => import('@/components/pages/pc/ListingDetail'), {
+const ListingDetail = dynamic(() => import('@/components/pages/ListingDetail/ListingDetailPc'), {
   ssr: false,
   loading: FallbackComponent,
 });
