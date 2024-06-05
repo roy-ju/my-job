@@ -12,7 +12,7 @@ import { Button } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
+import SubwayFormatUI from '@/components/domains/danji/detail/danji-around-map-card/SubwayFormatUI';
 
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
@@ -566,7 +566,7 @@ export default function DanjiAroundDetail({ danji }: { danji?: GetDanjiDetailRes
                   }}
                 >
                   {activeCategory.SW8 && (
-                    <ConvertArrayToSubwayComponent
+                    <SubwayFormatUI
                       categoryGroupName={item.category_name}
                       categoryGroupCode={item.category_group_code}
                     />

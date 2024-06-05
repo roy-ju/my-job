@@ -16,8 +16,6 @@ import { Button } from '@/components/atoms';
 
 import NoDataTypeOne from '@/components/organisms/MobDanjiDetail/NoData';
 
-import ConvertArrayToSubwayComponent from '@/components/organisms/MobDanjiDetail/SubwayFormatComponent';
-
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import { convertedArr, convertedArrForMarker, getAverageDistance } from '@/utils/danjiAroundInfo';
@@ -27,6 +25,7 @@ import { KakaoMapCategoryCode } from '@/lib/kakao/kakao_map_category';
 import { searchCategoryGroup, SearchCategoryResponse } from '@/lib/kakao/search_category';
 
 import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
+import SubwayFormatUI from '@/components/domains/danji/detail/danji-around-map-card/SubwayFormatUI';
 
 const DanjiAroundMapCard = dynamic(
   () => import('@/components/templates/MobDanjiDetail/Components/DanjiAroundMapCard'),
@@ -311,10 +310,7 @@ export default function AroundInfo({ danji }: { danji?: GetDanjiDetailResponse }
               }}
             >
               {activeCategory.SW8 && (
-                <ConvertArrayToSubwayComponent
-                  categoryGroupName={item.category_name}
-                  categoryGroupCode={item.category_group_code}
-                />
+                <SubwayFormatUI categoryGroupName={item.category_name} categoryGroupCode={item.category_group_code} />
               )}
               <span tw="ml-2 text-b2">{item.place_name}</span>
               <span tw="text-b2 ml-auto text-gray-1000">{getAverageDistance(item.distance)}m</span>
