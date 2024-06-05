@@ -32,8 +32,6 @@ export function MapStreet({ defaultMapSize = '190px', center, containerId = 'pan
     bindPanorama,
   });
 
-  console.log('render');
-
   return (
     <>
       <MapContainer ref={containerRef} />
