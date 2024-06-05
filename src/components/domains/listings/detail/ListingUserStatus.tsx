@@ -6,11 +6,11 @@ import { Separator } from '@/components/atoms';
 
 import { Accordion } from '@/components/molecules';
 
-import { ListingCtaButtons } from '@/components/organisms';
-
 import { ListingDetailResponse } from '@/services/listing/types';
 
 import UserStatusStrings from './constants/userStatusStrings';
+
+import ListingDetailCtaButtons from './ListingDetailCtaButtons';
 
 type ListingUserStatusProps = {
   listingDetail?: ListingDetailResponse | null;
@@ -73,7 +73,7 @@ export default function ListingUserStatus({
               )}
 
               <Wrraper ref={setUserStatusAccordion}>
-                <ListingCtaButtons
+                <ListingDetailCtaButtons
                   visitUserType={listingDetail?.visit_user_type ?? 0}
                   buttonSize="big"
                   onNavigateToParticipateBidding={onNavigateToParticipateBidding}

@@ -8,7 +8,7 @@ import RelativeFlexContents from '@/components/atoms/RelativeFlexContents';
 
 import { PersistentBottomBar, Separator } from '@/components/atoms';
 
-import { ListingCtaButtons, MobDanjiDetailSection, PhotoHero } from '@/components/organisms';
+import { MobDanjiDetailSection, PhotoHero } from '@/components/organisms';
 
 import useScroll from '@/hooks/useScroll';
 
@@ -49,6 +49,8 @@ import ListingDetailAgent from '@/components/domains/listings/detail/ListingDeta
 import ListingDetailQna from '@/components/domains/listings/detail/ListingDetailQna';
 
 import ListingDetailFaqs from '@/components/domains/listings/detail/ListingDetailFaqs';
+
+import ListingDetailCtaButtons from '@/components/domains/listings/detail/ListingDetailCtaButtons';
 
 import Summary from '@/components/domains/danji/detail/summary';
 
@@ -321,7 +323,7 @@ export default function MobListingDetail({
       </RelativeFlexContents>
       {!isTopCtaButtonsVisible && (
         <PersistentBottomBar>
-          <ListingCtaButtons
+          <ListingDetailCtaButtons
             visitUserType={listingDetail?.visit_user_type ?? 0}
             buttonSize="bigger"
             onNavigateToParticipateBidding={onNavigateToParticipateBidding}

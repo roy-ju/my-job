@@ -1,4 +1,5 @@
 import { Button } from '@/components/atoms';
+
 import { VisitUserType } from '@/constants/enums';
 
 interface CommonProps {
