@@ -37,8 +37,6 @@ export { default as LegalCounselingDetail } from './LegalCounselingDetail';
 export { default as LegalCounselingWriting } from './LegalCounselingWriting';
 
 /** 모바일 전용 (10개) */
-export { default as MobLayoutMapContainer } from './MobMapLayout';
-export { default as MobMapStreetView } from './MobMapStreetView';
 export { default as MobSearchMap } from './MobSearchMap';
 
 export { default as MobDanjiRealPriceListAll } from './MobDanjiRealPriceListAll';

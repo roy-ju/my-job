@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable consistent-return */
 import { ChangeEventHandler, ReactNode, useCallback, useState } from 'react';
 
@@ -16,7 +15,7 @@ import MobMapFilter from '@/components/organisms/MobMapFilter';
 
 import { Filter } from '@/components/organisms/MapFilter/types';
 
-import { DanjiSummary, ListingSummary } from '@/hooks/useMobileMapLayout';
+import { ListingSummary } from '@/hooks/useMobileMapLayout';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
@@ -30,7 +29,7 @@ import RegionSelect from './RegionSelect';
 
 import GuideOverlay from './GuideOverlay';
 
-interface MobLayoutMapContainerProps {
+interface MapLayoutContainerProps {
   code?: string;
   mapType?: string;
   priceType?: string;
@@ -41,7 +40,6 @@ interface MobLayoutMapContainerProps {
   filter?: Filter;
   centerAddress?: string[];
   listingCount?: number;
-  selectedDanjiSummary: DanjiSummary | null;
   selctedListingSummary: ListingSummary | null;
   priceSelectDisabled?: boolean;
   onClickCurrentLocation?: () => void;
@@ -66,7 +64,7 @@ interface MobLayoutMapContainerProps {
   removeMyMarker?: () => void;
 }
 
-function MobLayoutMapContainer({
+export default function MapLayoutContainer({
   code,
   mapType,
   priceType,
@@ -78,7 +76,7 @@ function MobLayoutMapContainer({
   listingCount,
   myMarker,
   isGeoLoading,
-  selectedDanjiSummary,
+
   priceSelectDisabled = false,
   onClickCurrentLocation,
   onClickMapLayerCadastral,
@@ -93,7 +91,7 @@ function MobLayoutMapContainer({
   onClickSuggestReginoal,
   children,
   removeMyMarker,
-}: MobLayoutMapContainerProps) {
+}: MapLayoutContainerProps) {
   const [isRenderGuideOverlay, setIsRenderGuideOverlay] = useState(false);
 
   const handleGuidOverlay = useCallback(() => {
@@ -220,5 +218,3 @@ function MobLayoutMapContainer({
     </>
   );
 }
-
-export default MobLayoutMapContainer;

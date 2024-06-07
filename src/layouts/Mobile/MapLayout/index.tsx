@@ -8,7 +8,7 @@ import OutsideClick from '@/components/atoms/OutsideClick';
 
 import { OverlayPresenter, Popup } from '@/components/molecules';
 
-import { MapLayout as Layout, MobLayoutMapContainer, MobMapStreetView } from '@/components/templates';
+import { MapLayout as Layout } from '@/components/templates';
 
 import useMobileMapLayout from '@/hooks/useMobileMapLayout';
 
@@ -27,6 +27,10 @@ import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/Impossible
 import DanjiSummaryInMobileBottomSheet from '@/components/organisms/danji/DanjiSummaryInMobileBottomSheet';
 
 import Markers from './Markers';
+
+import MapStreetViewMobile from './MapStreetViewMobile';
+
+import MapLayoutContainer from './MapLayoutContainer';
 
 function MapWrapper() {
   const {
@@ -135,7 +139,7 @@ function MapWrapper() {
   return (
     <>
       <MobileGlobalStyles />
-      <MobLayoutMapContainer
+      <MapLayoutContainer
         code={code}
         mapLayer={mapLayer}
         mapType={mapType}
@@ -147,7 +151,6 @@ function MapWrapper() {
         listingCount={listingCount}
         myMarker={myMarker}
         isGeoLoading={isGeoLoading}
-        selectedDanjiSummary={selectedDanjiSummary}
         selctedListingSummary={selctedListingSummary}
         priceSelectDisabled={filter.realestateTypeGroup === 'one,two'}
         onClickCurrentLocation={morphToCurrentLocation}
@@ -195,13 +198,13 @@ function MapWrapper() {
                     exit={{ scale: 0, opacity: 0 }}
                   >
                     <div tw="min-w-[23.475rem] h-[100vh] max-h-[100vh] bg-white">
-                      <MobMapStreetView
+                      <MapStreetViewMobile
                         position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
                         title={streetViewEvent.address}
                         onClickBackButton={handleCloseStreetView}
                       >
-                        <MobMapStreetView.Panorama />
-                      </MobMapStreetView>
+                        <MapStreetViewMobile.Panorama />
+                      </MapStreetViewMobile>
                     </div>
                   </motion.div>
                 </OutsideClick>
@@ -209,7 +212,7 @@ function MapWrapper() {
             </Layout.Overlay>
           )}
         </AnimatePresence>
-      </MobLayoutMapContainer>
+      </MapLayoutContainer>
 
       {popup === 'locationPermission' && (
         <OverlayPresenter>
