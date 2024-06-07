@@ -4,13 +4,13 @@
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 
-import { MobSchoolMarker } from '@/components/organisms';
-
 import { NaverMapV1 } from '@/lib/navermapV1';
 
 import CustomOverlayV1 from '@/lib/navermap/components/CustomOverlayV1';
 
 import { SchoolType } from '@/constants/enums';
+
+import MobileSchoolMarker from '@/components/domains/map/map_markers/mobile-school-marker';
 
 import {
   BottomSheetContent,
@@ -103,7 +103,7 @@ export default function DanjiSchoolMapCard({ lng, lat, danjiID, rt }: DanjiSchoo
                   }}
                   zIndex={item.school_id === selectedSchoolId ? 40 : 20}
                 >
-                  <MobSchoolMarker
+                  <MobileSchoolMarker
                     type={convertSchoolType(item.school_type)}
                     name={convertSchoolName(item.school_type, item.school_name)}
                     onClick={() => onClickSchoolMarker(item, index)}

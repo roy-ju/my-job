@@ -1,7 +1,8 @@
 import tw from 'twin.macro';
+
 import School from '../assets/school.svg';
 
-function MobSchoolMarker({
+export default function MobileSchoolMarker({
   selected = false,
   type,
   name,
@@ -39,5 +40,3 @@ function MobSchoolMarker({
     </button>
   );
 }
-
-export default MobSchoolMarker;

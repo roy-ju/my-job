@@ -1,15 +1,16 @@
 import React, { MouseEventHandler, ReactNode } from 'react';
-import { Numeral } from '@/components/atoms';
+
 import tw from 'twin.macro';
-import MarkerTail from '../assets/marker_tail.svg';
+
+import { Numeral } from '@/components/atoms';
+
 import MarkerRoundedCorner from '../assets/marker_rounded_corner.svg';
-import variants, { VariantKey } from '../variants';
+
+import MarkerTail from '../assets/marker_tail.svg';
 
 interface Props {
-  /** 마커 색상 */
-  variant: VariantKey;
-  /** 평 */
-  area: number;
+  selected?: boolean;
+
   /** 금액 */
   price: number;
   /** 매물수 */
@@ -17,55 +18,42 @@ interface Props {
   /** 마커 클릭 이벤트 핸들러 */
   onClick?: MouseEventHandler<HTMLButtonElement>;
 
-  /** 선택여부 */
-  selected?: boolean;
-
   children?: ReactNode;
 }
 
-const MobDanjiMarker = React.memo(({ selected = false, variant, area, price, count = 0, onClick, children }: Props) => (
+const ListingMarker = React.memo(({ selected = false, price, count = 0, children, onClick }: Props) => (
   <div tw="relative animate-scale will-change-transform [text-rendering: optimizeSpeed] inline-block w-fit">
     <div css={selected && tw`animate-bounce`}>
       {children && <div tw="absolute left-1/2 top-[-8px] translate-y-[-100%] translate-x-[-50%]">{children}</div>}
       <button type="button" tw="relative w-fit" onClick={onClick}>
         {/* Content */}
-        <div tw="min-w-[3rem] h-[62px] pb-2 flex flex-col">
-          <div css={[tw`h-[23px] flex items-center justify-start pl-2`, count !== 0 && tw`pr-6`]}>
-            <Numeral
-              css={[tw`text-[10px] leading-[10px] whitespace-nowrap`, { color: variants[variant].textColor }]}
-              suffix="평"
-              falsy="-평"
-            >
-              {area}
-            </Numeral>
-          </div>
-          <div tw="flex flex-1 items-center justify-start pl-2 pr-3">
-            <Numeral tw="text-b2 text-white font-bold whitespace-nowrap" koreanNumberShort falsy="-">
-              {price}
-            </Numeral>
-          </div>
+        <div tw="min-w-[2.5rem] h-[46px] flex items-center justify-start pl-2 pr-3 pb-2">
+          <Numeral koreanNumberShort tw="text-b2 text-white font-bold leading-none whitespace-nowrap" falsy="-">
+            {price}
+          </Numeral>
         </div>
         {/* Background */}
-        <div tw="absolute top-0 left-0 flex flex-col w-full h-full z-[-1]">
-          <div tw="flex flex-col flex-1 rounded-lg shadow-[7px_7px_5px_rgba(0,0,0,0.16)]">
-            <div tw="relative flex">
-              <div css={[tw`flex-1 h-[23px] bg-white rounded-tl-lg`, count === 0 && tw`rounded-tr-lg`]} />
-              <div tw="absolute left-0 bottom-0 w-full h-[2px] bg-white" />
+        <div css={[tw`absolute top-0 left-0 flex flex-col w-full h-full z-[-1]`]}>
+          <div tw="flex flex-col flex-1 rounded-lg shadow-[0_8px_16px_rgba(0,0,0,0.14)]">
+            <div tw="relative text-nego flex">
+              <div css={[tw`flex-1 bg-nego rounded-tl-lg h-[23px]`, count === 0 && tw`rounded-tr-lg`]} />
+              <div tw="absolute left-0 bottom-[-1px] z-[-1] w-full h-[2px] bg-nego" />
+              {/* Listing Count */}
               {count !== 0 && (
                 <>
-                  <div tw="absolute top-0 right-[23px] h-[23px] w-[2px] bg-white" />
+                  <div tw="absolute top-0 right-[23px] h-full w-[2px] bg-nego" />
                   <div tw="relative">
-                    <MarkerRoundedCorner color="#FFF" />
-                    <div tw="absolute h-5 px-2 top-[-8px] left-[12px] rounded-[40px] bg-black text-white text-info font-bold">
+                    <MarkerRoundedCorner />
+                    <div tw="absolute h-5 px-2 top-[-8px] left-[12px] rounded-[40px] bg-black text-white text-info font-bold whitespace-nowrap">
                       {count}
                     </div>
                   </div>
                 </>
               )}
             </div>
-            <div css={[tw`flex-1 rounded-br-lg`, { backgroundColor: variants[variant].bgColor }]} />
+            <div tw="flex-1 bg-nego rounded-br-lg" />
           </div>
-          <div css={{ color: variants[variant].bgColor }} style={{ transform: 'translateY(-1px)' }}>
+          <div tw="text-nego" style={{ transform: 'translateY(-1px)' }}>
             <MarkerTail />
           </div>
           <div
@@ -78,7 +66,7 @@ const MobDanjiMarker = React.memo(({ selected = false, variant, area, price, cou
                 left: '0px',
                 height: '2px',
                 width: '90%',
-                boxShadow: '7px 7px 5px rgba(0, 0, 0, 0.16)',
+                boxShadow: '1px 3px 6px 1px rgba(0,0,0,0.4)',
               },
             ]}
           />
@@ -120,6 +108,6 @@ function Popper({ name, householdCount, buyListingCount, rentListingCount }: Pop
   );
 }
 
-export default Object.assign(MobDanjiMarker, {
+export default Object.assign(ListingMarker, {
   Popper,
 });

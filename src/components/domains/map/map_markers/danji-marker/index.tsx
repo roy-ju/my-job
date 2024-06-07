@@ -1,10 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { MouseEventHandler, ReactNode, useState } from 'react';
+import React, { MouseEventHandler, ReactNode } from 'react';
+
 import { Numeral } from '@/components/atoms';
+
 import tw from 'twin.macro';
+
 import { BuyOrRent } from '@/constants/enums';
+
 import MarkerTail from '../assets/marker_tail.svg';
+
 import MarkerRoundedCorner from '../assets/marker_rounded_corner.svg';
+
 import variants, { VariantKey } from '../variants';
 
 interface Props {

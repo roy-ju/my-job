@@ -12,4 +12,5 @@ const variants = {
 };
 
 export type VariantKey = keyof typeof variants;
+
 export default variants;
