@@ -14,11 +14,11 @@ import mobileMapAtom from '@/states/atom/mobileMap';
 
 import { convertSidoName, convertSigunguName } from '@/utils/fotmat';
 
-import Header from './Header';
+import Header from './region-select-popup/Header';
 
-import Breadcrumbs from './Breadcrumbs';
+import Breadcrumbs from './region-select-popup/Breadcrumbs';
 
-import Cta from './Cta';
+import Cta from './region-select-popup/Cta';
 
 import {
   ListContainer,
@@ -26,11 +26,11 @@ import {
   ListInnerWrraper,
   ListVerticalHorizontalSeperator,
   BackgroundContainer,
-} from './widget/RegionSelectWidget';
+} from './region-select-popup/widget/RegionSelectWidget';
 
-import useScrollSelecetedRef from './hooks/useScrollSelectedRef';
+import useScrollSelecetedRef from './region-select-popup/hooks/useScrollSelectedRef';
 
-import useRegionSelectHandler from './hooks/useRegionSelectHandler';
+import useRegionSelectHandler from './region-select-popup/hooks/useRegionSelectHandler';
 
 interface RegionSelectPopupProps {
   code?: string;
