@@ -44,7 +44,7 @@ function Guide() {
   );
 }
 
-export function MobSearchMap() {
+export default function MobileSearchMap() {
   const { handleMapSearch } = useMobileMapLayout();
 
   const [textValue, setTextValueState] = useState('');
@@ -201,5 +201,3 @@ export function MobSearchMap() {
     </form>
   );
 }
-
-export default MobSearchMap;

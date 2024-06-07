@@ -257,11 +257,11 @@ function Group({ children }: { children?: ReactNode }) {
   );
 }
 
-function MobMapControls() {
+function Wrraper() {
   return null;
 }
 
-export default Object.assign(MobMapControls, {
+export default Object.assign(Wrraper, {
   Group,
   MapButton,
   StreetViewButton,

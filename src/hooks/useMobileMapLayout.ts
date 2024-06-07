@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 import debounce from 'lodash/debounce';
 
-import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
+import { getDefaultFilterAptOftl } from '@/components/domains/map/utils/getDefaultFilters';
 
 import { Filter } from '@/components/organisms/MapFilter/types';
 
