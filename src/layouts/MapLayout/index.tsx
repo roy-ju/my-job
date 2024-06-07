@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import OutsideClick from '@/components/atoms/OutsideClick';
 
-import { MapLayout as Layout } from '@/components/templates';
+import Layout from '@/components/domains/map';
 
 import useMapLayout from '@/hooks/useMapLayout';
 
