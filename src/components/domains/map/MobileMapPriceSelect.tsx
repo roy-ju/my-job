@@ -12,18 +12,14 @@ import ChevronDownIcon from '@/assets/icons/chevron_down.svg';
 
 import CheckIcon from '@/assets/icons/check.svg';
 
-import { Filter } from '../MobMapFilter/types';
+import { Filter } from './mobile-map-filter/types';
 
-import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '../MobMapFilter/PriceFilter';
+import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from './mobile-map-filter/PriceFilter';
 
-import { getDefaultFilterAptOftl } from '../MobMapFilter';
+import { getDefaultFilterAptOftl } from './utils/getDefaultFilters';
 
 const SelectButton = styled.button`
   ${tw`inline-flex items-center justify-between w-[105px] h-10 px-3 bg-white rounded-lg shadow transition-colors`}
-
-  /* &:hover {
-    ${tw`bg-gray-300`}
-  } */
 
   @media (hover: hover) {
     ${tw`bg-gray-300`}
@@ -32,10 +28,6 @@ const SelectButton = styled.button`
 
 const SelectItem = styled.button`
   ${tw`flex items-center justify-between w-full h-10 px-3 transition-colors bg-white text-gray-1000`}
-
-  /* &:hover {
-    ${tw`bg-gray-300`}
-  } */
 
   @media (hover: hover) {
     ${tw`bg-gray-300`}
@@ -50,7 +42,7 @@ interface Props {
   onChangeFilter?: (newFilter: Partial<Filter>) => void;
 }
 
-export default function MobMapPriceSelect({
+export default function MobileMapPriceSelect({
   value: valueProp,
   filter: filterProp,
   disabled = false,

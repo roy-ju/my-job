@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import tw, { styled } from 'twin.macro';
 
@@ -10,82 +10,31 @@ import { ButtonProps } from '@/components/atoms/Button';
 
 import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
 
-import { BuyOrRent, RealestateType } from '@/constants/enums';
+import { BuyOrRent } from '@/constants/enums';
 
 import Close from '@/assets/icons/close_24.svg';
 
-import BuyorRentFilter from '../MobMapFilter/BuyOrRentFilter';
+import BuyorRentFilter from './mobile-map-filter/BuyOrRentFilter';
 
-import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '../MobMapFilter/PriceFilter';
+import PriceFilter, { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from './mobile-map-filter/PriceFilter';
 
-import HouseholdFilter from '../MobMapFilter/HouseholdFilter';
+import HouseholdFilter from './mobile-map-filter/HouseholdFilter';
 
-import EtcFilter from '../MobMapFilter/EtcFilter';
+import EtcFilter from './mobile-map-filter/EtcFilter';
 
-import FilterTypesMedium from '../MobMapFilter/FilterTypesMedium';
+import FilterTypesMedium from './mobile-map-filter/FilterTypesMedium';
 
-import RealestateTypeRoomCountFilter from '../MobMapFilter/RealestateTypeRoomCountFilter';
+import RealestateTypeRoomCountFilter from './mobile-map-filter/RealestateTypeRoomCountFilter';
 
-import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from '../MobMapFilter/types';
+import { Filter, FilterType, MinHousehold, RealestateTypeGroup } from './mobile-map-filter/types';
 
-export function getDefaultFilterAptOftl(): Filter {
-  return {
-    realestateTypeGroup: 'apt,oftl',
-    realestateTypes: [RealestateType.Apartment, RealestateType.Officetel].join(','),
-    // buyOrRents: [BuyOrRent.Buy, BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
-    buyOrRents: [BuyOrRent.Buy].join(','),
-    priceRange: [0, PRICE_STEPS.length - 1],
-    depositRange: [0, DEPOSIT_STEPS.length - 1],
-    rentRange: [0, RENT_STEPS.length - 1],
-    minHousehold: '100',
-    gapInvestment: false,
-    quickSale: false,
-    roomCounts: '',
-  };
-}
+import useFilterType from './hooks/useFilterType';
 
-export function getDefaultFilterVillaDandok(): Filter {
-  return {
-    realestateTypeGroup: 'villa,dandok',
-    realestateTypes: [
-      RealestateType.Yunrip,
-      RealestateType.Dasaedae,
-      RealestateType.Dandok,
-      RealestateType.Dagagoo,
-    ].join(','),
-    // buyOrRents: [BuyOrRent.Buy, BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
-    buyOrRents: [BuyOrRent.Buy].join(','),
-    priceRange: [0, PRICE_STEPS.length - 1],
-    depositRange: [0, DEPOSIT_STEPS.length - 1],
-    rentRange: [0, RENT_STEPS.length - 1],
-    minHousehold: '0',
-    gapInvestment: false,
-    quickSale: false,
-    roomCounts: '',
-  };
-}
-
-export function getDefaultFilterOneRoomTwoRoom(): Filter {
-  return {
-    realestateTypeGroup: 'one,two',
-    realestateTypes: [].join(','),
-    buyOrRents: [BuyOrRent.Jeonsae, BuyOrRent.Wolsae].join(','),
-    priceRange: [0, PRICE_STEPS.length - 1],
-    depositRange: [0, DEPOSIT_STEPS.length - 1],
-    rentRange: [0, RENT_STEPS.length - 1],
-    minHousehold: '0',
-    gapInvestment: false,
-    quickSale: false,
-    roomCounts: '1,2',
-  };
-}
-
-function useFilterType(filterType: FilterType, filters: FilterType[], filterTypes: FilterType[]) {
-  return useMemo(
-    () => filters.includes(filterType) && filterTypes.includes(filterType),
-    [filters, filterType, filterTypes],
-  );
-}
+import {
+  getDefaultFilterAptOftl,
+  getDefaultFilterVillaDandok,
+  getDefaultFilterOneRoomTwoRoom,
+} from './utils/getDefaultFilters';
 
 const FiltersContainer = styled.div`
   & > div {
@@ -108,7 +57,7 @@ interface MapFilterProps {
   onChangeFilter?: (newFilter: Partial<Filter>) => void;
 }
 
-export default function MobAllMapFilter({ filter: filterProp, onChangeFilter }: MapFilterProps) {
+export default function MobielMapAllFilter({ filter: filterProp, onChangeFilter }: MapFilterProps) {
   const { closeAll } = useFullScreenDialog();
 
   const [uiFilter, setUIFilterState] = useState<Filter>(filterProp || getDefaultFilterAptOftl());

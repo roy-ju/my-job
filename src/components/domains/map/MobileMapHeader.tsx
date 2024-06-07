@@ -1,8 +1,8 @@
+import dynamic from 'next/dynamic';
+
 import { Button } from '@/components/atoms';
 
 import NewCount from '@/components/atoms/NewCount';
-
-import { MobSearchMap } from '@/components/templates/MobSearchMap';
 
 import useFullScreenDialog from '@/states/hooks/useFullScreenDialog';
 
@@ -12,16 +12,18 @@ import LogoIcon from '@/assets/icons/header_logo.svg';
 
 import NotificationIcon from '@/assets/icons/notification_24px.svg';
 
+const MobileSearchMap = dynamic(() => import('@/components/domains/map/MobileMapSearch'), { ssr: false });
+
 interface Props {
   value?: number | boolean | null;
 }
 
-export default function MobMapHeader({ value }: Props) {
+export default function MobileMapHeader({ value }: Props) {
   const { addFullScreenDialog } = useFullScreenDialog();
 
   const onClickSearchIcon = () => {
     addFullScreenDialog({
-      body: <MobSearchMap />,
+      body: <MobileSearchMap />,
     });
   };
 

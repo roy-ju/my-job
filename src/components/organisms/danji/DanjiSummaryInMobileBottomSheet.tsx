@@ -21,7 +21,7 @@ import { RealestateType, describeRealestateType, BuyOrRent } from '@/constants/e
 
 import CheveronDown from '@/assets/icons/chevron_down_24.svg';
 
-import { Filter } from '../MobMapFilter/types';
+import { Filter } from '@/components/domains/map/mobile-map-filter/types';
 
 const StyledDiv = styled.div``;
 

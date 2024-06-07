@@ -3,27 +3,27 @@ import { ChangeEventHandler, ReactNode, useCallback, useState } from 'react';
 
 import { Button, Checkbox } from '@/components/atoms';
 
-import {
-  MobMapControls,
-  MobMapHeader,
-  MobMapPositionBar,
-  MobMapPriceSelect,
-  MobMapToggleButton,
-} from '@/components/organisms';
-
-import MobMapFilter from '@/components/organisms/MobMapFilter';
-
 import { Filter } from '@/components/organisms/MapFilter/types';
 
 import { ListingSummary } from '@/hooks/useMobileMapLayout';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
-import { convertSidoName } from '@/utils/fotmat';
-
 import Close from '@/assets/icons/close_24.svg';
 
 import BottomGlobalNavigation from '@/components/organisms/global/BottomGlobalNavigation';
+
+import MobileMapHeader from '@/components/domains/map/MobileMapHeader';
+
+import MobileMapControls from '@/components/domains/map/MobileMapControls';
+
+import MobileMapPositionBar from '@/components/domains/map/MobileMapPositionBar';
+
+import MobileMapToggleButton from '@/components/domains/map/MobileMapToggleButton';
+
+import MobileMapFilter from '@/components/domains/map/MobileMapFilter';
+
+import MobileMapPriceSelect from '@/components/domains/map/MobileMapPriceSelect';
 
 import RegionSelect from './RegionSelect';
 
@@ -111,17 +111,14 @@ export default function MapLayoutContainer({
   return (
     <>
       <div tw="flex flex-col w-full h-full overflow-y-hidden mx-auto items-center">
-        <MobMapHeader />
-
+        <MobileMapHeader />
         {isRenderGuideOverlay && <GuideOverlay disappearGuideOverlay={handleGuidOverlay} />}
-
-        <MobMapFilter filter={filter} onChangeFilter={onChangeFilter} />
-
+        <MobileMapFilter filter={filter} onChangeFilter={onChangeFilter} />
         <div id="map-container" tw="relative flex-1 w-full">
           {filter?.realestateTypeGroup === 'apt,oftl' && (
             <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none">
               <div tw="w-fit pointer-events-auto">
-                <MobMapToggleButton value={mapToggleValue} onChange={onChangeMapToggleValue} />
+                <MobileMapToggleButton value={mapToggleValue} onChange={onChangeMapToggleValue} />
               </div>
             </div>
           )}
@@ -129,7 +126,7 @@ export default function MapLayoutContainer({
           {isRenderGuideOverlay && (
             <div tw="absolute left-4 top-3 z-20 flex justify-center pointer-events-none [z-index: 9000]">
               <div tw="w-fit pointer-events-none">
-                <MobMapToggleButton value={mapToggleValue} />
+                <MobileMapToggleButton value={mapToggleValue} />
               </div>
               <span
                 tw="pointer-events-none absolute top-[4rem] left-[5rem] text-info [line-height: 1rem] text-white"
@@ -141,7 +138,7 @@ export default function MapLayoutContainer({
           )}
 
           <div tw="absolute right-4 top-3 z-20">
-            <MobMapPriceSelect
+            <MobileMapPriceSelect
               filter={filter}
               value={priceType}
               disabled={priceSelectDisabled}
@@ -151,18 +148,21 @@ export default function MapLayoutContainer({
           </div>
 
           <div tw="absolute right-5 top-[4rem] flex flex-col gap-3 z-[10]">
-            <MobMapControls.Group>
-              <MobMapControls.MapButton selected value={mapType} onChange={onChangeMapType} />
-              <MobMapControls.StreetViewButton selected={mapLayer === 'street'} onClick={onClickMapLayerStreet} />
-              <MobMapControls.CadastralButton selected={mapLayer === 'cadastral'} onClick={onClickMapLayerCadastral} />
-              <MobMapControls.SchoolButton
+            <MobileMapControls.Group>
+              <MobileMapControls.MapButton selected value={mapType} onChange={onChangeMapType} />
+              <MobileMapControls.StreetViewButton selected={mapLayer === 'street'} onClick={onClickMapLayerStreet} />
+              <MobileMapControls.CadastralButton
+                selected={mapLayer === 'cadastral'}
+                onClick={onClickMapLayerCadastral}
+              />
+              <MobileMapControls.SchoolButton
                 selected={schoolType !== 'none'}
                 value={schoolType}
                 onChange={onChangeSchoolType}
                 onClick={onClickSchool}
               />
-            </MobMapControls.Group>
-            <MobMapControls.GPSButton
+            </MobileMapControls.Group>
+            <MobileMapControls.GPSButton
               onClick={myMarker ? removeMyMarker : onClickCurrentLocation}
               isGeoLoading={isGeoLoading}
               selected={!!myMarker}
@@ -170,12 +170,7 @@ export default function MapLayoutContainer({
           </div>
 
           <div tw="w-full inline-flex absolute left-0 right-0 bottom-6 px-4 z-10 gap-3">
-            <MobMapPositionBar
-              sido={convertSidoName(centerAddress?.[0])}
-              sigungu={centerAddress?.[1]}
-              eubmyundong={centerAddress?.[2]}
-              onClick={handleOpenRegionSelectPopup}
-            />
+            <MobileMapPositionBar eubmyundong={centerAddress?.[2]} onClick={handleOpenRegionSelectPopup} />
             <Button size="medium" tw="whitespace-nowrap font-bold rounded-4xl" onClick={onClickMapListingList}>
               매물 {listingCount ?? 0}
             </Button>
