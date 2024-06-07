@@ -6,15 +6,11 @@ import { Button } from '@/components/atoms';
 
 import { NavigationHeader } from '@/components/molecules';
 
-import { Panorama } from '@/lib/navermap';
-
 import Close from '@/assets/icons/close_24.svg';
 
 import MapStreetViewContext from './context/MapStreetViewContext';
 
 import useMapStreetViewMobile from './hooks/useMapStreetViewMobile';
-
-import useStreetView from './hooks/useStreetView';
 
 interface Props {
   title: string;
@@ -32,15 +28,7 @@ const ProviderWrraper = styled.div`
   ${tw`relative flex-1`}
 `;
 
-const PanoramaContainer = styled.div`
-  ${tw`relative overflow-hidden transition-all`}
-`;
-
-const PanoramaWrraper = styled.div`
-  ${tw`absolute top-0 left-0 z-10 w-full h-full`}
-`;
-
-function MapStreetViewMobile({ title, position, onClickBackButton, children }: Props) {
+export default function MapStreetViewMobile({ title, position, onClickBackButton, children }: Props) {
   const { context } = useMapStreetViewMobile({ position });
 
   return (
@@ -57,21 +45,3 @@ function MapStreetViewMobile({ title, position, onClickBackButton, children }: P
     </MapStreetViewMobileContainer>
   );
 }
-
-function StreetViewPanorama() {
-  const { expanded, onCreate, position, containerRef } = useStreetView();
-
-  if (!position) return null;
-
-  return (
-    <PanoramaContainer css={[expanded ? tw`h-[70%]` : tw`h-[100%]`]}>
-      <PanoramaWrraper ref={containerRef}>
-        <Panorama position={position} onCreate={onCreate} />
-      </PanoramaWrraper>
-    </PanoramaContainer>
-  );
-}
-
-export default Object.assign(MapStreetViewMobile, {
-  Panorama: StreetViewPanorama,
-});

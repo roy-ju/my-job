@@ -2,7 +2,6 @@
 export { default as PageNotFound } from './PageNotFound';
 
 export { default as MapLayout } from './MapLayout';
-export { default as MapStreetView } from './MapStreetView';
 export { default as MapListingList } from './MapListingList';
 
 export { default as ChatRoomReport } from './ChatRoomReport';
