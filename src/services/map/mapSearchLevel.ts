@@ -1,69 +1,10 @@
-import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '@/components/organisms/MapFilter/PriceFilter';
-import { Filter } from '@/components/organisms/MapFilter/types';
 import axios from '@/lib/axios';
 
-export interface MapSearchResponse {
-  listing_count: number;
-  results: {
-    bubjungdong_code: string;
-    bubjungdong_name: string;
-    danji_count: number;
-    listing_count: number;
-    lat: number;
-    long: number;
-  }[];
-}
+import { Filter } from '@/components/domains/map/pc-map-filter/types';
 
-export interface MapSearchLevelOneResponse {
-  listing_count: number;
-  danji_list:
-    | {
-        danji_id: number;
-        danji_realestate_type: number;
-        pyoung: string;
-        price: number;
-        monthly_rent_fee: number;
-        listing_count: number;
-        long: number;
-        lat: number;
-        road_name_address: string;
-        jibun_address: string;
-      }[]
-    | null;
-  listing_list:
-    | {
-        listing_count: number;
-        listing_ids: string;
-        trade_price: number;
-        deposit: number;
-        monthly_rent_fee: number;
-        long: number;
-        lat: number;
-      }[]
-    | null;
-}
+import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '@/components/domains/map/pc-map-filter/PriceFilter';
 
-export interface MapSearchFilter {
-  trade_price_min?: number | null;
-  trade_price_max?: number | null;
-  jeonsae_deposit_min?: number | null;
-  jeonsae_deposit_max?: number | null;
-  monthly_rent_fee_min?: number | null;
-  monthly_rent_fee_max?: number | null;
-  trade_price2_min?: number | null;
-  trade_price2_max?: number | null;
-  jeonsae_deposit2_min?: number | null;
-  jeonsae_deposit2_max?: number | null;
-  monthly_rent_fee2_min?: number | null;
-  monthly_rent_fee2_max?: number | null;
-  saedae_min?: number | null;
-  saedae_max?: number | null;
-  listing_type?: number | null;
-  buy_or_rent: string;
-  realestate_type: string;
-  gap_investment: boolean;
-  room_count: string;
-}
+import { MapSearchFilter, MapSearchResponse, MapSearchLevelOneResponse } from './types';
 
 export default async function mapSearch({
   level,

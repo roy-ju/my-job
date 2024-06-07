@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import Image from 'next/image';
+
 import { styled } from 'twin.macro';
 
 import { Button } from '@/components/atoms';
 
 import { DragHandlers, motion, useAnimation } from 'framer-motion';
-
-import Image from 'next/image';
 
 function swipePower(offset: number, absDistance: number) {
   return (offset / absDistance) * 100;

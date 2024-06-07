@@ -28,7 +28,7 @@ function FallbackComponent() {
   return <Panel />;
 }
 
-const MapListingList = dynamic(() => import('@/components/pages/pc/MapListingList'), {
+const MapListingList = dynamic(() => import('@/components/pages/MapListingsList/MapListingsListPc'), {
   ssr: false,
   loading: FallbackComponent,
 });

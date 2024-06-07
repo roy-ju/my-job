@@ -4,13 +4,17 @@ import tw from 'twin.macro';
 
 import { Button } from '@/components/atoms';
 
-import { MapControls, MapPriceSelect, MapSearchTextField, MapFilter, MapToggleButton } from '@/components/organisms';
+import MapControls from '@/components/domains/map/MapControls';
+
+import MapPriceSelect from '@/components/domains/map/MapPriceSelect';
+
+import MapPositionBar from '@/components/domains/map/MapPositionBar';
+
+import MapToggleButton from '@/components/domains/map/MapToggleButton';
+
+import MapSearchTextField from '@/components/domains/map/MapSearchTextField';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
-
-import { Filter } from '@/components/organisms/MapFilter/types';
-
-import MapPositionBar from '@/components/organisms/MapPositionBar';
 
 import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
 
@@ -21,6 +25,10 @@ import CloseIcon from '@/assets/icons/close.svg';
 import ChevronLeftIcon from '@/assets/icons/chevron_left_24.svg';
 
 import LayoutMain from './LayoutMain';
+
+import MapFilter from './pc-map-filter';
+
+import { Filter } from './pc-map-filter/types';
 
 const Overlay = tw.div`fixed left-0 right-0 top-0 bottom-0 z-[1000] bg-[rgba(0,0,0,0.4)]`;
 

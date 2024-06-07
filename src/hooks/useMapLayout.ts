@@ -14,9 +14,9 @@ import isEqual from 'lodash/isEqual';
 
 import debounce from 'lodash/debounce';
 
-import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
+import { getDefaultFilterAptOftl } from '@/components/domains/map/utils/getDefaultFilters';
 
-import { Filter } from '@/components/organisms/MapFilter/types';
+import { Filter } from '@/components/domains/map/mobile-map-filter/types';
 
 import mapAtom from '@/states/atom/map';
 
@@ -42,8 +42,6 @@ import { NaverLatLng } from '@/lib/navermap/types';
 
 import { getMetersByZoom } from '@/lib/navermap/utils';
 
-import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
-
 import getSchools from '@/apis/map/mapSchools';
 
 import getHakgudo from '@/apis/map/mapHakgudos';
@@ -55,6 +53,10 @@ import Routes from '@/router/routes';
 import useLatest from '@/hooks/useLatest';
 
 import { CommonMarker, ListingDanjiMarker, SchoolMarker, AroundMarker } from '@/types/markers';
+
+import mapSearch from '@/services/map/mapSearchLevel';
+
+import { MapSearchResponse, MapSearchLevelOneResponse } from '@/services/map/types';
 
 const USER_LAST_LOCATION = 'user_last_location';
 

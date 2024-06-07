@@ -6,7 +6,9 @@ import { toast } from 'react-toastify';
 
 import { MobileContainer } from '@/components/atoms';
 
-import { MapListingList } from '@/components/templates';
+import MapListingList from '@/components/domains/map/MapListingsList';
+
+import useMapListingListMobile from '@/components/domains/map/map-listings-list/hooks/useMapListingsListMobile';
 
 import useAuth from '@/hooks/services/useAuth';
 
@@ -20,12 +22,10 @@ import Routes from '@/router/routes';
 
 import { apiService } from '@/services';
 
-import useMapListingList from './useMapListingList';
-
 export default memo(() => {
   const router = useRouter();
 
-  const { data, isLoading, increamentPageNumber, mutate } = useMapListingList();
+  const { data, isLoading, increamentPageNumber, mutate } = useMapListingListMobile();
 
   const { user, isLoading: isAuthLoading } = useAuth();
 
