@@ -32,7 +32,7 @@ import MapStreetViewMobile from './MapStreetViewMobile';
 
 import MapLayoutContainer from './MapLayoutContainer';
 
-function MapWrapper() {
+export default function MapLayoutMobile() {
   const {
     morphToCurrentLocation,
     handleChangeMapType,
@@ -254,8 +254,4 @@ function MapWrapper() {
       )}
     </>
   );
-}
-
-export default function MobMapLayout() {
-  return <MapWrapper />;
 }

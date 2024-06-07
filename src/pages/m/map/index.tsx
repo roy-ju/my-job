@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 
-import Map from '@/components/pages/mobile/Map';
+import Map from '@/components/pages/Map/MapMobile';
 
 const Page: NextPage = () => <Map />;
 
