@@ -1,13 +1,12 @@
 import { Button } from '@/components/atoms';
-import React from 'react';
 
-interface Props {
+interface MapPositionBarProps {
   sido: string;
   sigungu?: string;
   eubmyundong?: string;
 }
 
-function MapPositionBar({ sido, sigungu, eubmyundong }: Props) {
+export default function MapPositionBar({ sido, sigungu, eubmyundong }: MapPositionBarProps) {
   return (
     <div tw="inline-flex bg-white rounded-[30px] shadow-[0px 8px 16px rgba(0, 0, 0, 0.14)] items-center pointer-events-none">
       <Button variant="outlined" size="medium" tw="whitespace-nowrap rounded-[30px] border-white">
@@ -32,5 +31,3 @@ function MapPositionBar({ sido, sigungu, eubmyundong }: Props) {
     </div>
   );
 }
-
-export default MapPositionBar;

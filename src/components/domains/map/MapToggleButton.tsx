@@ -1,17 +1,23 @@
-import { Button } from '@/components/atoms';
-import tw from 'twin.macro';
-import Chart from '@/assets/icons/chart.svg';
-import HomeWithDollar from '@/assets/icons/home_with_dollar.svg';
-import useControlled from '@/hooks/useControlled';
 import { useCallback } from 'react';
+
+import tw from 'twin.macro';
+
 import { motion } from 'framer-motion';
+
+import { Button } from '@/components/atoms';
+
+import Chart from '@/assets/icons/chart.svg';
+
+import HomeWithDollar from '@/assets/icons/home_with_dollar.svg';
+
+import useControlled from '@/hooks/useControlled';
 
 interface Props {
   value?: number;
   onChange?: (i: number) => void;
 }
 
-function MapToggleButton({ value: valueProp, onChange }: Props) {
+export default function MapToggleButton({ value: valueProp, onChange }: Props) {
   const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: 0,
@@ -63,5 +69,3 @@ function MapToggleButton({ value: valueProp, onChange }: Props) {
     </motion.div>
   );
 }
-
-export default MapToggleButton;

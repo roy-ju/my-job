@@ -6,7 +6,9 @@ import { toast } from 'react-toastify';
 
 import { Panel } from '@/components/atoms';
 
-import { MapListingList } from '@/components/templates';
+import MapListingList from '@/components/domains/map/MapListingsList';
+
+import useMapListingsListPc from '@/components/domains/map/map-listings-list/hooks/useMapListingsListPc';
 
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
@@ -20,8 +22,6 @@ import Routes from '@/router/routes';
 
 import { apiService } from '@/services';
 
-import useMapListingList from './useMapListingList';
-
 interface Props {
   depth: number;
   panelWidth?: string;
@@ -32,7 +32,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
   const router = useRouter();
 
-  const { data, isLoading, increamentPageNumber } = useMapListingList();
+  const { data, isLoading, increamentPageNumber } = useMapListingsListPc();
 
   const { user, isLoading: isAuthLoading } = useAuth();
 

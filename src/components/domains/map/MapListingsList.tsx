@@ -10,26 +10,11 @@ import { NavigationHeader } from '@/components/molecules';
 
 import MyListItem from '@/components/organisms/my/my-list-item';
 
-import ExclamationIcon from '@/assets/icons/exclamation_mark.svg';
-
-import { MapSearchListResponse } from '@/apis/map/mapSearchList';
+import { MapSearchListResponse } from '@/services/map/types';
 
 import { DefaultListingImage } from '@/constants/strings';
 
-function NoData() {
-  return (
-    <div tw="py-12">
-      <div tw="flex justify-center">
-        <ExclamationIcon />
-      </div>
-      <div tw="mt-4 text-center text-gray-700 text-info">
-        조건에 맞는 매물이 없습니다.
-        <br />
-        지도를 이동하거나 필터를 변경해보세요.
-      </div>
-    </div>
-  );
-}
+import Nodata from './map-listings-list/Nodata';
 
 const Divider = tw.div`border-b border-gray-300 mx-5`;
 
@@ -65,7 +50,7 @@ export default function MapListingList({
           )}
           {!isLoading && data?.length === 0 && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.1 }}>
-              <NoData />
+              <Nodata />
             </motion.div>
           )}
           {!isLoading && Boolean(data?.length) && (

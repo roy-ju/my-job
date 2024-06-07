@@ -2,30 +2,32 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { getDefaultFilterAptOftl } from '@/components/organisms/MapFilter';
-
-import { Filter } from '@/components/organisms/MapFilter/types';
-
 import useMap from '@/states/hooks/useMap';
 
 import { MapBounds, getBounds } from '@/hooks/useMapLayout';
 
 import useNegocioMapEvent from '@/hooks/useNegocioMapEvent';
 
-import useAPI_MapSearchList from '@/apis/map/mapSearchList';
+import useFetchMapSearchList from '@/services/map/useFetchMapSearchList';
 
-export default function useMapListingList() {
+import { getDefaultFilterAptOftl } from '../../utils/getDefaultFilters';
+
+import { Filter } from '../../pc-map-filter/types';
+
+export default function useMapListingListPc() {
   const router = useRouter();
 
   const { naverMap } = useMap();
 
   const [filter, setFilter] = useState<Filter | null>(null);
+
   const [bounds, setBounds] = useState<MapBounds | null>(null);
+
   const [mapToggleValue, setMapToggleValue] = useState(0);
 
   const [listingIds, setListingIds] = useState<string>();
 
-  const { data, isLoading, increamentPageNumber } = useAPI_MapSearchList(mapToggleValue, bounds, filter, listingIds);
+  const { data, isLoading, increamentPageNumber } = useFetchMapSearchList(mapToggleValue, bounds, filter, listingIds);
 
   // 지도 필터가 바뀔때 호출
   const onFilterChange = useCallback((f: Filter) => {

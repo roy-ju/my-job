@@ -10,7 +10,7 @@ import RelativeFlexContents from '@/components/atoms/RelativeFlexContents';
 
 import { PersistentBottomBar, Separator } from '@/components/atoms';
 
-import { MobDanjiDetailSection, PhotoHero } from '@/components/organisms';
+import { MobDanjiDetailSection } from '@/components/organisms';
 
 import useScroll from '@/hooks/useScroll';
 
@@ -27,6 +27,8 @@ import { ListingDetailResponse, ListingRealestateDocumenSummarytResponse } from 
 import { QnaListResponse } from '@/services/qna/types';
 
 import ListingDetailHeader from '@/components/domains/listings/detail/ListingDetailHeader';
+
+import PhotoHero from '@/components/domains/listings/detail/PhotoHero';
 
 import ListingDetailTabs from '@/components/domains/listings/detail/ListingDetailTabs';
 

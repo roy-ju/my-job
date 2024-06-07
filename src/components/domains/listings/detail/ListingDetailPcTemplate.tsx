@@ -10,7 +10,7 @@ import RelativeFlexContents from '@/components/atoms/RelativeFlexContents';
 
 import { PersistentBottomBar, Separator } from '@/components/atoms';
 
-import { DanjiDetailSection, PhotoHero } from '@/components/organisms';
+import { DanjiDetailSection } from '@/components/organisms';
 
 import useDanjiInteraction from '@/states/hooks/useDanjiInteraction';
 
@@ -33,6 +33,8 @@ import { QnaListResponse } from '@/services/qna/types';
 import Routes from '@/router/routes';
 
 import ListingDetailHeader from '@/components/domains/listings/detail/ListingDetailHeader';
+
+import PhotoHero from '@/components/domains/listings/detail/PhotoHero';
 
 import ListingDetailTabs from '@/components/domains/listings/detail/ListingDetailTabs';
 

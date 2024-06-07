@@ -3,41 +3,13 @@ import { useCallback, useMemo } from 'react';
 
 import useSWRInfinite from 'swr/infinite';
 
-import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '@/components/organisms/MapFilter/PriceFilter';
+import { DEPOSIT_STEPS, PRICE_STEPS, RENT_STEPS } from '@/components/domains/map/pc-map-filter/PriceFilter';
 
-import { Filter } from '@/components/organisms/MapFilter/types';
+import { Filter } from '@/components/domains/map/pc-map-filter/types';
 
 import { MapBounds } from '@/hooks/useMobileMapLayout';
 
-import { MapSearchFilter } from './mapSearchLevel';
-
-interface ListItem {
-  listing_id: number;
-  thumbnail_full_path?: string;
-  listing_title: string;
-  realestate_type: number;
-  jeonyong_area: string;
-  floor_description: string;
-  total_floor: string;
-  direction: string;
-  buy_or_rent: number;
-  quick_sale?: boolean;
-  is_participating: boolean;
-  view_count: number;
-  participants_count: number;
-  trade_or_deposit_price: number;
-  monthly_rent_fee: number;
-  eubmyundong: string;
-  is_favorite: boolean;
-  bidding_id: any;
-  label_text: string;
-  status_text: string;
-}
-
-export interface MapSearchListResponse {
-  count: number;
-  list: ListItem[] | null;
-}
+import { MapSearchFilter, MapSearchListResponse } from './types';
 
 function getParams(mapToggleValue: number, bounds: MapBounds, filter: Filter) {
   const f: MapSearchFilter = {
@@ -141,7 +113,7 @@ function getKey(mapToggleValue: number, bounds: MapBounds | null, filter: Filter
   };
 }
 
-export default function useAPI_MapSearchList(
+export default function useFetchMapSearchList(
   mapToggleValue: number,
   bounds: MapBounds | null,
   filter: Filter | null,

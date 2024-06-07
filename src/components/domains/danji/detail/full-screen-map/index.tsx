@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react';
 
 import Container from '@/components/atoms/Container';
 
-import MapControls from '@/components/organisms/MapControls';
+import MapControls from '@/components/domains/map/MapControls';
 
 import useMobileDanjiMap from '@/states/hooks/useMobileDanjiMap';
 

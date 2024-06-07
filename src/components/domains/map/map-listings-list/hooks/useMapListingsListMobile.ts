@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 
-import useAPI_MapSearchList from '@/apis/map/mapSearchList';
-
-import { Filter } from '@/components/organisms/MapFilter/types';
+import { useRouter } from 'next/router';
 
 import { MapBounds } from '@/hooks/useMapLayout';
 
-import { useRouter } from 'next/router';
+import useFetchMapSearchList from '@/services/map/useFetchMapSearchList';
 
-export default function useMapListingList() {
+import { Filter } from '../../mobile-map-filter/types';
+
+export default function useMapListingListMobile() {
   const router = useRouter();
 
   const filter = useMemo(() => {
@@ -37,7 +37,7 @@ export default function useMapListingList() {
 
   const mapToggleValue = Number(router.query.mapToggleValue) ?? 0;
 
-  const { data, isLoading, increamentPageNumber, mutate } = useAPI_MapSearchList(
+  const { data, isLoading, increamentPageNumber, mutate } = useFetchMapSearchList(
     mapToggleValue,
     bounds,
     filter,

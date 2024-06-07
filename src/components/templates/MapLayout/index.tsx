@@ -6,7 +6,17 @@ import { Button } from '@/components/atoms';
 
 import GlobalNavigation from '@/components/organisms/global/GlobalNavigation';
 
-import { MapControls, MapPriceSelect, MapSearchTextField, MapFilter, MapToggleButton } from '@/components/organisms';
+import MapControls from '@/components/domains/map/MapControls';
+
+import MapPriceSelect from '@/components/domains/map/MapPriceSelect';
+
+import MapPositionBar from '@/components/domains/map/MapPositionBar';
+
+import MapToggleButton from '@/components/domains/map/MapToggleButton';
+
+import MapSearchTextField from '@/components/domains/map/MapSearchTextField';
+
+import MapFilter from '@/components/domains/map/pc-map-filter';
 
 import { KakaoAddressAutocompleteResponseItem } from '@/hooks/services/useKakaoAddressAutocomplete';
 
@@ -22,9 +32,7 @@ import User from '@/assets/icons/user.svg';
 
 import BookIcon from '@/assets/icons/icon_book_24.svg';
 
-import { Filter } from '@/components/organisms/MapFilter/types';
-
-import MapPositionBar from '@/components/organisms/MapPositionBar';
+import { Filter } from '@/components/domains/map/pc-map-filter/types';
 
 import RefreshOrangeIcon from '@/assets/icons/refresh_orange.svg';
 

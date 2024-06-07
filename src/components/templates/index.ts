@@ -1,8 +1,6 @@
 /** PC 모바일 공통 */
 export { default as PageNotFound } from './PageNotFound';
 
-export { default as MapListingList } from './MapListingList';
-
 export { default as ChatRoomReport } from './ChatRoomReport';
 
 export { default as DanjiSelect } from './DanjiSelect';

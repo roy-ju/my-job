@@ -3,7 +3,7 @@ import { ChangeEventHandler, ReactNode, useCallback, useState } from 'react';
 
 import { Button, Checkbox } from '@/components/atoms';
 
-import { Filter } from '@/components/organisms/MapFilter/types';
+import { Filter } from '@/components/domains/map/mobile-map-filter/types';
 
 import { ListingSummary } from '@/hooks/useMobileMapLayout';
 
