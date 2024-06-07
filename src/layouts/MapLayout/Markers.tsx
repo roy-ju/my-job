@@ -5,10 +5,6 @@ import { useRecoilValue } from 'recoil';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 
-import { DanjiMarker, RegionMarker } from '@/components/organisms';
-
-import SchoolMarker from '@/components/organisms/map_markers/SchoolMarker';
-
 import {
   AroundMarker as AroundMarkerType,
   CommonMarker,
@@ -28,6 +24,9 @@ import MyMarkerIcon from '@/assets/icons/my_location.svg';
 
 import SearchResultMarkerIcon from '@/assets/icons/search_result_marker.svg';
 
+import SchoolMarker from '@/components/domains/map/map_markers/school-marker';
+import DanjiMarker from '@/components/domains/map/map_markers/danji-marker';
+import RegionMarker from '@/components/domains/map/map_markers/region-marker';
 import AroundMarker from './AroundMarker';
 
 interface MarkersProps {

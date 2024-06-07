@@ -1,6 +1,9 @@
-import { Numeral } from '@/components/atoms';
 import { Children, MouseEventHandler, ReactNode } from 'react';
+
 import tw from 'twin.macro';
+
+import { Numeral } from '@/components/atoms';
+
 import variants, { VariantKey } from '../variants';
 
 function DanjiCount({ count }: { count: number }) {
@@ -34,7 +37,7 @@ interface Props {
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-function MobContainer({ name, variant, children, onClick }: Props) {
+function Wrraper({ name, variant, children, onClick }: Props) {
   const childrenCount = Children.count(children);
   const minWidth = childrenCount > 1 ? '5.5rem' : '3.75rem';
 
@@ -74,7 +77,7 @@ function MobContainer({ name, variant, children, onClick }: Props) {
   );
 }
 
-export default Object.assign(MobContainer, {
+export default Object.assign(Wrraper, {
   DanjiCount,
   ListingCount,
   Divider,

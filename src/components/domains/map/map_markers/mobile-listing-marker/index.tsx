@@ -1,7 +1,11 @@
 import React, { MouseEventHandler, ReactNode } from 'react';
+
 import { Numeral } from '@/components/atoms';
+
 import tw from 'twin.macro';
+
 import MarkerRoundedCorner from '../assets/marker_rounded_corner.svg';
+
 import MarkerTail from '../assets/marker_tail.svg';
 
 interface Props {
@@ -17,7 +21,7 @@ interface Props {
   children?: ReactNode;
 }
 
-const ListingMarker = React.memo(({ selected = false, price, count = 0, children, onClick }: Props) => (
+const MobileListingMarker = React.memo(({ selected = false, price, count = 0, children, onClick }: Props) => (
   <div tw="relative animate-scale will-change-transform [text-rendering: optimizeSpeed] inline-block w-fit">
     <div css={selected && tw`animate-bounce`}>
       {children && <div tw="absolute left-1/2 top-[-8px] translate-y-[-100%] translate-x-[-50%]">{children}</div>}
@@ -72,4 +76,4 @@ const ListingMarker = React.memo(({ selected = false, price, count = 0, children
   </div>
 ));
 
-export default ListingMarker;
+export default MobileListingMarker;

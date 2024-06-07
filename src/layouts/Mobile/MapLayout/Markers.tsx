@@ -1,9 +1,5 @@
 import DeferredRender from '@/components/atoms/DeferredRender';
 
-import MobSchoolMarker from '@/components/organisms/map_markers/MobSchoolMarker';
-
-import { MobDanjiMarker, MobRegionMarker } from '@/components/organisms';
-
 import { DanjiSummary } from '@/hooks/useMobileMapLayout';
 
 import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
@@ -11,6 +7,12 @@ import CustomOverlay from '@/lib/navermap/components/CustomOverlay';
 import MyMarkerIcon from '@/assets/icons/my_location.svg';
 
 import { CommonSchoolMarker, CommonMapMarker } from '@/types/mobileMarkers';
+
+import MobileRegionMarker from '@/components/domains/map/map_markers/mobile-region-marker';
+
+import MobileDanjiMarker from '@/components/domains/map/map_markers/mobile-danji-marker';
+
+import MobileSchoolMarker from '@/components/domains/map/map_markers/mobile-school-marker';
 
 interface MarkersProps {
   mapLevel: number;
@@ -43,11 +45,15 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              <MobRegionMarker variant={marker.variant} name={marker?.bubjungdongName ?? ''} onClick={marker.onClick}>
-                <MobRegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
-                <MobRegionMarker.Divider />
-                <MobRegionMarker.ListingCount count={marker.listingCount} />
-              </MobRegionMarker>
+              <MobileRegionMarker
+                variant={marker.variant}
+                name={marker?.bubjungdongName ?? ''}
+                onClick={marker.onClick}
+              >
+                <MobileRegionMarker.DanjiCount count={marker?.danjiCount ?? 0} />
+                <MobileRegionMarker.Divider />
+                <MobileRegionMarker.ListingCount count={marker.listingCount} />
+              </MobileRegionMarker>
             </CustomOverlay>
           </DeferredRender>
         ))}
@@ -63,7 +69,7 @@ export default function Markers({
                 lng: marker.lng,
               }}
             >
-              <MobDanjiMarker
+              <MobileDanjiMarker
                 selected={selectedDanjiSummary?.id === marker.id}
                 variant={marker.variant}
                 area={Number(marker?.pyoung ?? 0)}
@@ -85,7 +91,7 @@ export default function Markers({
               lng: marker.lng,
             }}
           >
-            <MobSchoolMarker
+            <MobileSchoolMarker
               selected={selectedSchoolID === marker.id}
               onClick={marker.onClick}
               name={marker.name}

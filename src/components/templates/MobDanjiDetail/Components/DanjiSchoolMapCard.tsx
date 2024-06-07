@@ -9,8 +9,6 @@ import { Button } from '@/components/atoms';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 
-import { MobSchoolMarker } from '@/components/organisms';
-
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import useSessionStorage from '@/hooks/useSessionStorage';
@@ -28,6 +26,8 @@ import { useAPI_DanjiMapSchools } from '@/apis/danji/danjiMapSchools';
 import { SchoolType } from '@/constants/enums';
 
 import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
+
+import MobileSchoolMarker from '@/components/domains/map/map_markers/mobile-school-marker';
 
 type GetSchoolResponse = {
   school_name: string;
@@ -369,7 +369,7 @@ export default function DanjiSchoolMapCard({
                   }}
                   zIndex={item.school_id === selectedSchoolId ? 40 : 20}
                 >
-                  <MobSchoolMarker
+                  <MobileSchoolMarker
                     type={convertSchoolType(item.school_type)}
                     name={convertSchoolName(item.school_type, item.school_name)}
                     onClick={() => onClickSchoolMarker(item, index)}

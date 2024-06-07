@@ -1,6 +1,9 @@
-import { Numeral } from '@/components/atoms';
 import { Children, MouseEventHandler, ReactNode } from 'react';
+
 import tw from 'twin.macro';
+
+import { Numeral } from '@/components/atoms';
+
 import variants, { VariantKey } from '../variants';
 
 function DanjiCount({ count }: { count: number }) {

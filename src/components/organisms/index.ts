@@ -10,20 +10,6 @@ export { default as MapFilter } from './MapFilter';
 
 export { default as MapToggleButton } from './MapToggleButton';
 
-export { default as RegionMarker } from './map_markers/RegionMarker';
-
-export { default as DanjiMarker } from './map_markers/DanjiMarker';
-
-export { default as ListingMarker } from './map_markers/ListingMarker';
-
-export { default as MobRegionMarker } from './map_markers/MobRegionMarker';
-
-export { default as MobDanjiMarker } from './map_markers/MobDanjiMarker';
-
-export { default as MobListingMarker } from './map_markers/MobListingMarker';
-
-export { default as MobSchoolMarker } from './map_markers/MobSchoolMarker';
-
 export { default as AddressSearchForm } from './AddressSearchForm';
 
 export { default as AgentCardItem } from './AgentCardItem';

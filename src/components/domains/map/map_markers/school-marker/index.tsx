@@ -1,4 +1,5 @@
 import tw from 'twin.macro';
+
 import School from '../assets/school.svg';
 
 function SchoolMarker({
