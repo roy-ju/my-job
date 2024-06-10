@@ -45,6 +45,7 @@ import {
   SubHomeVerifyAddressRequest,
   SubHomeVerifyAddressResponse,
 } from './sub-home/types';
+import { MapHakgudoResponse } from './map/types';
 import { BiddingCreateResponse } from './bidding/types';
 
 export class NegocioApiService extends ApiService {
@@ -862,6 +863,15 @@ export class NegocioApiService extends ApiService {
     }
   }
 
+  async mapHakgudo(schoolID: string) {
+    try {
+      const { data } = await this.instance.post('/map/hakgudo', { school_id: schoolID });
+      return data as MapHakgudoResponse;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async createQna(req: { listing_id: number; message: string }) {
     try {
       const { data } = await this.instance.post('/qna/create', {
@@ -897,6 +907,71 @@ export class NegocioApiService extends ApiService {
         recommendations: args.recommendations,
         free_feedback: args.freeFeedback,
       });
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async createLawQna(req: { title: string; user_message: string }) {
+    try {
+      const { data } = await this.instance.post('/lawqna/create', {
+        ...req,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async updateLawQna(req: { law_qna_id: number; title: string; user_message: string }) {
+    try {
+      const { data } = await this.instance.post('/lawqna/update', {
+        ...req,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteLawQna(req: { law_qna_id: number }) {
+    try {
+      const { data } = await this.instance.post('/lawqna/delete', {
+        ...req,
+      });
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async lawQnaLike(req: { law_qna_id: number }): Promise<null | ErrorResponse> {
+    try {
+      const { data } = await this.instance.post('/lawqna/like', req);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async lawQnaDislike(req: { law_qna_id: number }): Promise<null | ErrorResponse> {
+    try {
+      const { data } = await this.instance.post('/lawqna/dislike', req);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async viewLawQna(req: {
+    law_qna_id: number;
+    ip_address: string;
+    device: string;
+    browser: string;
+  }): Promise<null | ErrorResponse> {
+    try {
+      const { data } = await this.instance.post('/lawqna/view', req);
+      return data;
     } catch (e) {
       return null;
     }

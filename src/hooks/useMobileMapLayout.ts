@@ -8,9 +8,7 @@ import { toast } from 'react-toastify';
 
 import debounce from 'lodash/debounce';
 
-import { getDefaultFilterAptOftl } from '@/components/organisms/MobMapFilter';
-
-import { Filter } from '@/components/organisms/MapFilter/types';
+import { getDefaultFilterAptOftl } from '@/components/domains/map/utils/getDefaultFilters';
 
 import mobileMapAtom from '@/states/atom/mobileMap';
 
@@ -28,7 +26,9 @@ import { NaverLatLng } from '@/lib/navermap/types';
 
 import { getMetersByZoom } from '@/lib/navermap/utils';
 
-import mapSearch, { MapSearchResponse, MapSearchLevelOneResponse } from '@/apis/map/mapSearchLevel';
+import { MapSearchResponse, MapSearchLevelOneResponse } from '@/services/map/types';
+
+import mapSearch from '@/services/map/mapSearchLevel';
 
 import getSchools from '@/apis/map/mapSchools';
 
@@ -43,6 +43,8 @@ import Routes from '@/router/routes';
 import getCurrentPosition from '@/utils/getCurrentPosition';
 
 import { CommonMapMarker, CommonSchoolMarker } from '@/types/mobileMarkers';
+
+import { Filter } from '@/components/domains/map/mobile-map-filter/types';
 
 const USER_LAST_LOCATION = 'mob_user_last_location';
 

@@ -305,7 +305,6 @@ export default function useRegisterHomeAddressVerifyResultHandler({
         kakaoResponse &&
         kakaoResponse.documents[0].address?.b_code &&
         selectedAddress.realestate_unique_number &&
-        selectedAddress.address_detail &&
         addressData?.lat &&
         addressData?.lng
       ) {
@@ -313,7 +312,7 @@ export default function useRegisterHomeAddressVerifyResultHandler({
 
         const response = await apiService.myVerifyOwnership({
           realestate_unique_number: selectedAddress.realestate_unique_number,
-          address_detail: selectedAddress.address_detail,
+          address_detail: selectedAddress?.address_detail ?? '',
           bubjungdong_code: kakaoResponse.documents[0].address.b_code,
           jibun_address: kakaoResponse.documents[0].address.address_name,
           building_name: kakaoResponse.documents[0].road_address?.building_name ?? '',

@@ -158,7 +158,13 @@ export default function useListingDetailPc({
     if (router.query.back) {
       router.replace(router.query.back as string);
     } else {
-      router.replace('/');
+      const canGoBack = window.history.length > 1;
+
+      if (canGoBack) {
+        router.back();
+      } else {
+        router.replace('/');
+      }
     }
   }, [router]);
 

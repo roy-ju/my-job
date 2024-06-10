@@ -1,18 +1,14 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 
 import { useRouter } from 'next/router';
 
+import { AnimatePresence, motion } from 'framer-motion';
+
 import OutsideClick from '@/components/atoms/OutsideClick';
 
-import { OverlayPresenter, Popup } from '@/components/molecules';
-
-import { MapLayout as Layout, MapStreetView } from '@/components/templates';
-
-import useMap from '@/states/hooks/useMap';
-
-import useSyncronizer from '@/states/hooks/useSyncronizer';
+import Layout from '@/components/domains/map';
 
 import useMapLayout from '@/hooks/useMapLayout';
 
@@ -34,13 +30,31 @@ import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
 
-import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestAreaPopup';
-
 import Markers from './Markers';
 
-import usePanelVisible from './hooks/usePanelVisible';
+import useMapLayoutHandler from './hooks/useMapLayoutHandler';
 
-import useTab from './hooks/useTab';
+const MapStreetView = dynamic(() => import('./MapStreetView'), {
+  ssr: false,
+});
+
+const StreetViewPanorama = dynamic(() => import('./StreetViewPanorama'), {
+  ssr: false,
+});
+
+const StreetViewMap = dynamic(() => import('./StreetViewMap'), {
+  ssr: false,
+});
+
+const ImpossibleSuggestAreaPopup = dynamic(() => import('@/components/organisms/popups/ImpossibleSuggestAreaPopup'), {
+  ssr: false,
+});
+
+const NeedMoreVerificationAddressPopup = dynamic(() => import('./popups/NeedMoreVerificationAddressPopup'), {
+  ssr: false,
+});
+
+const VerificationAddressPopup = dynamic(() => import('./popups/VerificationAddressPopup'), { ssr: false });
 
 interface Props {
   children?: ReactNode;
@@ -290,8 +304,8 @@ function MapWrapper({
                     title={streetViewEvent.address}
                     onClickBackButton={handleCloseStreetView}
                   >
-                    <MapStreetView.Panorama />
-                    <MapStreetView.Map />
+                    <StreetViewPanorama />
+                    <StreetViewMap />
                   </MapStreetView>
                 </div>
               </motion.div>
@@ -305,151 +319,25 @@ function MapWrapper({
       )}
 
       {openVerificationAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                매물등록을 위해서는 집주인 인증이 필요합니다.
-                <br />
-                우리집을 인증하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={handleCancelVerificationAddressPopup}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleActionVerificationAddressPopup}>인증하기</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+        <VerificationAddressPopup
+          handleCancel={handleCancelVerificationAddressPopup}
+          handleConfirm={handleActionVerificationAddressPopup}
+        />
       )}
 
       {openNeedMoreVerificationAddressPopup && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="[text-align: center]">
-              <Popup.SubTitle>
-                추가로 매물등록이 가능한 우리집 정보가 없습니다.
-                <br />
-                우리집을 추가 인증하시겠습니까?
-              </Popup.SubTitle>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={handleCancelNeedMoreVerificationAddressPopup}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleActionNeedMoreVerificationAddressPopup}>인증하기</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+        <NeedMoreVerificationAddressPopup
+          handleCancel={handleCancelNeedMoreVerificationAddressPopup}
+          handleConfirm={handleActionNeedMoreVerificationAddressPopup}
+        />
       )}
     </>
   );
 }
 
 export default function MapLayout({ children }: Props) {
-  const map = useMap();
-
-  const router = useRouter();
-
-  const { panelsVisible, handlePanelsVisible, togglePanelsVisibility } = usePanelVisible();
-
-  const { tabIndex, handleChangeTabIndex } = useTab();
-
-  const { unreadChatCount } = useSyncronizer();
-
-  const handleClickLogo = useCallback(() => {
-    router.push('/');
-  }, [router]);
-
-  const handleChangeRoutes = useCallback(
-    (index: number) => {
-      switch (index) {
-        case 0: // 홈
-          router.push('/');
-          break;
-        case 1: // 거래도우미
-          router.push(`/${Routes.SubHome}`);
-          break;
-        case 2: // 지도
-          map.naverMap?.setZoom(16, true);
-          router.push(`/${Routes.Map}`);
-          break;
-        case 3: // 문의목록
-          router.push(`/${Routes.ChatRoomList}`);
-          break;
-        case 4: // 마이페이지
-          router.push(`/${Routes.My}`);
-          break;
-        case 5: // 개발자설정
-          router.replace(`/${Routes.Developer}`);
-          break;
-        default:
-          break;
-      }
-      handleChangeTabIndex(index);
-      handlePanelsVisible(true);
-    },
-    [handleChangeTabIndex, handlePanelsVisible, map?.naverMap, router],
-  );
-
-  useEffect(() => {
-    handlePanelsVisible(true);
-
-    if (router.pathname === '/') {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.SuggestForm) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.SuggestDetail) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.SuggestGuide) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.SuggestFormUpdate) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.LawQna) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.LawQnaSearch) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.LawQnaDetail) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.LawQnaCreate) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.LawQnaUpdate) {
-      handleChangeTabIndex(0);
-    } else if (router.query.depth1 === Routes.Map || router.pathname === `/${Routes.Map}`) {
-      handleChangeTabIndex(2);
-    } else if (router.query.depth1 === Routes.SubHome) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.TradeProcess) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.SpecialTerms) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.CommonSense) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.Dictionary) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.DictionaryDetail) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.ListingCheckList) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.RealestateDocumentSearchAddress) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.RealestateDocumentAddressDetail) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.RealestateDocumentAddressVerifying) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.RealestateDocumentAddressVerifyResult) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.RealestateDocumentList) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.RealestateDocumentDetail) {
-      handleChangeTabIndex(1);
-    } else if (router.query.depth1 === Routes.ChatRoomList) {
-      handleChangeTabIndex(3);
-    } else if (router.query.depth1 === Routes.My) {
-      handleChangeTabIndex(4);
-    } else if (router.query.depth1 === Routes.Developer) {
-      handleChangeTabIndex(5);
-    } else {
-      handleChangeTabIndex(0);
-    }
-  }, [handleChangeTabIndex, handlePanelsVisible, router]);
+  const { unreadChatCount, tabIndex, panelsVisible, togglePanelsVisibility, handleClickLogo, handleChangeRoutes } =
+    useMapLayoutHandler();
 
   // Map 과 useMapLayout 의 state 가 Panel 안에 그려지는 화면의 영향을 주지 않기위해서 분리된 컴포넌트로 사용한다.
 

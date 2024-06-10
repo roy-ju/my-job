@@ -21,6 +21,14 @@ const Routes = {
   LOGIN: 'login',
   MY: 'my',
   DANJIDETAIL: 'danjiDetail',
+  DANJIDETAILSEO: 'danji',
+
+  SUBHOME: 'subHome',
+  TRADEPROCESS: 'tradeProcess',
+  DICTIONARY: 'dictionary',
+  COMMONSENSE: 'commonSense',
+  SPECIALTERMS: 'specialTerms',
+  LISTINGCHECKLIST: 'listingCheckList',
 };
 
 const SitemapURLToBeCreated = {
@@ -57,6 +65,13 @@ const sitemapBaseXMLList = [
   { locValue: `${mobileBaseURL}/${Routes.LAWQNA}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.CHATROOMLIST}`, lastmodValue, priorityValue },
   { locValue: `${mobileBaseURL}/${Routes.MY}`, lastmodValue, priorityValue },
+
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.TRADEPROCESS}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.DICTIONARY}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.COMMONSENSE}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.SPECIALTERMS}`, lastmodValue, priorityValue },
+  { locValue: `${mobileBaseURL}/${Routes.SUBHOME}/${Routes.LISTINGCHECKLIST}`, lastmodValue, priorityValue },
 ];
 
 const sitemapXMLList = [{ locValue: `${webBaseURL}/${SitemapURLToBeCreated.BASE}.xml`, lastmodValue }];
@@ -78,7 +93,7 @@ ${sitemapBaseXMLList
   fs.writeFileSync(`../public/${SitemapURLToBeCreated.BASE}.xml`, content);
 };
 
-const makeDynamicSitemaps = async () => {
+const makeDynamicNewDanjiSitemaps = async () => {
   await fetch(APIURL, {
     method: 'POST',
     cache: 'no-cache',
@@ -103,7 +118,7 @@ const makeDynamicSitemaps = async () => {
           .slice(startIndex, endIndex)
           .map(
             (value) =>
-              `<url><loc>${mobileBaseURL}/${Routes.DANJIDETAIL}?danjiID=${value}</loc><lastmod>${lastmodValue}</lastmod></url>`,
+              `<url><loc>${mobileBaseURL}/${Routes.DANJIDETAILSEO}/${value}</loc><lastmod>${lastmodValue}</lastmod></url>`,
           )
           .join('');
 
@@ -133,7 +148,62 @@ ${sitemapXMLList
 
 function generateSitemaps() {
   makeStaticSitemap();
-  makeDynamicSitemaps();
+  makeDynamicNewDanjiSitemaps();
 }
 
 generateSitemaps();
+
+// const makeDynamicSitemaps = async () => {
+//   await fetch(APIURL, {
+//     method: 'POST',
+//     cache: 'no-cache',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then((data) => {
+//       const list = data.list;
+//       const totalPages = Math.ceil(list.length / itemsPerPage);
+
+//       for (let i = 1; i <= totalPages; i++) {
+//         const startIndex = (i - 1) * itemsPerPage;
+//         const endIndex = Math.min(i * itemsPerPage, list.length);
+
+//         sitemapXMLList.push({ locValue: `${webBaseURL}/${SitemapURLToBeCreated.DANJI}_${i}.xml`, lastmodValue });
+
+//         let mapHTML = `${headerXmlVersion}${headerUrlSet}`;
+
+//         const mapHTMLContent = list
+//           .slice(startIndex, endIndex)
+//           .map(
+//             (value) =>
+//               `<url><loc>${mobileBaseURL}/${Routes.DANJIDETAIL}?danjiID=${value}</loc><lastmod>${lastmodValue}</lastmod></url>`,
+//           )
+//           .join('');
+
+//         mapHTML += mapHTMLContent;
+//         mapHTML += `</urlset>`;
+
+//         fs.writeFileSync(`../public/${SitemapURLToBeCreated.DANJI}_${i}.xml`, mapHTML);
+//       }
+
+//       const content = `${headerSitemapIndex}
+// ${sitemapXMLList
+//   .map(
+//     (item) => `  <sitemap>
+//     <loc>${item.locValue}</loc>
+//     <lastmod>${item.lastmodValue}</lastmod>
+//   </sitemap>`,
+//   )
+//   .join('\n')}
+// </sitemapindex>`;
+
+//       fs.writeFileSync(`../public/${SitemapURLToBeCreated.ORIGIN}.xml`, content);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
+
+// makeDynamicSitemaps();

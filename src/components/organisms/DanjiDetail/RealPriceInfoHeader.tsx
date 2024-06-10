@@ -1,8 +1,11 @@
-import React from 'react';
-import { Tabs } from '@/components/molecules';
-import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
-import { Button } from '@/components/atoms';
 import { useRouter } from '@/hooks/utils';
+
+import { Button } from '@/components/atoms';
+
+import { Tabs } from '@/components/molecules';
+
+import { BuyOrRent, describeJeonsaeWolsaeSame, Year } from '@/constants/enums';
+
 import Routes from '@/router/routes';
 
 export default function RealPriceInfoHeader({

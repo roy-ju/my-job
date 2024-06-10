@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 
-import { InternalFaqListResponse } from '@/apis/internal/getFaqs';
+import { InternalFaqListResponse } from '@/services/internal/useFetchInternalFaqList';
 
 export default function useFilterCategory({ data }: { data?: InternalFaqListResponse }) {
   const [filterCategory, setFilterCategory] = useState('');

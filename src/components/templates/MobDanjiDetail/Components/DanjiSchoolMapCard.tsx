@@ -9,8 +9,6 @@ import { Button } from '@/components/atoms';
 
 import DeferredRender from '@/components/atoms/DeferredRender';
 
-import { MobSchoolMarker } from '@/components/organisms';
-
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import useSessionStorage from '@/hooks/useSessionStorage';
@@ -28,6 +26,8 @@ import { useAPI_DanjiMapSchools } from '@/apis/danji/danjiMapSchools';
 import { SchoolType } from '@/constants/enums';
 
 import MapMarkerSearchItem from '@/assets/icons/mob_map_danji_pin.svg';
+
+import MobileSchoolMarker from '@/components/domains/map/map_markers/mobile-school-marker';
 
 type GetSchoolResponse = {
   school_name: string;
@@ -312,7 +312,11 @@ export default function DanjiSchoolMapCard({
           const index = list.findIndex((ele) => ele.school_id === danjiSchoolID);
           const initialSchool = list.find((ele) => ele.school_id === danjiSchoolID);
 
-          setTimeout(() => listRefs.current[index].scrollIntoView(true), 500);
+          setTimeout(() => {
+            if (listRefs?.current[index]) {
+              listRefs.current[index].scrollIntoView(true);
+            }
+          }, 500);
 
           if (index && initialSchool) {
             map.panTo(new naver.maps.LatLng(initialSchool?.lat, initialSchool?.long), {
@@ -365,7 +369,7 @@ export default function DanjiSchoolMapCard({
                   }}
                   zIndex={item.school_id === selectedSchoolId ? 40 : 20}
                 >
-                  <MobSchoolMarker
+                  <MobileSchoolMarker
                     type={convertSchoolType(item.school_type)}
                     name={convertSchoolName(item.school_type, item.school_name)}
                     onClick={() => onClickSchoolMarker(item, index)}

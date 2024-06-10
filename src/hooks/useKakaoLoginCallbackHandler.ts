@@ -10,7 +10,7 @@ import Events, { NegocioLoginResponseEventPayload } from '@/constants/events';
 
 import { SocialLoginType } from '@/constants/enums';
 
-import getKakaoAccessToken from '@/apis/internal/getKakaoAccessToken';
+import getKakaoAccessToken from '@/services/internal/getkakaoAccessToken';
 
 export default function useKakaoLoginCallbackHandler({ ipAddress }: { ipAddress: any }) {
   const handleLogin = useCallback(
@@ -22,7 +22,6 @@ export default function useKakaoLoginCallbackHandler({ ipAddress }: { ipAddress:
 
       if (!kakaoAccessTokenResponse) {
         toast.error('카카오 서버 쪽 문제가 발생했습니다. 다시 시도해 주세요.');
-        window.close();
         return false;
       }
 

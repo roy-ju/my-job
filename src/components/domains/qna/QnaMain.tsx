@@ -1,6 +1,6 @@
-import React from 'react';
+import dynamic from 'next/dynamic';
 
-import { NavigationHeader, OverlayPresenter, Popup } from '@/components/molecules';
+import { NavigationHeader } from '@/components/molecules';
 
 import { ButtonV2 } from '@/components/atoms';
 
@@ -11,6 +11,8 @@ import useQnaMain from './main/hooks/useQnaMain';
 import List from './main/List';
 
 import QnaCreate from './main/QnaCreate';
+
+const ConfirmFinalCreatePopup = dynamic(() => import('./main/popups/ConfirmFinalCreatePopup'), { ssr: false });
 
 export default function QnaMain() {
   const {
@@ -88,20 +90,7 @@ export default function QnaMain() {
       </div>
 
       {isPopupOpen && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-12">
-              <Popup.Title>
-                작성하신 내용은 수정할 수 없습니다.
-                <br />위 내용으로 문의하시겠습니까?
-              </Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={handleClickClosePopup}>취소</Popup.CancelButton>
-              <Popup.ActionButton onClick={handleCreateServiceQna}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+        <ConfirmFinalCreatePopup handleCancel={handleClickClosePopup} handleConfirm={handleCreateServiceQna} />
       )}
     </>
   );

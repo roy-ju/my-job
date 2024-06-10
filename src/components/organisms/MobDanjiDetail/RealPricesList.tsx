@@ -1,15 +1,26 @@
-import { useAPI_DanjiRealPricesList } from '@/apis/danji/danjiRealPricesList';
-import { customAlphabet } from 'nanoid';
-import TradeIcon from '@/assets/icons/trade.svg';
-import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
 import { useCallback } from 'react';
-import { formatNumberInKorean } from '@/utils';
-import { minDigits } from '@/utils/fotmat';
-import { Button, InfiniteScroll } from '@/components/atoms';
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
-import Routes from '@/router/routes';
+
 import { useRouter } from 'next/router';
+
+import { customAlphabet } from 'nanoid';
+
+import { Button, InfiniteScroll } from '@/components/atoms';
+
+import { formatNumberInKorean } from '@/utils';
+
+import { minDigits } from '@/utils/fotmat';
+
+import { BuyOrRent, describeBuyOrRent } from '@/constants/enums';
+
+import { useAPI_DanjiRealPricesList } from '@/apis/danji/danjiRealPricesList';
+
+import { GetDanjiRealPricesPyoungListResponse } from '@/apis/danji/danjiRealPricesPyoungList';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
+
+import Routes from '@/router/routes';
+
+import TradeIcon from '@/assets/icons/trade.svg';
 
 function CancelLabel() {
   return (
@@ -107,7 +118,7 @@ export default function RealPricesList({
   selectedIndex,
   danjiRealPricesPyoungList,
 }: {
-  danji?: GetDanjiDetailResponse;
+  danji?: DanjiDetailResponse;
   isMorePage: boolean;
   buyOrRent?: number;
   selectedYear?: number;

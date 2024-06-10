@@ -76,6 +76,7 @@ export default function useCtasHandler({ isRecommendable, danjiID }: { isRecomme
           danjiID: `${danjiID}`,
         },
       });
+      return;
     }
 
     if (platform === 'mobile') {

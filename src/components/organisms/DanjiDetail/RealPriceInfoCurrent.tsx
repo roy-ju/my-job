@@ -1,17 +1,25 @@
+import { useMemo } from 'react';
+
 import { BuyOrRent } from '@/constants/enums';
+
 import BuyIcon from '@/assets/icons/buy_tradeturnrate.svg';
+
 import JeonsaeIcon from '@/assets/icons/jeonsae_tradeturnrate.svg';
+
 import DanjiIcon from '@/assets/icons/danji_line.svg';
+
 import SigunguIcon from '@/assets/icons/sigungu_line.svg';
+
 import SidoIcon from '@/assets/icons/sido_line.svg';
+
 import {
   useAPI_DanjiJeonsaerate,
   useAPI_DanjiJeonsaerateSigungu,
   useAPI_DanjiTradeTurnrate,
   useAPI_DanjiTradeTurnrateSigungu,
 } from '@/apis/danji/danjiTradeTurnRate';
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { useMemo } from 'react';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
 
 export default function RealPriceInfoCurrent({
   buyOrRent,
@@ -19,7 +27,7 @@ export default function RealPriceInfoCurrent({
   selectedYear,
 }: {
   buyOrRent?: number;
-  danji?: GetDanjiDetailResponse;
+  danji?: DanjiDetailResponse;
   selectedYear?: number;
 }) {
   const { data: danjiTradeTurnRateData } = useAPI_DanjiTradeTurnrate({

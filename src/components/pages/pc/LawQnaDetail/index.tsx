@@ -30,15 +30,11 @@ import Paths from '@/constants/paths';
 
 import Routes from '@/router/routes';
 
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+import useFetchLawQnaList from '@/services/law-qna/useFetchLawQnaList';
 
-import useAPI_GetLawQnaDetail from '@/apis/lawQna/getLawQnaDetail';
+import useFetchLawQnaDetail from '@/services/law-qna/useFetchLawQnaDetail';
 
-import { lawQnaDelete } from '@/apis/lawQna/lawQnaCrud';
-
-import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
-
-import lawQnaView from '@/apis/lawQna/lawQnaView';
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -62,13 +58,15 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
 
   const [text, setText] = useState('');
 
-  const { mutate: mutateQnaData } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
+  const { mutate: mutateQnaData } = useFetchLawQnaList({
+    searchQuery: router?.query?.q ? (router.query.q as string) : null,
+  });
 
   const { openAuthPopup } = useAuthPopup();
 
   const { handleUpdateReturnUrl } = useReturnUrl();
 
-  const { data: lawQnaDetailData, mutate: lawQnaDetailDataMutate } = useAPI_GetLawQnaDetail(
+  const { data: lawQnaDetailData, mutate: lawQnaDetailDataMutate } = useFetchLawQnaDetail(
     router?.query?.qnaID ? Number(router?.query?.qnaID) : undefined,
   );
 
@@ -83,7 +81,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
   const handleClickDelete = useCallback(async () => {
     if (!qnaID) return;
 
-    const response = await lawQnaDelete({ law_qna_id: Number(qnaID) });
+    const response = await apiService.deleteLawQna({ law_qna_id: Number(qnaID) });
 
     if (response === null) {
       toast.success('게시물이 삭제되었습니다.', { toastId: 'toast_delete' });
@@ -154,11 +152,11 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
       }
 
       if (liked) {
-        await lawQnaDislike({ law_qna_id: qnaId });
+        await apiService.lawQnaDislike({ law_qna_id: qnaId });
         lawQnaDetailDataMutate();
         mutateQnaData();
       } else {
-        await lawQnaLike({ law_qna_id: qnaId });
+        await apiService.lawQnaLike({ law_qna_id: qnaId });
         lawQnaDetailDataMutate();
         mutateQnaData();
       }
@@ -194,7 +192,7 @@ export default memo(({ depth, panelWidth, qnaID, ipAddress }: Props) => {
 
   useEffect(() => {
     async function view(id: number) {
-      await lawQnaView({
+      await apiService.viewLawQna({
         ip_address: ipAddress !== '::1' ? ipAddress ?? '' : '',
         law_qna_id: id,
         device: getDevice(),
