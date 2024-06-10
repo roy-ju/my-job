@@ -1,10 +1,8 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
+
+import Head from 'next/head';
 
 import { useRouter } from 'next/router';
-
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-
-import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
 
 import { LegalCounseling } from '@/components/templates';
 
@@ -18,7 +16,37 @@ import useReturnUrl from '@/states/hooks/useReturnUrl';
 
 import useInAppBroswerHandler from '@/hooks/useInAppBroswerHandler';
 
+import useFetchLawQnaList from '@/services/law-qna/useFetchLawQnaList';
+
+import Paths from '@/constants/paths';
+
+import { apiService } from '@/services';
+
 function LawQna() {
+  const metasInfo = {
+    title: `부동산 법률 상담 게시판 | ${
+      process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test'
+        ? '(TEST) 부동산 가격협상 앱 네고시오'
+        : '부동산 가격협상 앱 네고시오'
+    }`,
+
+    description: `실제 변호사에게 답변을 받을 수 있는 부동산 상담`,
+
+    keyWords: `부동산 법률 상담, ${
+      process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오'
+    }, 부동산, 아파트 실거래가, 아파트 시세, 오피스텔 실거래가, 오피스텔 시세, 실거래가, 시세, 호가, 단지, 매매, 전세, 월세, 원룸, 투룸, 교통, 환경, 주변`,
+
+    ogTitle: '부동산 법률 상담 게시판',
+
+    ogSiteName: process.env.NEXT_PUBLIC_APP_ENVIRONMENT === 'test' ? '네고시오(TEST)' : '네고시오',
+
+    ogImagePath: Paths.LAWQNA,
+
+    ogType: 'website',
+
+    ogUrl: `${process.env.NEXT_PUBLIC_NEGOCIO_BASE_URL}/${Routes.EntryMobile}/${Routes.LawQna}`,
+  };
+
   const { user } = useAuth();
 
   const router = useRouter();
@@ -28,11 +56,10 @@ function LawQna() {
   const { handleUpdateReturnUrl } = useReturnUrl();
 
   const {
-    isLoading,
     data: qnaLawData,
     mutate: mutateQnaData,
     incrementalPageNumber,
-  } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
+  } = useFetchLawQnaList({ searchQuery: router?.query?.q ? (router.query.q as string) : null });
 
   const { inAppInfo, handleOpenAppInstallPopup } = useInAppBroswerHandler();
 
@@ -106,10 +133,10 @@ function LawQna() {
       }
 
       if (liked) {
-        await lawQnaDislike({ law_qna_id: qnaId });
+        await apiService.lawQnaDislike({ law_qna_id: qnaId });
         mutateQnaData();
       } else {
-        await lawQnaLike({ law_qna_id: qnaId });
+        await apiService.lawQnaLike({ law_qna_id: qnaId });
         mutateQnaData();
       }
     },
@@ -117,18 +144,30 @@ function LawQna() {
   );
 
   return (
-    <LegalCounseling
-      isLoading={isLoading}
-      qnaLawData={qnaLawData}
-      onNext={incrementalPageNumber}
-      onClickBack={handleClickBack}
-      onClickHome={handleClickHome}
-      onClickLike={handleClickLike}
-      onClickSearchPage={handleClickSearchPage}
-      onClickQnaDetail={handleQnaDetail}
-      onClickCreate={handleClickCreateButton}
-      onClickAllPage={handleClickAllPage}
-    />
+    <>
+      <Head>
+        <title>{metasInfo.title}</title>
+        <meta name="description" content={metasInfo.description} />
+        <meta property="keywords" content={metasInfo.keyWords} />
+        <meta property="og:title" content={metasInfo.ogTitle} />
+        <meta property="og:description" content={metasInfo.description} />
+        <meta property="og:site_name" content={metasInfo.ogSiteName} />
+        <meta property="og:type" content={metasInfo.ogType} />
+        <meta property="og:image" content={metasInfo.ogImagePath} />
+        {process.env.NEXT_PUBLIC_APP_ENVIRONMENT !== 'test' && <meta property="og:url" content={metasInfo.ogUrl} />}
+      </Head>
+      <LegalCounseling
+        qnaLawData={qnaLawData}
+        onNext={incrementalPageNumber}
+        onClickBack={handleClickBack}
+        onClickHome={handleClickHome}
+        onClickLike={handleClickLike}
+        onClickSearchPage={handleClickSearchPage}
+        onClickQnaDetail={handleQnaDetail}
+        onClickCreate={handleClickCreateButton}
+        onClickAllPage={handleClickAllPage}
+      />
+    </>
   );
 }
 

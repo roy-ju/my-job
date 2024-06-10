@@ -19,6 +19,7 @@ export default function useCtasHandler({ danjiID }: { danjiID: number }) {
           danjiID: `${danjiID}`,
         },
       });
+      return;
     }
 
     if (platform === 'mobile') {

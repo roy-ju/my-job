@@ -38,6 +38,7 @@ export default function useListItemHandler({
           danjiID: `${danjiID}`,
         },
       });
+      return;
     }
 
     if (platform === 'mobile') {

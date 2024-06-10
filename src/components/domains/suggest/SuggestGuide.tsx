@@ -31,7 +31,7 @@ function SuggestGuide() {
         <Header />
         <Ments />
         <Info />
-        <Separator tw="bg-gray-1300 h-3 min-h-[12px]" />
+        <Separator tw="bg-gray-200 h-3 min-h-[12px]" />
         <Faqs />
       </div>
       <ActionButton handleClick={handleClickGoSuggestForm} />

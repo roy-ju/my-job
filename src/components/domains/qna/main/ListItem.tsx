@@ -47,6 +47,7 @@ function User({ userMessage, createdTime, didReply, expanded: expandedProp, defa
 
 function Admin({ adminMessage, responseTime, expanded: expandedProp, defaultExpanded = false }: AdminProps) {
   const [expanded, setExpanded] = useControlled({ controlled: expandedProp, default: defaultExpanded });
+
   if (!adminMessage) return null;
 
   return (
@@ -57,7 +58,7 @@ function Admin({ adminMessage, responseTime, expanded: expandedProp, defaultExpa
       type="button"
       tw="hover:bg-gray-100 p-5 block text-left w-[23.75rem]"
     >
-      <div tw="text-b2 mb-2 break-all line-clamp-2" css={[expanded && tw`line-clamp-none`]}>
+      <div tw="text-b2 mb-2 break-all line-clamp-2 whitespace-pre-wrap" css={[expanded && tw`line-clamp-none`]}>
         {adminMessage}
       </div>
       <div tw="text-info text-gray-700">

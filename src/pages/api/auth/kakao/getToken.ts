@@ -38,6 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const { data } = await axios.post('https://kauth.kakao.com/oauth/token', requestBody, { headers: requestHeaders });
+
     res.status(200).json({
       accessToken: data.access_token,
       refreshToken: data.refresh_token,

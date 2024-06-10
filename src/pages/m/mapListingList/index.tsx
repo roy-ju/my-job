@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app';
 
-import MapListingList from '@/components/pages/mobile/MapListingList';
+import MapListingList from '@/components/pages/MapListingsList/MapListingsListMobile';
 
 const Page: NextPageWithLayout = () => <MapListingList />;
 

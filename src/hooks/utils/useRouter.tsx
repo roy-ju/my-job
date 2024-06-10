@@ -328,9 +328,21 @@ export default function useRouter(depth = 0) {
     [router, depth],
   );
 
+  const clientDepth = useMemo(() => {
+    if (router.query.depth2) {
+      return Number(router.query.depth2) > 0 ? 1 : 2;
+    }
+
+    if (router.query.depth1) {
+      return 1;
+    }
+
+    return 0;
+  }, [router.query.depth1, router.query.depth2]);
+
   return useMemo(
     () => ({
-      depth: router.query.depth2 ? 2 : router.query.depth1 ? 1 : 0,
+      depth: clientDepth,
       push,
       pop,
       popLast,
@@ -342,6 +354,18 @@ export default function useRouter(depth = 0) {
       pathname: router.pathname,
       isReady: router.isReady,
     }),
-    [push, replaceCurrent, pop, popAll, popLast, replace, router.query, router.asPath, router.pathname, router.isReady],
+    [
+      clientDepth,
+      push,
+      pop,
+      popLast,
+      popAll,
+      replace,
+      replaceCurrent,
+      router.query,
+      router.asPath,
+      router.pathname,
+      router.isReady,
+    ],
   );
 }

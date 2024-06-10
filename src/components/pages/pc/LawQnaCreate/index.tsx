@@ -10,9 +10,9 @@ import LegalCounselingWriting from '@/components/templates/LegalCounselingWritin
 
 import Routes from '@/router/routes';
 
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
+import useFetchLawQnaList from '@/services/law-qna/useFetchLawQnaList';
 
-import { lawQnaCreate } from '@/apis/lawQna/lawQnaCrud';
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -22,7 +22,7 @@ interface Props {
 export default memo(({ depth, panelWidth }: Props) => {
   const nextRouter = useNextRouter();
 
-  const { mutate } = useAPI_GetLawQna(null);
+  const { mutate } = useFetchLawQnaList({ searchQuery: null });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +31,7 @@ export default memo(({ depth, panelWidth }: Props) => {
 
     setIsLoading(true);
 
-    const response = await lawQnaCreate({ title: text, user_message: message });
+    const response = await apiService.createLawQna({ title: text, user_message: message });
 
     if (response === null) {
       toast.success('등록이 완료되었습니다.', { toastId: 'success-law-create' });

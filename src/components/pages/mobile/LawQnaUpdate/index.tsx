@@ -10,20 +10,20 @@ import { OverlayPresenter, Popup } from '@/components/molecules';
 
 import { LegalCounselingWriting } from '@/components/templates';
 
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-
-import { lawQnaUpdate } from '@/apis/lawQna/lawQnaCrud';
+import useFetchLawQnaList from '@/services/law-qna/useFetchLawQnaList';
 
 import Routes from '@/router/routes';
 
 import ErrorCodes from '@/constants/error_codes';
+
+import { apiService } from '@/services';
 
 function LawQnaUpdate() {
   const router = useRouter();
 
   const qnaID = router?.query?.qnaID;
 
-  const { mutate } = useAPI_GetLawQna(null);
+  const { mutate } = useFetchLawQnaList({ searchQuery: null });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,7 +34,7 @@ function LawQnaUpdate() {
 
     setIsLoading(true);
 
-    const response = await lawQnaUpdate({ law_qna_id: Number(qnaID), title: text, user_message: message });
+    const response = await apiService.updateLawQna({ law_qna_id: Number(qnaID), title: text, user_message: message });
 
     if (response === null) {
       toast.success('수정이 완료되었습니다.');

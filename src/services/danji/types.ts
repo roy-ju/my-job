@@ -232,6 +232,19 @@ export type DanjiSuggestRecommendEligibilityResponse = {
   is_eligible: boolean;
 };
 
+export type SchoolsListItem = {
+  school_name: string;
+  school_id: string;
+  school_type: string;
+  long: number;
+  lat: number;
+  distance_in_km: number;
+};
+
+export type DanjiMapSchoolsResponse = {
+  list: SchoolsListItem[] | null;
+};
+
 export interface AdministrativeDistrictItem {
   name: string;
   code: string;

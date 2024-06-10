@@ -13,24 +13,16 @@ export default function useListItemHandler({ danjiID, buyOrRent }: { danjiID: nu
 
   const handleClickListItem = useCallback(() => {
     if (platform === 'pc') {
-      const depth1 = router?.query?.depth1 ?? '';
-      const depth2 = router?.query?.depth2 ?? '';
       const query = router.query;
 
       delete query.depth1;
       delete query.depth2;
 
-      if (depth1 === Routes.MyRealPriceList) {
-        router.push({
-          pathname: `/${Routes.MyRealPriceList}/${Routes.DanjiDetail}`,
-          query: { ...query, danjiID: `${danjiID}`, bor: `${buyOrRent}` },
-        });
-      } else if (depth2 === Routes.MyRealPriceList) {
-        router.push({
-          pathname: `/${Routes.MyRealPriceList}/${Routes.DanjiDetail}`,
-          query: { ...query, danjiID: `${danjiID}`, bor: `${buyOrRent}` },
-        });
-      }
+      router.push({
+        pathname: `/${Routes.MyRealPriceList}/${Routes.DanjiDetail}`,
+        query: { ...query, danjiID: `${danjiID}`, bor: `${buyOrRent}` },
+      });
+      return;
     }
 
     if (platform === 'mobile') {

@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { useRouter } from 'next/router';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
 import OutsideClick from '@/components/atoms/OutsideClick';
 
-import { OverlayPresenter, Popup } from '@/components/molecules';
-
-import { MapLayout as Layout, MobLayoutMapContainer, MobMapStreetView } from '@/components/templates';
+import Layout from '@/components/domains/map';
 
 import useMobileMapLayout from '@/hooks/useMobileMapLayout';
 
@@ -24,11 +24,28 @@ import Routes from '@/router/routes';
 
 import ImpossibleSuggestAreaPopup from '@/components/organisms/popups/ImpossibleSuggestAreaPopup';
 
-import DanjiSummaryInMobileBottomSheet from '@/components/organisms/danji/DanjiSummaryInMobileBottomSheet';
-
 import Markers from './Markers';
 
-function MapWrapper() {
+import MapLayoutContainer from './MapLayoutContainer';
+
+const DanjiSummaryInMobileBottomSheet = dynamic(
+  () => import('@/components/organisms/danji/DanjiSummaryInMobileBottomSheet'),
+  { ssr: false },
+);
+
+const LocationPermission = dynamic(() => import('./popups/LocationPermission'), { ssr: false });
+
+const LocationPermissionNative = dynamic(() => import('./popups/LocationPermissionNative'), { ssr: false });
+
+const MapStreetViewMobile = dynamic(() => import('./MapStreetViewMobile'), {
+  ssr: false,
+});
+
+const StreetViewPanorama = dynamic(() => import('./StreetViewPanorama'), {
+  ssr: false,
+});
+
+export default function MapLayoutMobile() {
   const {
     morphToCurrentLocation,
     handleChangeMapType,
@@ -135,7 +152,7 @@ function MapWrapper() {
   return (
     <>
       <MobileGlobalStyles />
-      <MobLayoutMapContainer
+      <MapLayoutContainer
         code={code}
         mapLayer={mapLayer}
         mapType={mapType}
@@ -147,7 +164,6 @@ function MapWrapper() {
         listingCount={listingCount}
         myMarker={myMarker}
         isGeoLoading={isGeoLoading}
-        selectedDanjiSummary={selectedDanjiSummary}
         selctedListingSummary={selctedListingSummary}
         priceSelectDisabled={filter.realestateTypeGroup === 'one,two'}
         onClickCurrentLocation={morphToCurrentLocation}
@@ -195,13 +211,13 @@ function MapWrapper() {
                     exit={{ scale: 0, opacity: 0 }}
                   >
                     <div tw="min-w-[23.475rem] h-[100vh] max-h-[100vh] bg-white">
-                      <MobMapStreetView
+                      <MapStreetViewMobile
                         position={{ lat: streetViewEvent.latlng.lat(), lng: streetViewEvent.latlng.lng() }}
                         title={streetViewEvent.address}
                         onClickBackButton={handleCloseStreetView}
                       >
-                        <MobMapStreetView.Panorama />
-                      </MobMapStreetView>
+                        <StreetViewPanorama />
+                      </MapStreetViewMobile>
                     </div>
                   </motion.div>
                 </OutsideClick>
@@ -209,41 +225,19 @@ function MapWrapper() {
             </Layout.Overlay>
           )}
         </AnimatePresence>
-      </MobLayoutMapContainer>
+      </MapLayoutContainer>
 
-      {popup === 'locationPermission' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-12">
-              <Popup.Title>위치 접근 권한을 허용해 주세요.</Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.ActionButton onClick={() => setPopup('none')}>확인</Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
-      )}
+      {popup === 'locationPermission' && <LocationPermission handleCancel={() => setPopup('none')} />}
 
       {popup === 'locationPermissionNative' && (
-        <OverlayPresenter>
-          <Popup>
-            <Popup.ContentGroup tw="py-12">
-              <Popup.Title>위치 접근 권한을 허용해 주세요.</Popup.Title>
-            </Popup.ContentGroup>
-            <Popup.ButtonGroup>
-              <Popup.CancelButton onClick={() => setPopup('none')}>취소</Popup.CancelButton>
-              <Popup.ActionButton
-                onClick={() => {
-                  window.Android?.goToAppPermissionSettings?.();
-                  window.webkit?.messageHandlers?.goToAppPermissionSettings?.postMessage?.('goToAppPermissionSettings');
-                  setPopup('none');
-                }}
-              >
-                허용하기
-              </Popup.ActionButton>
-            </Popup.ButtonGroup>
-          </Popup>
-        </OverlayPresenter>
+        <LocationPermissionNative
+          handleCancel={() => setPopup('none')}
+          handleConfirm={() => {
+            window.Android?.goToAppPermissionSettings?.();
+            window.webkit?.messageHandlers?.goToAppPermissionSettings?.postMessage?.('goToAppPermissionSettings');
+            setPopup('none');
+          }}
+        />
       )}
 
       {openImpossibleSuggestAreaPopup && (
@@ -251,8 +245,4 @@ function MapWrapper() {
       )}
     </>
   );
-}
-
-export default function MobMapLayout() {
-  return <MapWrapper />;
 }

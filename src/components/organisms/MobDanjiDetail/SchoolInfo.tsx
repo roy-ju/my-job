@@ -1,21 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { GetDanjiDetailResponse } from '@/apis/danji/danjiDetail';
-import { useAPI_DanjiSchools } from '@/apis/danji/danjiSchools';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { styled } from 'twin.macro';
+
 import { Button } from '@/components/atoms';
+
 import SchoolTabs from '@/components/molecules/Tabs/SchoolTabs';
 
-import { SchoolType } from '@/constants/enums';
 import useMobileDanjiInteraction from '@/states/hooks/useMobileDanjiInteraction';
 
 import checkStudentCount from '@/utils/checkStudentCount';
+
 import getDistance from '@/utils/getDistance';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { styled } from 'twin.macro';
+
+import { SchoolType } from '@/constants/enums';
+
+import { useAPI_DanjiSchools } from '@/apis/danji/danjiSchools';
+
+import { DanjiDetailResponse } from '@/services/danji/types';
+
 import NoDataTypeOne from './NoData';
 
 const Div = styled.div``;
 
-export default function SchoolInfo({ danji }: { danji?: GetDanjiDetailResponse }) {
+export default function SchoolInfo({ danji }: { danji?: DanjiDetailResponse }) {
   const [selectedSchoolType, setSelectedSchoolType] = useState<number>();
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
 

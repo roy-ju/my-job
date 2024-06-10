@@ -8,15 +8,15 @@ import useAuth from '@/hooks/services/useAuth';
 
 import { useRouter } from '@/hooks/utils';
 
-import useAPI_GetLawQna from '@/apis/lawQna/getLawQna';
-
-import { lawQnaDislike, lawQnaLike } from '@/apis/lawQna/lawQnaLike';
+import useFetchLawQnaList from '@/services/law-qna/useFetchLawQnaList';
 
 import Routes from '@/router/routes';
 
 import useAuthPopup from '@/states/hooks/useAuhPopup';
 
 import useReturnUrl from '@/states/hooks/useReturnUrl';
+
+import { apiService } from '@/services';
 
 interface Props {
   depth: number;
@@ -33,11 +33,10 @@ export default memo(({ depth, panelWidth }: Props) => {
   const { handleUpdateReturnUrl } = useReturnUrl();
 
   const {
-    isLoading,
     data: qnaLawData,
     mutate: mutateQnaData,
     incrementalPageNumber,
-  } = useAPI_GetLawQna(router?.query?.q ? (router.query.q as string) : null);
+  } = useFetchLawQnaList({ searchQuery: router?.query?.q ? (router.query.q as string) : null });
 
   const handleClickHome = () => {
     router.replace('');
@@ -93,10 +92,10 @@ export default memo(({ depth, panelWidth }: Props) => {
       if (typeof liked !== 'boolean' || typeof qnaId !== 'number') return;
 
       if (liked) {
-        await lawQnaDislike({ law_qna_id: qnaId });
+        await apiService.lawQnaDislike({ law_qna_id: qnaId });
         mutateQnaData();
       } else {
-        await lawQnaLike({ law_qna_id: qnaId });
+        await apiService.lawQnaLike({ law_qna_id: qnaId });
         mutateQnaData();
       }
     },
@@ -106,7 +105,6 @@ export default memo(({ depth, panelWidth }: Props) => {
   return (
     <Panel width={panelWidth}>
       <LegalCounseling
-        isLoading={isLoading}
         qnaLawData={qnaLawData}
         onNext={incrementalPageNumber}
         onClickHome={handleClickHome}
